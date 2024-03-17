@@ -9,14 +9,23 @@ class SmartTexture final
 {
 public:
     // Load texture from file
-    SmartTexture(const std::string& Path);
+    explicit SmartTexture(const std::string& Path);
 
     // Load texture from image
-    SmartTexture(Image& SourceImage);
+    explicit SmartTexture(Image& SourceImage);
 
     // Load texture from image
-    SmartTexture(SmartImage& SourceImage);
+    explicit SmartTexture(SmartImage& SourceImage);
 
+    // Copy constructor
+    SmartTexture(const SmartTexture& Other) = delete;
+    SmartTexture& operator=(const SmartTexture& Other) = delete;
+
+    // Move constructor
+    SmartTexture(SmartTexture&& Other) = delete;
+    SmartTexture& operator=(SmartTexture&& Other) = delete;
+
+    // Destructor
     ~SmartTexture();
 
     // Load texture from file
@@ -28,9 +37,31 @@ public:
     // Load texture from image
     void LoadNewTexture(SmartImage& SourceImage);
 
+    void DrawTexture(const Vector2& Position) const;
+    
+    // Getters
     Texture2D& GetTexture();
     const Texture2D& GetTexture() const;
 
+    // Get texture rectangle, without Position in World
+    Rectangle GetTextureRectangle() const;
+
+    float GetScale() const;
+
+    Color GetTint() const;
+
+    // Setters
+    void SetScale(const float& NewScale = 1.0f);
+
+    void SetTint(const Color& NewTint = WHITE);
+
+protected:
+    float Scale = 1.0f;
+
+    Color Tint = WHITE;
+
 private:
     Texture2D _Texture;
+
+    bool _bIsLoaded = false;
 };

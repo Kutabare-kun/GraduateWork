@@ -4,21 +4,25 @@
 SmartImage::SmartImage(const std::string& Path)
 {
     LoadNewImage(Path);
+    bIsLoaded = true;
 }
 
 SmartImage::SmartImage(Texture2D& SourceTexture)
 {
     LoadNewImage(SourceTexture);
+    bIsLoaded = true;
 }
 
 SmartImage::SmartImage(SmartTexture& SourceTexture)
 {
     LoadNewImage(SourceTexture);
+    bIsLoaded = true;
 }
 
 SmartImage::SmartImage(const std::string& FileType, const unsigned char* FileData, int DataSize)
 {
     LoadNewImage(FileType, FileData, DataSize);
+    bIsLoaded = true;
 }
 
 SmartImage::~SmartImage()
@@ -28,14 +32,16 @@ SmartImage::~SmartImage()
 
 void SmartImage::LoadNewImage(const std::string& Path)
 {
-    UnloadImage(_Image);
+    if (bIsLoaded)
+        UnloadImage(_Image);
     
     _Image = LoadImage(Path.c_str());
 }
 
 void SmartImage::LoadNewImage(Texture2D& SourceTexture)
 {
-    UnloadImage(_Image);
+    if (bIsLoaded)
+        UnloadImage(_Image);
 
     _Image = LoadImageFromTexture(SourceTexture);
 }
@@ -47,7 +53,8 @@ void SmartImage::LoadNewImage(SmartTexture& SourceTexture)
 
 void SmartImage::LoadNewImage(const std::string& FileType, const unsigned char* FileData, int DataSize)
 {
-    UnloadImage(_Image);
+    if (bIsLoaded)
+        UnloadImage(_Image);
 
     _Image = LoadImageFromMemory(FileType.c_str(), FileData, DataSize);
 }

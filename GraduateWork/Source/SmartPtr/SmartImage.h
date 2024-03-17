@@ -9,17 +9,26 @@ class SmartImage final
 {
 public:
     // Load image from file
-    SmartImage(const std::string& Path);
+    explicit SmartImage(const std::string& Path);
 
     // Load image from texture
-    SmartImage(Texture2D& SourceTexture);
+    explicit SmartImage(Texture2D& SourceTexture);
 
     // Load image from texture
-    SmartImage(SmartTexture& SourceTexture);
+    explicit SmartImage(SmartTexture& SourceTexture);
 
     // Load image from memory buffer
     SmartImage(const std::string& FileType, const unsigned char* FileData, int DataSize);
 
+    // Copy constructor
+    SmartImage(const SmartImage& Other) = delete;
+    SmartImage& operator=(const SmartImage& Other) = delete;
+
+    // Move constructor
+    SmartImage(SmartImage&& Other) = delete;
+    SmartImage& operator=(SmartImage&& Other) = delete;
+
+    // Destructor
     ~SmartImage();
 
     // Load image from file
@@ -34,9 +43,12 @@ public:
     // Load image from file
     void LoadNewImage(const std::string& FileType, const unsigned char* FileData, int DataSize);
 
+    // Getters
     Image& GetImage();
     const Image& GetImage() const;
 
 private:
     Image _Image;
+
+    bool bIsLoaded = false;
 };

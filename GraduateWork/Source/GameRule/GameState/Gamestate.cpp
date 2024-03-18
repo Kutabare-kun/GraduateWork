@@ -6,7 +6,7 @@
 void Gamestate::InitGame()
 {
     PlayerActor = World::GetInstance().CreateActor<Player>(CurrentPath + R"(\Resource\Texture\Player.png)",
-                                                           Vector2{0, 0});
+                                                           Vector2{200, 200});
 }
 
 void Gamestate::EndGame()

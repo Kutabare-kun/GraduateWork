@@ -99,6 +99,7 @@
       <LinkCompiled>true</LinkCompiled>
       <AdditionalIncludeDirectories>;C:\vcpkg\installed\x64-windows\include</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="Source\Constructor\Constructor.cpp" />
     <ClCompile Include="Source\GameRule\GameMode\Gamemode.cpp" />
     <ClCompile Include="Source\GameRule\GameState\Gamestate.cpp" />
     <ClCompile Include="Source\GraduateWork.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="Source\Actors\Player\Player.h" />
     <ClInclude Include="Source\Components\Camera\CameraComponent.h" />
     <ClInclude Include="Source\Components\Movement\MovementComponent.h" />
+    <ClInclude Include="Source\Constructor\Constructor.h" />
     <ClInclude Include="Source\GameRule\GameMode\Gamemode.h" />
     <ClInclude Include="Source\GameRule\GameState\Gamestate.h" />
     <ClInclude Include="Source\Interface\IObserver.h" />

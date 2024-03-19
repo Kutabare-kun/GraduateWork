@@ -6,11 +6,12 @@ Player::Player(const std::string& TexturePath, Vector2 Posisiton)
     : Actor(TexturePath, Posisiton)
 {
     MovementComp = std::make_unique<MovementComponent>(this);
-    MovementComp->SetSpeed(200.0f);
-    MovementComp->SetMaxSpeed(200.0f);
+    MovementComp->SetSpeed(400.0f);
+    MovementComp->SetMaxSpeed(400.0f);
 
     CameraComp = std::make_unique<CameraComponent>(GetActorPosition());
     CameraComp->AttachTo(this);
+    CameraComp->UpdateZoom(1.0f);
 }
 
 void Player::BeginPlay()
@@ -23,7 +24,7 @@ void Player::EventTick(float DeltaTime)
     // Movement Input
     if (IsKeyDown(KEY_W))
     {
-        MovementComp->InputValue(1.0f, Vector2{0.0f, -1.0f});
+        MovementComp->InputValue(-1.0f, Vector2{0.0f, 1.0f});
     }
 
     if (IsKeyDown(KEY_S))
@@ -33,7 +34,7 @@ void Player::EventTick(float DeltaTime)
 
     if (IsKeyDown(KEY_A))
     {
-        MovementComp->InputValue(1.0f, Vector2{-1.0f, 0.0f});
+        MovementComp->InputValue(-1.0f, Vector2{1.0f, 0.0f});
     }
 
     if (IsKeyDown(KEY_D))

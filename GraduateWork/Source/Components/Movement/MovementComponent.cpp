@@ -1,6 +1,8 @@
 #include "MovementComponent.h"
 
 #include <array>
+#include <iostream>
+#include <raymath.h>
 
 #include "../../Actors/Actor.h"
 #include "../../World/World.h"
@@ -28,7 +30,7 @@ void MovementComponent::EventTick(float DeltaTime)
 
     const Vector2 ActorPosition = Owner->GetActorPosition();
     const Rectangle ActorRectangle = Owner->GetActorRectangle();
-
+    
     // Collision detection
     Vector2 NewPosition = {ActorPosition.x + Velocity.x * DeltaTime, ActorPosition.y + Velocity.y * DeltaTime};
 
@@ -43,24 +45,24 @@ void MovementComponent::EventTick(float DeltaTime)
         if (CheckCollisionRecs(NewRectangle, ObstacleRectangle))
         {
             // Calculate player's AABB edges
-            float LeftA = NewRectangle.x;
-            float RightA = NewRectangle.x + NewRectangle.width;
-            float TopA = NewRectangle.y;
-            float BottomA = NewRectangle.y + NewRectangle.height;
+            const float LeftA = NewRectangle.x;
+            const float RightA = NewRectangle.x + NewRectangle.width;
+            const float TopA = NewRectangle.y;
+            const float BottomA = NewRectangle.y + NewRectangle.height;
 
             // Calculate wall's AABB edges
-            float LeftB = ObstacleRectangle.x;
-            float RightB = ObstacleRectangle.x + ObstacleRectangle.width;
-            float TopB = ObstacleRectangle.y;
-            float BottomB = ObstacleRectangle.y + ObstacleRectangle.height;
+            const float LeftB = ObstacleRectangle.x;
+            const float RightB = ObstacleRectangle.x + ObstacleRectangle.width;
+            const float TopB = ObstacleRectangle.y;
+            const float BottomB = ObstacleRectangle.y + ObstacleRectangle.height;
 
             // Calculate penetration distance for each axis
-            std::array<float, 4> Penetrations{RightA - LeftB, RightB - LeftA, BottomA - TopB, BottomB - TopA};
+            const std::array<float, 4> Penetrations{RightA - LeftB, RightB - LeftA, BottomA - TopB, BottomB - TopA};
 
             // Find the axis with the smallest penetration
-            auto MinPenetrationIt = std::min_element(Penetrations.begin(), Penetrations.end());
-            float MinPenetration = *MinPenetrationIt;
-            size_t MinIndex = std::distance(Penetrations.begin(), MinPenetrationIt);
+            const auto MinPenetrationIt = std::min_element(Penetrations.begin(), Penetrations.end());
+            const float MinPenetration = *MinPenetrationIt;
+            const size_t MinIndex = std::distance(Penetrations.begin(), MinPenetrationIt);
 
             // Resolve collision based on the axis with the smallest penetration
             switch (MinIndex)
@@ -97,4 +99,6 @@ void MovementComponent::InputValue(float Value, const Vector2& Direction)
 {
     Velocity.x += Value * Speed * Direction.x;
     Velocity.y += Value * Speed * Direction.y;
+
+    MovementDirection = Vector2Normalize(Velocity);
 }

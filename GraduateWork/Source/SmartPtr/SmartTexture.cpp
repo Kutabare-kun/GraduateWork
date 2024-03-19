@@ -54,7 +54,7 @@ void SmartTexture::DrawTexture(const Vector2& Position) const
     DrawTexturePro(_Texture,
         { 0, 0, (float)_Texture.width, (float)_Texture.height },
         { Position.x, Position.y, (float)_Texture.width * Scale, (float)_Texture.height * Scale },
-        { ((float)_Texture.width * Scale) / 2, ((float)_Texture.height * Scale) / 2 },
+        {},
         0,
         Tint);
 }

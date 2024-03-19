@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+
 #include "../Actor.h"
 #include "../../Components/Movement/MovementComponent.h"
 
@@ -18,4 +20,5 @@ public:
 
 protected:
     std::unique_ptr<MovementComponent> MovementComp = nullptr;
+    std::vector<std::pair<int, int>> MemoryPath;
 };

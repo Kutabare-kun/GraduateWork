@@ -25,6 +25,8 @@ public:
     
     float GetSpeed() const { return Speed; }
     float GetMaxSpeed() const { return MaxSpeed; }
+
+    Vector2 GetDirection() const { return MovementDirection; }
     // ~Getters
 
     // Setters
@@ -36,6 +38,8 @@ protected:
     Vector2 Velocity = {};
     float Speed = 0.0f;
     float MaxSpeed = 0.0f;
+
+    Vector2 MovementDirection = {};
 
 private:
     Actor* Owner = nullptr;

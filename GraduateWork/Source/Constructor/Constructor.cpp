@@ -23,7 +23,7 @@ std::vector<std::vector<bool>> Constructor::ReadMap(const std::string& MapPath)
                     MapLine.emplace_back(true);
                 }
             }
-            
+
             MapLine.shrink_to_fit();
             Map.emplace_back(MapLine);
         }
@@ -33,4 +33,19 @@ std::vector<std::vector<bool>> Constructor::ReadMap(const std::string& MapPath)
     MapFile.close();
 
     return Map;
+}
+
+Vector2 Constructor::ConvertToVector2(std::pair<int, int> Position, int CellSize)
+{
+    return Vector2{
+        static_cast<float>(Position.first * CellSize + CellSize / 2.0f),
+        static_cast<float>(Position.second * CellSize + CellSize / 2.0f)
+    };
+}
+
+std::pair<int, int> Constructor::ConvertToPair(const Vector2& Position, int CellSize)
+{
+    return std::make_pair(static_cast<int>(Position.x / CellSize),
+                          static_cast<int>(Position.y / CellSize)
+    );
 }

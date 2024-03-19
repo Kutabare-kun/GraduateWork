@@ -27,7 +27,8 @@ void CameraComponent::AttachTo(Actor* NewOwner)
 
 void CameraComponent::UpdateCamera()
 {
-    Camera.target = Owner->GetActorPosition();
+    Rectangle Rect = Owner->GetActorRectangle();
+    Camera.target = {Rect.x + Rect.width / 2.0f, Rect.y + Rect.height / 2.0f};
 }
 
 void CameraComponent::UpdateOffset(const Vector2& NewOffset)

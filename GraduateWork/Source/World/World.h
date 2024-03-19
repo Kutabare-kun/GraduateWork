@@ -2,6 +2,7 @@
 #include <list>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "../Pattern/Singleton.h"
 
@@ -54,6 +55,11 @@ public:
     // Draw the world
     void Draw() const;
 
+    Actor* GetPlayer() const;
+
+    // Getters
+    std::vector<std::vector<bool>> GetMapGrid() const;
+
     const std::list<std::shared_ptr<Actor>>& GetObstacles() const;
     const std::list<std::shared_ptr<Actor>>& GetActors() const;
 
@@ -70,4 +76,6 @@ protected:
 
     std::list<std::shared_ptr<Actor>> RemoveActorsNextFrame;
     std::list<std::shared_ptr<Actor>> RemoveObstaclesNextFrame;
+
+    std::vector<std::vector<bool>> Grid;
 };

@@ -17,10 +17,10 @@ int main(int Argc, char* Argv[])
 {
     InitWindow(ScreenWidth, ScreenHeight, "Graduate Work");
 
-    SetTargetFPS(60);
+    SetTargetFPS(3000);
 
     World::GetInstance().InitWorld();
-    World::GetInstance().CreateActor<Enemy>(CurrentPath + R"(\Resource\Texture\Enemy.png)", Vector2{400.0f, 400.0f});
+    World::GetInstance().CreateActor<Enemy>(CurrentPath + R"(\Resource\Texture\Enemy.png)", Vector2{500.0f, 500.0f});
     
     // Main game loop
     while (!WindowShouldClose())
@@ -35,19 +35,6 @@ int main(int Argc, char* Argv[])
         BeginDrawing();
             BeginMode2D(Camera);
             ClearBackground(DARKBLUE);
-        
-        {   // DELETE THIS
-            int CellSize = 64;
-            int Offset = 32;
-            int Size = 25;
-            for (int i = 0; i < CellSize * Size; i += CellSize)
-            {
-                for (int j = 0; j < CellSize * Size; j += CellSize)
-                {
-                    DrawRectangleLines(i - Offset, j - Offset, CellSize, CellSize, WHITE);
-                }
-            }
-        }   // ~DELETE THIS
 
             World::GetInstance().Draw();
 

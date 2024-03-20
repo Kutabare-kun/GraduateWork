@@ -43,7 +43,7 @@ void Enemy::EventTick(float DeltaTime)
     if (Success)
     {
         Vector2 Direction;
-        if (Path.size() >= 1)
+        if (Path.size() > 1)
         {
             Vector2 NewPostion = Constructor::GetInstance().ConvertToVector2(Path.at(0), 64);
             Direction = Vector2Subtract(NewPostion, AIPosition);

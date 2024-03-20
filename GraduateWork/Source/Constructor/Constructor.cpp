@@ -45,7 +45,7 @@ Vector2 Constructor::ConvertToVector2(std::pair<int, int> Position, int CellSize
 
 std::pair<int, int> Constructor::ConvertToPair(const Vector2& Position, int CellSize)
 {
-    return std::make_pair(static_cast<int>(Position.x / CellSize),
-                          static_cast<int>(Position.y / CellSize)
+    return std::make_pair(static_cast<int>(Position.x / (float)CellSize),
+                          static_cast<int>(Position.y / (float)CellSize)
     );
 }

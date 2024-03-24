@@ -1,19 +1,16 @@
 #include "Actor.h"
 
 Actor::Actor(const std::string& TexturePath, Vector2 Posisiton, bool bEnableTicks /*= true*/)
-    : bEnableTicks(bEnableTicks), Position(Posisiton)
+    : Position(Posisiton)
 {
+    this->bEnableTicks = bEnableTicks;
+    
     ActorTexture = std::make_unique<SmartTexture>(TexturePath);
 }
 
 void Actor::Draw() const
 {
     ActorTexture->DrawTexture(Position);
-}
-
-bool Actor::IsEnableTicks() const
-{
-    return bEnableTicks;
 }
 
 Vector2& Actor::GetActorPosition()

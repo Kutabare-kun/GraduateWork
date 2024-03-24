@@ -11,6 +11,7 @@ public:
     Enemy(const std::string& TexturePath, Vector2 Posisiton);
     
     void BeginPlay() override;
+    void Move(float DeltaTime);
 
     void EventTick(float DeltaTime) override;
 
@@ -19,6 +20,6 @@ public:
     void Draw() const override;
 
 protected:
-    std::unique_ptr<MovementComponent> MovementComp = nullptr;
+    std::shared_ptr<MovementComponent> MovementComp = nullptr;
     std::vector<std::pair<int, int>> MemoryPath;
 };

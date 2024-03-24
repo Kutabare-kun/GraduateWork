@@ -4,23 +4,19 @@
 
 Player::Player(const std::string& TexturePath, Vector2 Posisiton)
     : Actor(TexturePath, Posisiton)
-{
-    MovementComp = std::make_unique<MovementComponent>(this);
-    MovementComp->SetSpeed(400.0f);
-    MovementComp->SetMaxSpeed(400.0f);
-
-    CameraComp = std::make_unique<CameraComponent>(GetActorPosition());
-    CameraComp->AttachTo(this);
-    CameraComp->UpdateZoom(1.0f);
-}
+{}
 
 void Player::BeginPlay()
 {
+    MovementComp = AddComponent<MovementComponent>(this);
+    MovementComp->SetSpeed(400.0f);
+
+    CameraComp = AddComponent<CameraComponent>(this, GetActorPosition());
+    CameraComp->UpdateZoom(1.0f);
 }
 
-void Player::EventTick(float DeltaTime)
+void Player::Move(float DeltaTime)
 {
-    // Movement
     // Movement Input
     if (IsKeyDown(KEY_W))
     {
@@ -42,13 +38,18 @@ void Player::EventTick(float DeltaTime)
         MovementComp->InputValue(1.0f, Vector2{1.0f, 0.0f});
     }
     // ~Movement Input
+}
 
-    MovementComp->EventTick(DeltaTime);
+void Player::EventTick(float DeltaTime)
+{
+    // Movement
+    Move(DeltaTime);
     // ~Movement
 
-    // Camera
-    CameraComp->UpdateCamera();
-    // ~Camera
+    for (auto& Component : GetAllComponents())
+    {
+        Component->EventTick(DeltaTime);
+    }
 }
 
 void Player::EndPlay()

@@ -1,14 +1,8 @@
-#include <filesystem>
-
 #include "Actors/Enemy/Enemy.h"
 #include "World/World.h"
 #include "Actors/Player/Player.h"
-#include "GameRule/GameMode/Gamemode.h"
+#include "Core/Directory/Directory.h"
 #include "GameRule/GameState/Gamestate.h"
-
-
-// Main Path
-const std::string CurrentPath = std::filesystem::current_path().string().erase(std::filesystem::current_path().string().find_last_of('\\'));
 
 const int ScreenWidth = 1600;
 const int ScreenHeight = 800;
@@ -20,7 +14,7 @@ int main(int Argc, char* Argv[])
     SetTargetFPS(3000);
 
     World::GetInstance().InitWorld();
-    World::GetInstance().CreateActor<Enemy>(CurrentPath + R"(\Resource\Texture\Enemy.png)", Vector2{500.0f, 500.0f});
+    World::GetInstance().CreateActor<Enemy>(Directory::GetInstance().GetTexture("Enemy.png"), Vector2{500.0f, 500.0f});
     
     // Main game loop
     while (!WindowShouldClose())

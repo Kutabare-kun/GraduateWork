@@ -1,12 +1,11 @@
 #include "World.h"
 
-#include <iostream>
-
 #include "../Actors/Actor.h"
 #include "../GameRule/GameMode/Gamemode.h"
 #include "../GameRule/GameState/Gamestate.h"
 #include "../Actors/Obstacle/Obstacle.h"
 #include "../Constructor/Constructor.h"
+#include "../Core/Directory/Directory.h"
 
 void World::AddObstacle(std::shared_ptr<Actor> NewObstacle)
 {
@@ -24,15 +23,15 @@ void World::InitWorld()
 {
     GetGameMode().InitGame();
     GetGameMode().GetGameState().InitGame();
-
-    Grid = Constructor::GetInstance().ReadMap(CurrentPath + R"(\Resource\Maps\Map_2.csv)");
+    
+    Grid = Constructor::GetInstance().ReadMap(Directory::GetInstance().GetMap("Map_2.csv"));
     for (size_t Row = 0; Row < Grid.size(); ++Row)
     {
         for (size_t Column = 0; Column < Grid[Row].size(); ++Column)
         {
             if (Grid[Row][Column])
             {
-                World::GetInstance().CreateObstacle<Obstacle>(CurrentPath + R"(\Resource\Texture\Obstacle.png)",
+                World::GetInstance().CreateObstacle<Obstacle>(Directory::GetInstance().GetTexture("Obstacle.png"),
                                                               Vector2{
                                                                   static_cast<float>(Column) * 64.0f,
                                                                   static_cast<float>(Row) * 64.0f

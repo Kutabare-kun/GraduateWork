@@ -11,27 +11,24 @@
 
 Enemy::Enemy(const std::string& TexturePath, Vector2 Posisiton)
     : Actor(TexturePath, Posisiton)
-{
-    MovementComp = std::make_unique<MovementComponent>(this);
-    MovementComp->SetSpeed(150.0f);
-    MovementComp->SetMaxSpeed(150.0f);
-}
+{}
 
 void Enemy::BeginPlay()
 {
+    MovementComp = AddComponent<MovementComponent>(this);
+    MovementComp->SetSpeed(150.0f);
 }
 
-void Enemy::EventTick(float DeltaTime)
+void Enemy::Move(float DeltaTime)
 {
-    // Movement
     const Actor* Player = World::GetInstance().GetPlayer();
     const Rectangle PlayerRectangle = Player->GetActorRectangle();
-    Vector2 PlayerPosition = Vector2Add({PlayerRectangle.x, PlayerRectangle.y},
-                                        Vector2{PlayerRectangle.width / 2.0f, PlayerRectangle.height / 2.0f});
+    const Vector2 PlayerPosition = Vector2Add({PlayerRectangle.x, PlayerRectangle.y},
+                                              Vector2{PlayerRectangle.width / 2.0f, PlayerRectangle.height / 2.0f});
 
     const Rectangle AIRectangle = GetActorRectangle();
-    Vector2 AIPosition = Vector2Add({AIRectangle.x, AIRectangle.y},
-                                    Vector2{AIRectangle.width / 2.0f, AIRectangle.height / 2.0f});
+    const Vector2 AIPosition = Vector2Add({AIRectangle.x, AIRectangle.y},
+                                          Vector2{AIRectangle.width / 2.0f, AIRectangle.height / 2.0f});
 
     const std::pair<int, int> IndexAIPosition = Constructor::GetInstance().ConvertToPair(AIPosition, 64);
     const std::pair<int, int> IndexPlayerPosition = Constructor::GetInstance().ConvertToPair(PlayerPosition, 64);
@@ -45,7 +42,7 @@ void Enemy::EventTick(float DeltaTime)
         Vector2 Direction;
         if (Path.size() > 1)
         {
-            Vector2 NewPostion = Constructor::GetInstance().ConvertToVector2(Path.at(0), 64);
+            const Vector2 NewPostion = Constructor::GetInstance().ConvertToVector2(Path.at(0), 64);
             Direction = Vector2Subtract(NewPostion, AIPosition);
         }
         else
@@ -57,6 +54,12 @@ void Enemy::EventTick(float DeltaTime)
     }
 
     MovementComp->EventTick(DeltaTime);
+}
+
+void Enemy::EventTick(float DeltaTime)
+{
+    // Movement
+    Move(DeltaTime);
     // ~Movement
 }
 
@@ -68,9 +71,9 @@ void Enemy::Draw() const
 {
     Actor::Draw();
 
-    Rectangle Rect = GetActorRectangle();
+    const Rectangle Rect = GetActorRectangle();
     Vector2 OldPosition = {Rect.x + Rect.width / 2.0f, Rect.y + Rect.height / 2.0f};
-    Vector2 To = Vector2Add(Vector2Scale(MovementComp->GetDirection(), 40.0f), OldPosition);
+    const Vector2 To = Vector2Add(Vector2Scale(MovementComp->GetDirection(), 40.0f), OldPosition);
 
     DrawLineEx(OldPosition, To, 8.0f, WHITE);
     

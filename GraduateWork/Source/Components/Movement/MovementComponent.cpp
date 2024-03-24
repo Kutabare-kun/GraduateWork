@@ -8,28 +8,22 @@
 #include "../../World/World.h"
 
 MovementComponent::MovementComponent(Actor* NewOwner)
+    : ActorComponent(NewOwner, true)
 {
-    AttachTo(NewOwner);
 }
 
-MovementComponent::MovementComponent(Actor* NewOwner, float NewSpeed, float NewMaxSpeed)
-    : Speed(NewSpeed),
-      MaxSpeed(NewMaxSpeed)
+MovementComponent::MovementComponent(Actor* NewOwner, float NewSpeed)
+    : ActorComponent(NewOwner, true),
+    Speed(NewSpeed)
 {
-    AttachTo(NewOwner);
-}
-
-void MovementComponent::AttachTo(Actor* NewOwner)
-{
-    Owner = NewOwner;
 }
 
 void MovementComponent::EventTick(float DeltaTime)
 {
-    if (!Owner) return;
+    if (!GetOwner()) return;
 
-    const Vector2 ActorPosition = Owner->GetActorPosition();
-    const Rectangle ActorRectangle = Owner->GetActorRectangle();
+    const Vector2 ActorPosition = GetOwner()->GetActorPosition();
+    const Rectangle ActorRectangle = GetOwner()->GetActorRectangle();
     
     // Collision detection
     Vector2 NewPosition = {ActorPosition.x + Velocity.x * DeltaTime, ActorPosition.y + Velocity.y * DeltaTime};
@@ -90,7 +84,7 @@ void MovementComponent::EventTick(float DeltaTime)
     }
     // ~Collision detection
 
-    Owner->SetActorPosition(NewPosition);
+    GetOwner()->SetActorPosition(NewPosition);
 
     Velocity = {};
 }

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../Actor.h"
 #include "../../Components/Camera/CameraComponent.h"
 #include "../../Components/Movement/MovementComponent.h"
@@ -10,6 +11,7 @@ public:
     Player(const std::string& TexturePath, Vector2 Posisiton);
     
     void BeginPlay() override;
+    void Move(float DeltaTime);
 
     void EventTick(float DeltaTime) override;
 
@@ -23,6 +25,6 @@ public:
     Camera2D GetCamera() const { return CameraComp->GetCamera(); }
 
 protected:
-    std::unique_ptr<MovementComponent> MovementComp = nullptr;
-    std::unique_ptr<CameraComponent> CameraComp = nullptr;    
+    std::shared_ptr<MovementComponent> MovementComp;
+    std::shared_ptr<CameraComponent> CameraComp;
 };

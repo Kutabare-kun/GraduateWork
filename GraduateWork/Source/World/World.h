@@ -1,12 +1,9 @@
 #pragma once
 #include <list>
 #include <memory>
-#include <string>
 #include <vector>
 
 #include "../Pattern/Singleton.h"
-
-extern const std::string CurrentPath;
 
 class Actor;
 
@@ -15,19 +12,19 @@ class World final
 {
 public:
     // CreateActor is a factory method that creates an actor and adds it to the world
-    template <typename Type, typename... Args>
-    static std::shared_ptr<Type> CreateActor(Args&&... args)
+    template <typename Type, typename... Arguments>
+    static std::shared_ptr<Type> CreateActor(Arguments&&... Args)
     {
-        auto NewActor = std::make_shared<Type>(std::forward<Args>(args)...);
+        auto NewActor = std::make_shared<Type>(std::forward<Arguments>(Args)...);
         World::GetInstance().AddActor(NewActor);
         return NewActor;
     }
 
     // CreateObstacle is a factory method that creates an obstacle and adds it to the world
-    template <typename Type, typename... Args>
-    static std::shared_ptr<Type> CreateObstacle(Args&&... args)
+    template <typename Type, typename... Arguments>
+    static std::shared_ptr<Type> CreateObstacle(Arguments&&... Args)
     {
-        auto NewObstacle = std::make_shared<Type>(std::forward<Args>(args)...);
+        auto NewObstacle = std::make_shared<Type>(std::forward<Arguments>(Args)...);
         World::GetInstance().AddObstacle(NewObstacle);
         return NewObstacle;
     }

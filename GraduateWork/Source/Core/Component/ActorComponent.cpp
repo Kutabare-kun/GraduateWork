@@ -1,18 +1,19 @@
 #include "ActorComponent.h"
 
-ActorComponent::ActorComponent(Actor* NewOwner, bool bEnableTicks)
+ActorComponent::ActorComponent(Object* NewOwner, bool bEnableTicks)
     : bEnableTicks(bEnableTicks), Owner(NewOwner)
 {}
 
-void ActorComponent::AttachTo(Actor* NewOwner)
-{
-    Owner = NewOwner;
-}
-
-void ActorComponent::BeginPlay()
+void ActorComponent::Awake()
 {}
 
-void ActorComponent::EventTick(float DeltaTime)
+void ActorComponent::Start()
+{}
+
+void ActorComponent::Update(float DeltaTime)
+{}
+
+void ActorComponent::LateUpdate(float DeltaTime)
 {}
 
 void ActorComponent::Draw()

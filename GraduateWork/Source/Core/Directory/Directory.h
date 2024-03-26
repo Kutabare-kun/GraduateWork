@@ -2,7 +2,7 @@
 #include <string>
 #include <filesystem>
 
-#include "../../Pattern/Singleton.h"
+#include "../Pattern/Singleton.h"
 
 class Directory final
     : public Singleton<Directory>

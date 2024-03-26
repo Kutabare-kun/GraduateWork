@@ -3,18 +3,20 @@
 class ActorComponent
 {
 public:
-    ActorComponent(class Actor* NewOwner, bool bEnableTicks = false);
+    ActorComponent(class Object* NewOwner, bool bEnableTicks = false);
     virtual ~ActorComponent() = default;
-    
-    virtual void AttachTo(class Actor* NewOwner);
 
-    virtual void BeginPlay();
+    virtual void Awake();
 
-    virtual void EventTick(float DeltaTime);
+    virtual void Start();
+
+    virtual void Update(float DeltaTime);
+
+    virtual void LateUpdate(float DeltaTime);
 
     virtual void Draw();
 
-    virtual Actor* GetOwner() const { return Owner; }
+    virtual Object* GetOwner() const { return Owner; }
 
     bool IsEnableTicks() const { return bEnableTicks; }
 
@@ -22,5 +24,5 @@ protected:
     bool bEnableTicks = false;
     
 private:
-    class Actor* Owner = nullptr;
+    class Object* Owner = nullptr;
 };

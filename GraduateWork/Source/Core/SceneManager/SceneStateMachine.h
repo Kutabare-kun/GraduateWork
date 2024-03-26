@@ -2,7 +2,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include "../../Pattern/Singleton.h"
+#include "../Pattern/Singleton.h"
 
 class Scene;
 
@@ -13,7 +13,9 @@ public:
     // ProcessInput, Update, LateUpdate, and Draw will simply be 
     // pass through methods. They will call the correspondingly 
     // named methods of the active scene.
+	void ProcessInput();
     void Update(float DeltaTime);
+	void LateUpdate(float DeltaTime);
     void Draw();
     
     // Adds a scene to the state machine and returns the id of that scene.

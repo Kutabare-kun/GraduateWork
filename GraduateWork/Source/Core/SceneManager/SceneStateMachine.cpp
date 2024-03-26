@@ -2,9 +2,19 @@
 
 #include "Scene/Scene.h"
 
+void SceneStateMachine::ProcessInput()
+{
+    if (CurrentScene) CurrentScene->ProcessInput();
+}
+
 void SceneStateMachine::Update(float DeltaTime)
 {
     if (CurrentScene) CurrentScene->Update(DeltaTime);
+}
+
+void SceneStateMachine::LateUpdate(float DeltaTime)
+{
+    if (CurrentScene) CurrentScene->LateUpdate(DeltaTime);
 }
 
 void SceneStateMachine::Draw()

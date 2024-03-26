@@ -1,6 +1,5 @@
 #include "AnimationComponent.h"
 
-#include "../../Animation/Animation.h"
 #include "../../Object/Actor/Actor.h"
 #include "../Sprite/SpriteComponent.h"
 
@@ -16,28 +15,30 @@ void AnimationComponent::Awake()
     Sprite = GetOwner()->GetComponent<SpriteComponent>();
 }
 
-void AnimationComponent::Update(float DeltaTime)
+void AnimationComponent::UpdateSprite()
 {
-    ActorComponent::Update(DeltaTime);
-
-    if (Sprite == nullptr) return;
-
-    bool bNewFrame = CurrentAnimation.second->UpdateFrame(DeltaTime);
-    if (!bNewFrame) return;
-    
     const auto& Frame = CurrentAnimation.second->GetCurrentFrame();
     Sprite->Load(Frame->Id);
     
     Sprite->SetTextureRect(Frame->GetRect());
 }
 
-void AnimationComponent::AddAnimation(AnimationState State, std::shared_ptr<Animation> Animation)
+void AnimationComponent::Update(float DeltaTime)
 {
-    auto Result = Animations.insert({ State, Animation });
-    if (CurrentAnimation.first == AnimationState::None)
-    {
-        CurrentAnimation = { State, Animation };
-    }
+    ActorComponent::Update(DeltaTime);
+
+    if (!Sprite) return;
+    if (!CurrentAnimation.second->UpdateFrame(DeltaTime)) return;
+    
+    UpdateSprite();
+}
+
+void AnimationComponent::AddAnimation(FacingDirection Direction, AnimationState State, std::shared_ptr<Animation> Animation)
+{
+    DirectionalAnimations[Direction][State] = Animation;
+    
+    if (CurrentAnimation.first != AnimationState::None) return;
+    CurrentAnimation = { State, Animation };
 }
 
 void AnimationComponent::SetAnimationState(AnimationState State)
@@ -49,6 +50,19 @@ void AnimationComponent::SetAnimationState(AnimationState State)
 
     CurrentAnimation = { State, Iter->second };
     CurrentAnimation.second->Reset();
+}
+
+void AnimationComponent::SetAnimationDirection(FacingDirection Direction)
+{
+    if (AnimDirection == Direction) return;
+    AnimDirection = Direction;
+
+    Animations = DirectionalAnimations[AnimDirection];
+    
+    AnimationState State = CurrentAnimation.first;
+    CurrentAnimation = std::make_pair(State, Animations[State]);
+
+    UpdateSprite();
 }
 
 const AnimationState& AnimationComponent::GetAnimationState() const

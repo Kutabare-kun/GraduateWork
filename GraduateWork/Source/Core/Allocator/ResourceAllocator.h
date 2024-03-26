@@ -3,6 +3,8 @@
 #include <memory>
 #include <string>
 
+#include "../Resource/Texture/TextureResource.h"
+
 template<typename Type>
 class ResourceAllocator
 {    

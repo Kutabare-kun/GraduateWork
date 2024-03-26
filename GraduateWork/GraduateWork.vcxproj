@@ -98,6 +98,7 @@
       <AdditionalIncludeDirectories>;C:\vcpkg\installed\x64-windows\include</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="Source\Core\Component\Animation\AnimationComponent.cpp" />
+    <ClCompile Include="Source\Core\Component\Camera\CameraComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Movement\MovementComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Sprite\SpriteComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Transform\TransformComponent.cpp" />
@@ -178,6 +179,7 @@
       <AdditionalIncludeDirectories>;C:\vcpkg\installed\x64-windows\include</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="Source\Core\Object\Pawn\Pawn.cpp" />
+    <ClCompile Include="Source\Core\Parser\TileMapParser\TileMapParser.cpp" />
     <ClCompile Include="Source\Core\Resource\Texture\TextureResource.cpp" />
     <ClCompile Include="Source\Core\SceneManager\SceneStateMachine.cpp" />
     <ClCompile Include="Source\Core\Window\Window.cpp" />
@@ -194,6 +196,7 @@
     <ClInclude Include="Source\Core\Collection\ObjectCollection.h" />
     <ClInclude Include="Source\Core\Component\ActorComponent.h" />
     <ClInclude Include="Source\Core\Component\Animation\AnimationComponent.h" />
+    <ClInclude Include="Source\Core\Component\Camera\CameraComponent.h" />
     <ClInclude Include="Source\Core\Component\Movement\MovementComponent.h" />
     <ClInclude Include="Source\Core\Component\Sprite\SpriteComponent.h" />
     <ClInclude Include="Source\Core\Component\Transform\TransformComponent.h" />
@@ -201,11 +204,13 @@
     <ClInclude Include="Source\Core\Object\Actor\Actor.h" />
     <ClInclude Include="Source\Core\Object\Object.h" />
     <ClInclude Include="Source\Core\Object\Pawn\Pawn.h" />
+    <ClInclude Include="Source\Core\Parser\TileMapParser\TileMapParser.h" />
     <ClInclude Include="Source\Core\Pattern\Singleton.h" />
     <ClInclude Include="Source\Core\Resource\Base\BaseResource.h" />
     <ClInclude Include="Source\Core\Resource\Texture\TextureResource.h" />
     <ClInclude Include="Source\Core\SceneManager\SceneStateMachine.h" />
     <ClInclude Include="Source\Core\SceneManager\Scene\Scene.h" />
+    <ClInclude Include="Source\Core\Utilities\Utilities.h" />
     <ClInclude Include="Source\Core\Window\Window.h" />
     <ClInclude Include="Source\Game\Algorithm\Pathfinding\Astar.h" />
     <ClInclude Include="Source\Game\Game.h" />
@@ -329,6 +334,8 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -349,6 +356,8 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

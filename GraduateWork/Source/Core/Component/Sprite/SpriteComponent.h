@@ -14,7 +14,7 @@ class SpriteComponent
     : public ActorComponent
 {
 public:
-    SpriteComponent(class Object* NewOwner, const Color& NewTint);
+    explicit SpriteComponent(class Object* NewOwner, const Color& NewTint = WHITE);
     virtual ~SpriteComponent() override;
 
     void Draw() override;
@@ -33,6 +33,7 @@ public:
 
     void SetTextureRect(const Rectangle& NewRect) { SourceRect = NewRect; }
     void SetTint(const Color& NewTint) { Tint = NewTint; }
+    void SetScale(Vector2 NewScale);
     
 private:
     Texture2D Sprite;

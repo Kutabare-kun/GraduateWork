@@ -2,7 +2,8 @@
 #include "../../Component/Sprite/SpriteComponent.h"
 #include "../../Component/Animation/AnimationComponent.h"
 
-Actor::Actor(const std::string& TexturePath, Vector2 Position)
+Actor::Actor(const Vector2& Position)
+    : Object(Position)
 {
     SpriteComp = AddComponent<SpriteComponent>(this, WHITE);
     AnimationComp = AddComponent<AnimationComponent>(this);

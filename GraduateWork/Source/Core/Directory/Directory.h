@@ -11,6 +11,7 @@ public:
     std::string GetResource(const std::string&& ResourceName) const { return ResourcePath + R"(\)" + ResourceName; }
     std::string GetTexture(const std::string&& TextureName) const { return TexturePath + R"(\)" + TextureName; }
     std::string GetMap(const std::string&& MapName) const { return MapPath + R"(\)" + MapName; }
+    std::string GetTileSet(const std::string&& TileSetName) const { return TileSetPath + R"(\)" + TileSetName; }
     
     std::string GetCurrentPath() const { return CurrentPath; }
     
@@ -20,4 +21,5 @@ private:
     
     std::string TexturePath = ResourcePath + R"(\Texture)";
     std::string MapPath = ResourcePath + R"(\Maps)";
+    std::string TileSetPath = ResourcePath + R"(\TileSet)";
 };

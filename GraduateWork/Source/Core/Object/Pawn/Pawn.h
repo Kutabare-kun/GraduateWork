@@ -7,7 +7,7 @@ class Pawn
     : public Actor
 {
 public:
-    Pawn(const std::string& TexturePath, Vector2 Position);
+    explicit Pawn(const Vector2& Position = {0.0f, 0.0f }, float Speed = 100.0f);
 
     ~Pawn() override = default;
     

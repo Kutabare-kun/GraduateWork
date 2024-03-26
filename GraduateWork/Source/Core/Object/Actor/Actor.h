@@ -12,7 +12,7 @@ class Actor
 {
 public:
     // Constructor
-    Actor(const std::string& TexturePath, Vector2 Position);
+    Actor(const Vector2& Position);
 
     // Destructor
     ~Actor() override = default;

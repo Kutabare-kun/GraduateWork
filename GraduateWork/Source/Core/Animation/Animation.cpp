@@ -1,5 +1,11 @@
 #include "Animation.h"
 
+Animation::Animation()
+    : Frames(0), 
+    CurrentFrameIndex(0),
+    CurrentFrameTime(0.0f)
+{}
+
 void Animation::AddFrame(int TextureID, int X, int Y, int Width, int Height, float FrameTime)
 {
     Frames.emplace_back(

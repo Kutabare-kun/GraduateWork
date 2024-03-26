@@ -11,6 +11,7 @@ int main(int Argc, char* Argv[])
 
     while (!WindowShouldClose())
     {
+        MyGame.CaptureInput();
         MyGame.Update();
         MyGame.LateUpdate();
         MyGame.Draw();

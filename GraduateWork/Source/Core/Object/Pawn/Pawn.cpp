@@ -1,10 +1,10 @@
 #include "Pawn.h"
 #include "../../Component/Movement/MovementComponent.h"
 
-Pawn::Pawn(const std::string& TexturePath, Vector2 Position)
-    : Actor(TexturePath, Position)
+Pawn::Pawn(const Vector2& Position, float Speed)
+    : Actor(Position)
 {
-    MovementComp = AddComponent<MovementComponent>(this, 100.0f);
+    MovementComp = AddComponent<MovementComponent>(this, Speed);
 }
 
 void Pawn::Awake()

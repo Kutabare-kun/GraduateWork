@@ -14,8 +14,9 @@ SpriteComponent::~SpriteComponent()
 void SpriteComponent::Draw()
 {
     const Vector2& Position = Transform->GetPosition();
+    const Vector2& Scale = Transform->GetScale();
     DrawTexturePro(Sprite, SourceRect,
-        {Position.x, Position.y, SourceRect.width * Transform->GetScale(), SourceRect.height * Transform->GetScale()},
+        {Position.x, Position.y, SourceRect.width * Scale.x, SourceRect.height * Scale.y},
         {SourceRect.width * Transform->GetOrigin().x, SourceRect.height * Transform->GetOrigin().y},
         Transform->GetRotation(),
         Tint);
@@ -56,4 +57,9 @@ void SpriteComponent::Load(const std::string& FilePath)
 Vector2 SpriteComponent::GetSpriteSize() const
 {
     return { static_cast<float>(Sprite.width), static_cast<float>(Sprite.height) };
+}
+
+void SpriteComponent::SetScale(Vector2 NewScale)
+{
+    Transform->SetScale(NewScale);
 }

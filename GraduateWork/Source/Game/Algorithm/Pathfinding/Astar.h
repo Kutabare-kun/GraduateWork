@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-#include "../../Pattern/Singleton.h"
+#include "../../../Core/Pattern/Singleton.h"
 
 struct Cell
 {

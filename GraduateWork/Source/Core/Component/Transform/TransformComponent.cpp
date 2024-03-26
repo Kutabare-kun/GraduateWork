@@ -3,7 +3,7 @@
 #include <raymath.h>
 
 TransformComponent::TransformComponent(Object* NewOwner, const Vector2& NewPosition, const Vector2& NewOrigin,
-                                       float NewRotation, float NewScale)
+                                       float NewRotation, Vector2 NewScale)
     : ActorComponent(NewOwner), Position(NewPosition), Origin(NewOrigin), Rotation(NewRotation), Scale(NewScale)
 {}
 
@@ -17,7 +17,7 @@ void TransformComponent::SetRotation(float NewRotation)
     Rotation = NewRotation;
 }
 
-void TransformComponent::SetScale(float NewScale)
+void TransformComponent::SetScale(Vector2 NewScale)
 {
     Scale = NewScale;
 }
@@ -37,9 +37,9 @@ void TransformComponent::AddRotation(float DeltaRotation)
     Rotation = fmodf(Rotation + DeltaRotation, 360.0f);
 }
 
-void TransformComponent::AddScale(float DeltaScale)
+void TransformComponent::AddScale(Vector2 DeltaScale)
 {
-    Scale += DeltaScale;
+    Scale = Vector2Add(Scale, DeltaScale);
 }
 
 void TransformComponent::AddOrigin(const Vector2& DeltaOrigin)

@@ -4,8 +4,20 @@
 
 struct FrameData
 {
+    FrameData()
+        : Id(0), X(0), Y(0), Width(0), Height(0), DisplayTimeSeconds(0.0f)
+    {
+    }
+    
     FrameData(int NewId, int NewX, int NewY, int NewWidth, int NewHeight, float NewDisplayTimeSeconds)
         : Id(NewId), X(NewX), Y(NewY), Width(NewWidth), Height(NewHeight), DisplayTimeSeconds(NewDisplayTimeSeconds)
+    {
+    }
+
+    FrameData(int NewId, const Vector2& NewPosition, const Vector2& NewSize, float NewDisplayTimeSeconds)
+        : Id(NewId), X(static_cast<int>(NewPosition.x)), Y(static_cast<int>(NewPosition.y)),
+          Width(static_cast<int>(NewSize.x)), Height(static_cast<int>(NewSize.y)),
+          DisplayTimeSeconds(NewDisplayTimeSeconds)
     {
     }
 
@@ -32,7 +44,7 @@ struct FrameData
 class Animation
 {
 public:
-    Animation();
+    explicit Animation();
 
     void AddFrame(int TextureID, int X, int Y, int Width, int Height, float FrameTime);
     void AddFrame(int TextureID, const Rectangle& SourceRect, float FrameTime);
@@ -41,7 +53,6 @@ public:
     const FrameData* GetCurrentFrame() const;
 
     bool UpdateFrame(float DeltaTime);
-
     void Reset();
 
 private:

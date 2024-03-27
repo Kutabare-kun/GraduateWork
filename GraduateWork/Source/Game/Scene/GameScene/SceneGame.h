@@ -2,6 +2,7 @@
 #include "../../../Core/Allocator/ResourceAllocator.h"
 #include "../../../Core/SceneManager/Scene/Scene.h"
 #include "../../../Core/Collection/ObjectCollection.h"
+#include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Parser/TileMapParser/TileMapParser.h"
 
 class MovementComponent;
@@ -30,4 +31,5 @@ private:
     
     std::unique_ptr<ObjectCollection> Objects;
     std::shared_ptr<MovementComponent> PlayerMovement;
+    std::shared_ptr<CameraComponent> Camera;
 };

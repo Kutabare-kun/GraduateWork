@@ -25,7 +25,9 @@ public:
     void SwitchTo(unsigned int Id); 
 	
     // Removes scene from state machine.
-    void Remove(unsigned int Id); 
+    void Remove(unsigned int Id);
+
+	std::shared_ptr<Scene> GetScene(unsigned int Id) { return Scenes.find(Id)->second; }
 
 private:
     // Stores all of the scenes associated with this state machine.

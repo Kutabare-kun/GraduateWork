@@ -2,6 +2,9 @@
 #include <memory>
 #include <vector>
 
+#include "../System/Collider/ColliderSystem.h"
+#include "../System/Drawable/DrawableSystem.h"
+
 class Object;
 
 class ObjectCollection
@@ -18,6 +21,9 @@ public:
         return Obj;
     }
 
+public:
+    ObjectCollection();
+
     void AddObject(std::shared_ptr<Object> NewObject);
     void AddObject(std::vector<std::shared_ptr<Object>>& Objects);
 
@@ -31,4 +37,7 @@ public:
 private:
     std::vector<std::shared_ptr<Object>> Objects;
     std::vector<std::shared_ptr<Object>> NewObjects;
+
+    std::unique_ptr<DrawableSystem> Drawables;
+    std::unique_ptr<ColliderSystem> Collidables;
 };

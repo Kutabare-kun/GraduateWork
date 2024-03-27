@@ -5,6 +5,8 @@ class Bitmask
 {
 public:
     Bitmask();
+
+    Bitmask(uint32_t InitialBits);
     
     // Overwrites this bitmask.
     void SetMask(Bitmask& Other); 

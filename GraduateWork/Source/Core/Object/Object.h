@@ -3,6 +3,8 @@
 #include <vector>
 #include <type_traits>
 
+#include "../Component/Drawable/DrawableComponent.h"
+#include "../Component/InstanceID/InstanceIDComponent.h"
 #include "../Component/Transform/TransformComponent.h"
 
 class Object
@@ -23,6 +25,11 @@ public:
         // add it to our list.
         std::shared_ptr<Type> NewComponent = std::make_shared<Type>(std::forward<Arguments>(Args)...);
         Components.push_back(NewComponent);
+
+        if (auto ThisDrawable = std::dynamic_pointer_cast<DrawableComponent>(NewComponent); ThisDrawable)
+        {
+            DrawableComp = ThisDrawable;
+        }
 
         return NewComponent;
     }
@@ -48,6 +55,7 @@ public:
     explicit Object(const Vector2& Position = { 0.0f, 0.0f })
     {
         TransformComp = AddComponent<TransformComponent>(this, Position);
+        InstanceIDComp = AddComponent<InstanceIDComponent>(this);
     }
     
     virtual ~Object() = default;
@@ -86,10 +94,7 @@ public:
 
     virtual void Draw()
     {
-        for (auto& Component : Components)
-        {
-            Component->Draw();
-        }
+        DrawableComp->Draw();
     }
 
     bool IsQueuedForRemoval()
@@ -102,8 +107,26 @@ public:
         bQueuedForRemoval = true;
     }
 
+    std::shared_ptr<DrawableComponent> GetDrawable()
+    {
+        return DrawableComp;
+    }
+
+    std::shared_ptr<TransformComponent> GetTransform()
+    {
+        return TransformComp;
+    }
+
+    std::shared_ptr<InstanceIDComponent> GetInstanceID()
+    {
+        return InstanceIDComp;
+    }
+
 protected:
     bool bQueuedForRemoval = false;
     std::shared_ptr<TransformComponent> TransformComp;
+    std::shared_ptr<DrawableComponent> DrawableComp;
+    std::shared_ptr<InstanceIDComponent> InstanceIDComp;
+    
     std::vector<std::shared_ptr<ActorComponent>> Components;
 };

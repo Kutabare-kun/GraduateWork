@@ -4,6 +4,10 @@ Bitmask::Bitmask()
     : Bits(0)
 {}
 
+Bitmask::Bitmask(uint32_t InitialBits)
+    : Bits(InitialBits)
+{}
+
 void Bitmask::SetMask(Bitmask& Other)
 {
     Bits = Other.GetMask();

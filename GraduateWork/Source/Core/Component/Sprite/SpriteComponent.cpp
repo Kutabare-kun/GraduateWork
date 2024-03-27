@@ -26,7 +26,12 @@ void SpriteComponent::Awake()
 {
     ActorComponent::Awake();
 
-    Transform = GetOwner()->GetComponent<TransformComponent>();
+    Transform = GetOwner()->GetTransform();
+}
+
+void SpriteComponent::Start()
+{
+    ActorComponent::Start();
 }
 
 void SpriteComponent::SetTextureAllocator(ResourceAllocator<TextureResource>* NewTextureAllocator)

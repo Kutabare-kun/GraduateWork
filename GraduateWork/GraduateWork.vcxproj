@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\Algorithm\Quadtree\Quadtree.cpp" />
     <ClCompile Include="Source\Core\Animation\Animation.cpp" />
     <ClCompile Include="Source\Core\Bitmask\Bitmask.cpp" />
     <ClCompile Include="Source\Core\Collection\ObjectCollection.cpp" />
@@ -99,6 +100,10 @@
     </ClCompile>
     <ClCompile Include="Source\Core\Component\Animation\AnimationComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Camera\CameraComponent.cpp" />
+    <ClCompile Include="Source\Core\Component\Collider\BoxCollider\BoxColliderComponent.cpp" />
+    <ClCompile Include="Source\Core\Component\Collider\ColliderComponent.cpp" />
+    <ClCompile Include="Source\Core\Component\Drawable\DrawableComponent.cpp" />
+    <ClCompile Include="Source\Core\Component\InstanceID\InstanceIDComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Movement\MovementComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Sprite\SpriteComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Transform\TransformComponent.cpp" />
@@ -182,14 +187,16 @@
     <ClCompile Include="Source\Core\Parser\TileMapParser\TileMapParser.cpp" />
     <ClCompile Include="Source\Core\Resource\Texture\TextureResource.cpp" />
     <ClCompile Include="Source\Core\SceneManager\SceneStateMachine.cpp" />
+    <ClCompile Include="Source\Core\System\Collider\ColliderSystem.cpp" />
+    <ClCompile Include="Source\Core\System\Drawable\DrawableSystem.cpp" />
     <ClCompile Include="Source\Core\Window\Window.cpp" />
-    <ClCompile Include="Source\Game\Algorithm\Pathfinding\Astar.cpp" />
     <ClCompile Include="Source\Game\Game.cpp" />
     <ClCompile Include="Source\Game\Scene\GameScene\SceneGame.cpp" />
     <ClCompile Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.cpp" />
     <ClCompile Include="Source\GraduateWork.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Algorithm\Quadtree\Quadtree.h" />
     <ClInclude Include="Source\Core\Allocator\ResourceAllocator.h" />
     <ClInclude Include="Source\Core\Animation\Animation.h" />
     <ClInclude Include="Source\Core\Bitmask\Bitmask.h" />
@@ -197,6 +204,10 @@
     <ClInclude Include="Source\Core\Component\ActorComponent.h" />
     <ClInclude Include="Source\Core\Component\Animation\AnimationComponent.h" />
     <ClInclude Include="Source\Core\Component\Camera\CameraComponent.h" />
+    <ClInclude Include="Source\Core\Component\Collider\BoxCollider\BoxColliderComponent.h" />
+    <ClInclude Include="Source\Core\Component\Collider\ColliderComponent.h" />
+    <ClInclude Include="Source\Core\Component\Drawable\DrawableComponent.h" />
+    <ClInclude Include="Source\Core\Component\InstanceID\InstanceIDComponent.h" />
     <ClInclude Include="Source\Core\Component\Movement\MovementComponent.h" />
     <ClInclude Include="Source\Core\Component\Sprite\SpriteComponent.h" />
     <ClInclude Include="Source\Core\Component\Transform\TransformComponent.h" />
@@ -205,14 +216,19 @@
     <ClInclude Include="Source\Core\Object\Object.h" />
     <ClInclude Include="Source\Core\Object\Pawn\Pawn.h" />
     <ClInclude Include="Source\Core\Parser\TileMapParser\TileMapParser.h" />
+    <ClInclude Include="Source\Core\Parser\XML\rapidxml.hpp" />
+    <ClInclude Include="Source\Core\Parser\XML\rapidxml_iterators.hpp" />
+    <ClInclude Include="Source\Core\Parser\XML\rapidxml_print.hpp" />
+    <ClInclude Include="Source\Core\Parser\XML\rapidxml_utils.hpp" />
     <ClInclude Include="Source\Core\Pattern\Singleton.h" />
     <ClInclude Include="Source\Core\Resource\Base\BaseResource.h" />
     <ClInclude Include="Source\Core\Resource\Texture\TextureResource.h" />
     <ClInclude Include="Source\Core\SceneManager\SceneStateMachine.h" />
     <ClInclude Include="Source\Core\SceneManager\Scene\Scene.h" />
+    <ClInclude Include="Source\Core\System\Collider\ColliderSystem.h" />
+    <ClInclude Include="Source\Core\System\Drawable\DrawableSystem.h" />
     <ClInclude Include="Source\Core\Utilities\Utilities.h" />
     <ClInclude Include="Source\Core\Window\Window.h" />
-    <ClInclude Include="Source\Game\Algorithm\Pathfinding\Astar.h" />
     <ClInclude Include="Source\Game\Game.h" />
     <ClInclude Include="Source\Game\Scene\GameScene\SceneGame.h" />
     <ClInclude Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.h" />

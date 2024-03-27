@@ -50,7 +50,7 @@ void MovementComponent::Update(float DeltaTime)
     Animation->SetAnimationState(AnimationState::Walk);
 
     const Vector2 Velocity = Vector2Scale(Direction, Speed * DeltaTime);
-    auto OwnerTransform = GetOwner()->GetComponent<TransformComponent>();
+    auto OwnerTransform = GetOwner()->GetTransform();
     OwnerTransform->AddPosition(Velocity);
 
     Direction = Vector2Zero();

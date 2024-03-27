@@ -14,8 +14,6 @@ public:
 
     virtual void LateUpdate(float DeltaTime);
 
-    virtual void Draw();
-
     virtual Object* GetOwner() const { return Owner; }
 
     bool IsEnableTicks() const { return bEnableTicks; }

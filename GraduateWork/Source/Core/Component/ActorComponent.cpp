@@ -15,6 +15,3 @@ void ActorComponent::Update(float DeltaTime)
 
 void ActorComponent::LateUpdate(float DeltaTime)
 {}
-
-void ActorComponent::Draw()
-{}

@@ -4,8 +4,10 @@
 
 TransformComponent::TransformComponent(Object* NewOwner, const Vector2& NewPosition, const Vector2& NewOrigin,
                                        float NewRotation, Vector2 NewScale)
-    : ActorComponent(NewOwner), Position(NewPosition), Origin(NewOrigin), Rotation(NewRotation), Scale(NewScale)
-{}
+    : ActorComponent(NewOwner), Position(NewPosition), Origin(NewOrigin), Rotation(NewRotation), Scale(NewScale),
+      bIsStatic(false)
+{
+}
 
 void TransformComponent::SetPosition(const Vector2& NewPosition)
 {
@@ -25,6 +27,11 @@ void TransformComponent::SetScale(Vector2 NewScale)
 void TransformComponent::SetOrigin(const Vector2& NewOrigin)
 {
     Origin = NewOrigin;
+}
+
+void TransformComponent::SetStatic(bool bIsStatic)
+{
+    this->bIsStatic = bIsStatic;
 }
 
 void TransformComponent::AddPosition(const Vector2& DeltaPosition)

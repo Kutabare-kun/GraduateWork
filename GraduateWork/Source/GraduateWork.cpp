@@ -3,7 +3,7 @@
 
 int main(int Argc, char* Argv[])
 {
-    Window::GetInstance().Init({1600, 800}, "Graduate Work");
+    Window::GetInstance().Init({1200, 800}, "Graduate Work");
 
     SetTargetFPS(3000);
 

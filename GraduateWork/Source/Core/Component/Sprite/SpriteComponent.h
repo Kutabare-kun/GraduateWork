@@ -5,21 +5,22 @@
 
 #include "../ActorComponent.h"
 #include "../../Allocator/ResourceAllocator.h"
-
+#include "../Drawable/DrawableComponent.h"
 
 class TextureResource;
 class TransformComponent;
 
 class SpriteComponent
-    : public ActorComponent
+    : public ActorComponent, public DrawableComponent
 {
 public:
     explicit SpriteComponent(class Object* NewOwner, const Color& NewTint = WHITE);
     virtual ~SpriteComponent() override;
 
-    void Draw() override;
-
     void Awake() override;
+    void Start() override;
+
+    void Draw() override;
 
     void SetTextureAllocator(ResourceAllocator<TextureResource>* NewTextureAllocator);
 

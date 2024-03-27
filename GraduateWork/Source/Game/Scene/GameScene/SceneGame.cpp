@@ -72,7 +72,13 @@ void SceneGame::OnCreate()
     LeftWalkAnimation->AddFrame(LeftVikingTextureID, 0, 435, FrameWidth, FrameHeight, LeftWalkAnimFrameTime);
     LeftWalkAnimation->AddFrame(LeftVikingTextureID, 200, 435, FrameWidth, FrameHeight, LeftWalkAnimFrameTime);
     LeftWalkAnimation->AddFrame(LeftVikingTextureID, 400, 435, FrameWidth, FrameHeight, LeftWalkAnimFrameTime);
-    PlayerAnimation->AddAnimation(FacingDirection::Left, AnimationState::Walk, LeftWalkAnimation);    
+    PlayerAnimation->AddAnimation(FacingDirection::Left, AnimationState::Walk, LeftWalkAnimation);
+
+    auto Collider = Player->AddComponent<BoxColliderComponent>(Player.get());
+    Collider->SetCollidable(Rectangle{0.0f, 0.0f, FrameWidth, FrameHeight});
+    Collider->SetLayer(CollisionLayer::Player);
+
+    Camera = Player->AddComponent<CameraComponent>(Player.get());
 }
 
 void SceneGame::OnDestroy()
@@ -80,7 +86,7 @@ void SceneGame::OnDestroy()
 }
 
 void SceneGame::ProcessInput()
-{
+{    
     if (!PlayerMovement) return;
     
     Vector2 PlayerInput = {0, 0};
@@ -113,5 +119,7 @@ void SceneGame::LateUpdate(float DeltaTime)
 
 void SceneGame::Draw()
 {
+    BeginMode2D(Camera->GetCamera());
     Objects->Draw();
+    EndMode2D();
 }

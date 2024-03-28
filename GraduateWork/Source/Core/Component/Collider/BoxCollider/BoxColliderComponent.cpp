@@ -1,6 +1,7 @@
 #include "BoxColliderComponent.h"
 
 #include "../../../Object/Object.h"
+#include "../../../StaticFunctions/Debug.h"
 #include "../../Transform/TransformComponent.h"
 
 BoxColliderComponent::BoxColliderComponent(Object* Owner)
@@ -44,26 +45,26 @@ void BoxColliderComponent::ResolveCollision(const Manifold& Collision)
     {
         if (XDiff > 0)
         {
-            Resolve.x = (MyRect.x + MyRect.width) - OtherRect.x;
+            Resolve.x = (OtherRect.x + OtherRect.width) - MyRect.x;
         }
         else
         {
-            Resolve.x = (MyRect.x) - (OtherRect.x + OtherRect.width);
+            Resolve.x = -((MyRect.x + MyRect.width) - OtherRect.x);
         }
     }
     else
     {
         if (YDiff > 0)
         {
-            Resolve.y = (MyRect.y + MyRect.height) - OtherRect.y;
+            Resolve.y = (OtherRect.y + OtherRect.height) - MyRect.y;
         }
         else
         {
-            Resolve.y = (MyRect.y) - (OtherRect.y + OtherRect.height);
+            Resolve.y = -((MyRect.y + MyRect.height) - OtherRect.y);
         }
     }
 
-    TransformComp->SetPosition(Resolve);
+    TransformComp->AddPosition(Resolve);
 }
 
 void BoxColliderComponent::SetCollidable(const Rectangle& NewRect)

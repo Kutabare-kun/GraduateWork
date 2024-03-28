@@ -21,6 +21,8 @@ public:
 
     const Rectangle& GetBounds() const;
 
+    void DrawDebug();
+
 private:
     void Search(const Rectangle& Area, std::vector<std::shared_ptr<BoxColliderComponent>>& OverlappingObjects);
 

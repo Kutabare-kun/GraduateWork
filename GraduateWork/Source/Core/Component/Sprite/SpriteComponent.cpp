@@ -13,8 +13,12 @@ SpriteComponent::~SpriteComponent()
 
 void SpriteComponent::Draw()
 {
-    const Vector2& Position = Transform->GetPosition();
+    Vector2 Position = Transform->GetPosition();
     const Vector2& Scale = Transform->GetScale();
+
+    Position.x -= (abs(SourceRect.width) / 2.0f * Scale.x);
+    Position.y -= (abs(SourceRect.height) / 2.0f * Scale.y);
+    
     DrawTexturePro(Sprite, SourceRect,
         {Position.x, Position.y, SourceRect.width * Scale.x, SourceRect.height * Scale.y},
         {SourceRect.width * Transform->GetOrigin().x, SourceRect.height * Transform->GetOrigin().y},

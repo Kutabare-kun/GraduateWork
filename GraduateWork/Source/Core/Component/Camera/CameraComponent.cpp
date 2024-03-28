@@ -17,7 +17,7 @@ void CameraComponent::Update(float DeltaTime)
     ActorComponent::Update(DeltaTime);
 
     Rectangle Rect = static_cast<Actor*>(GetOwner())->GetActorRectangle();
-    Camera.target = {Rect.x + Rect.width / 2.0f, Rect.y + Rect.height / 2.0f};
+    Camera.target = {Rect.x, Rect.y};
 }
 
 void CameraComponent::UpdateOffset(const Vector2& NewOffset)

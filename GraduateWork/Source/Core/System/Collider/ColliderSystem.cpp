@@ -1,5 +1,8 @@
 #include "ColliderSystem.h"
 
+#include "../../StaticFunctions/Debug.h"
+#include "../../Window/Window.h"
+
 ColliderSystem::ColliderSystem()
 {
     Bitmask DefaultCollision;
@@ -13,7 +16,8 @@ ColliderSystem::ColliderSystem()
     PlayerCollision.SetBit((int)CollisionLayer::Tile);
     CollisionLayers.insert(std::make_pair(CollisionLayer::Player, PlayerCollision));
 
-    CollisionTree = std::make_unique<Quadtree>();
+    const Vector2& ScreenSize = Window::GetInstance().GetScreenSize();
+    CollisionTree = std::make_unique<Quadtree>(5, 5, 0, Rectangle{0, 0, ScreenSize.x, ScreenSize.y}, nullptr);
 }
 
 void ColliderSystem::Add(std::vector<std::shared_ptr<Object>>& Objects)
@@ -61,17 +65,21 @@ void ColliderSystem::ProcessRemovals()
 }
 
 void ColliderSystem::Update()
-{
+{    
     CollisionTree->Clear();
     for (auto [Layer, Colliders] : Collidables)
     {
         for (auto ColliderComp : Colliders)
         {
             CollisionTree->Insert(ColliderComp);
+
+            Debug::GetInstance().DrawRectangle(ColliderComp->GetCollidable(), RED);
         }
     }
 
     Resolve();
+
+    CollisionTree->DrawDebug();
 }
 
 void ColliderSystem::Resolve()
@@ -106,9 +114,9 @@ void ColliderSystem::Resolve()
                 if (LayersCollide)
                 {
                     Manifold CollisionInfo = ColliderComp->Intersects(Collision);
-
+                    
                     if (CollisionInfo.bColliding)
-                    {
+                    {                        
                         if (Collision->GetOwner()->GetTransform()->IsStatic())
                         {
                             ColliderComp->ResolveCollision(CollisionInfo);

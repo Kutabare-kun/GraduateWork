@@ -187,6 +187,7 @@
     <ClCompile Include="Source\Core\Parser\TileMapParser\TileMapParser.cpp" />
     <ClCompile Include="Source\Core\Resource\Texture\TextureResource.cpp" />
     <ClCompile Include="Source\Core\SceneManager\SceneStateMachine.cpp" />
+    <ClCompile Include="Source\Core\StaticFunctions\Debug.cpp" />
     <ClCompile Include="Source\Core\System\Collider\ColliderSystem.cpp" />
     <ClCompile Include="Source\Core\System\Drawable\DrawableSystem.cpp" />
     <ClCompile Include="Source\Core\Window\Window.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="Source\Core\Resource\Texture\TextureResource.h" />
     <ClInclude Include="Source\Core\SceneManager\SceneStateMachine.h" />
     <ClInclude Include="Source\Core\SceneManager\Scene\Scene.h" />
+    <ClInclude Include="Source\Core\StaticFunctions\Debug.h" />
     <ClInclude Include="Source\Core\System\Collider\ColliderSystem.h" />
     <ClInclude Include="Source\Core\System\Drawable\DrawableSystem.h" />
     <ClInclude Include="Source\Core\Utilities\Utilities.h" />

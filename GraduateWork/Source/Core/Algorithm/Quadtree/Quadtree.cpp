@@ -128,7 +128,7 @@ void Quadtree::Search(const Rectangle& Area, std::vector<std::shared_ptr<BoxColl
     OverlappingObjects.insert(OverlappingObjects.end(), Objects.begin(), Objects.end());
 
     if (Children[0] == nullptr) return;
-    int IndexToSearch = GetChildIndex(Area);
+    const int IndexToSearch = GetChildIndex(Area);
 
     if (IndexToSearch != ThisTree)
     {

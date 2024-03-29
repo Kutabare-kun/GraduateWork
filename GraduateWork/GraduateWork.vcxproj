@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\Algorithm\Pathfinding\Astar.cpp" />
     <ClCompile Include="Source\Core\Algorithm\Quadtree\Quadtree.cpp" />
     <ClCompile Include="Source\Core\Animation\Animation.cpp" />
     <ClCompile Include="Source\Core\Bitmask\Bitmask.cpp" />
@@ -197,6 +198,7 @@
     <ClCompile Include="Source\GraduateWork.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Algorithm\Pathfinding\Astar.h" />
     <ClInclude Include="Source\Core\Algorithm\Quadtree\Quadtree.h" />
     <ClInclude Include="Source\Core\Allocator\ResourceAllocator.h" />
     <ClInclude Include="Source\Core\Animation\Animation.h" />

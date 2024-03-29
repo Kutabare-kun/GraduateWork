@@ -1,5 +1,13 @@
 #pragma once
 
+enum class DrawLayer
+{
+    Default,
+    Background,
+    Foreground,
+    Entities,
+};
+
 class DrawableComponent
 {
 public:
@@ -8,9 +16,16 @@ public:
 
     virtual void Draw() = 0;
 
+    void SetDrawLayer(DrawLayer NewLayer);
+    DrawLayer GetDrawLayer() const;
+
+    virtual bool ContinueToDraw() const = 0;
+
     void SetSortOrder(int NewSortOrder);
     int GetSortOrder() const;
 
 private:
     int SortOrder;
+
+    DrawLayer Layer;
 };

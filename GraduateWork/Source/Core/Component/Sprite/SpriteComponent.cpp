@@ -26,6 +26,11 @@ void SpriteComponent::Draw()
         Tint);
 }
 
+bool SpriteComponent::ContinueToDraw() const
+{
+    return !GetOwner()->IsQueuedForRemoval();
+}
+
 void SpriteComponent::Awake()
 {
     ActorComponent::Awake();

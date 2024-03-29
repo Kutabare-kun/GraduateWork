@@ -27,6 +27,14 @@ void MovementComponent::InputValue(float Value, const Vector2& Direction)
     {
         Animation->SetAnimationDirection(FacingDirection::Left);
     }
+    else if (this->Direction.y > 0.0f)
+    {
+        Animation->SetAnimationDirection(FacingDirection::Down);
+    }
+    else if (this->Direction.y < 0.0f)
+    {
+        Animation->SetAnimationDirection(FacingDirection::Up);
+    }
 }
 
 void MovementComponent::Awake()

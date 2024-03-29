@@ -1,6 +1,5 @@
 #include "TileMapParser.h"
 
-#include <iostream>
 #include <sstream>
 
 #include "../../Component/Collider/BoxCollider/BoxColliderComponent.h"
@@ -8,6 +7,7 @@
 #include "../../Component/Sprite/SpriteComponent.h"
 #include "../../Directory/Directory.h"
 #include "../../Object/Object.h"
+#include "../../StaticFunctions/Debug.h"
 #include "../../Utilities/Utilities.h"
 
 TileMapParser::TileMapParser(ResourceAllocator<TextureResource>& NewTextureAllocator)
@@ -54,6 +54,7 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
                 Sprite->Load(TextureID);
                 Sprite->SetTextureRect(TileInfoObj->TextureRect);
                 Sprite->SetSortOrder(LayerCount);
+                Sprite->SetDrawLayer(DrawLayer::Background);
             }
             
             auto TransformComp = TileObject->GetTransform();
@@ -142,7 +143,7 @@ std::shared_ptr<MapTiles> TileMapParser::BuildMapTiles(xml_node<>* RootNode)
     {
         std::pair<std::string, std::shared_ptr<Layer>> LayerPair = BuildLayer(Node, TileSheetDataObj);
 
-        Map->emplace(LayerPair);
+        Map->emplace_back(LayerPair);
     }
 
     return Map;
@@ -189,10 +190,13 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
             {
                 std::shared_ptr<TileSheetData> TileSheet;
 
+                int FirstID = 0;
+
                 for (auto& Sheet : *TileSheets)
                 {
                     if (TileId >= Sheet.first)
                     {
+                        FirstID = Sheet.first;
                         TileSheet = Sheet.second;
                         break;
                     }
@@ -200,13 +204,13 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
 
                 if (!TileSheet)
                 {
-                    std::cout << "No tile sheet found for ID: " << TileId << '\n';
+                    Debug::GetInstance().Log(TextFormat("No tile sheet found for ID: ", TileId));
                     continue;
                 }
                 
                 Vector2 TexturePosition{
-                    static_cast<float>((TileId - 1) % TileSheet->Columns),
-                    static_cast<float>((TileId - 1) / TileSheet->Columns)
+                    static_cast<float>((TileId - FirstID) % TileSheet->Columns),
+                    static_cast<float>((TileId - FirstID) / TileSheet->Columns)
                 };
 
                 std::shared_ptr<TileInfo> tileInfo =

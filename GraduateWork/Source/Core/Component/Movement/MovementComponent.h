@@ -15,7 +15,7 @@ public:
     explicit MovementComponent(Object* NewOwner);
     MovementComponent(Object* NewOwner, float NewSpeed);
     
-    virtual ~MovementComponent() = default;
+    virtual ~MovementComponent() override = default;
 
     void InputValue(float Value, const Vector2& Direction);
 

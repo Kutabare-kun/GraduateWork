@@ -17,7 +17,7 @@ ColliderSystem::ColliderSystem()
     CollisionLayers.insert(std::make_pair(CollisionLayer::Player, PlayerCollision));
 
     const Vector2& ScreenSize = Window::GetInstance().GetScreenSize();
-    CollisionTree = std::make_unique<Quadtree>(5, 5, 0, Rectangle{0, 0, ScreenSize.x, ScreenSize.y}, nullptr);
+    CollisionTree = std::make_unique<Quadtree>(5, 5, 0, Rectangle{0, 0, 16000, 16000}, nullptr);
 }
 
 void ColliderSystem::Add(std::vector<std::shared_ptr<Object>>& Objects)

@@ -2,7 +2,6 @@
 
 #include <algorithm>
 
-#include "../../Component/Drawable/DrawableComponent.h"
 #include "../../Object/Object.h"
 
 void DrawableSystem::Add(std::vector<std::shared_ptr<Object>>& NewObjects)
@@ -11,31 +10,37 @@ void DrawableSystem::Add(std::vector<std::shared_ptr<Object>>& NewObjects)
     {
         Add(Element);
     }
-
-    Sort();
 }
 
 void DrawableSystem::ProcessRemovals()
 {
-    auto Iter = Drawables.begin();
-    while (Iter != Drawables.end())
+    for (auto& [Layer, Objects] : Drawables)
     {
-        if ((*Iter)->IsQueuedForRemoval())
+        auto Iter = Objects.begin();
+        while (Iter != Objects.end())
         {
-            Iter = Drawables.erase(Iter);
-        }
-        else
-        {
-            ++Iter;
+            if ((*Iter)->ContinueToDraw())
+            {
+                Iter = Objects.erase(Iter);
+            }
+            else
+            {
+                ++Iter;
+            }
         }
     }
 }
 
 void DrawableSystem::Draw()
 {
-    for (auto& Element : Drawables)
+    Sort();
+    
+    for (auto& [Layer, Objects] : Drawables)
     {
-        Element->Draw();
+        for (auto& Element : Objects)
+        {
+            Element->Draw();
+        }
     }
 }
 
@@ -44,14 +49,35 @@ void DrawableSystem::Add(std::shared_ptr<Object>& NewObject)
     const std::shared_ptr<DrawableComponent> Draw = NewObject->GetDrawable();
 
     if (!Draw) return;
-    Drawables.emplace_back(NewObject);
+
+    DrawLayer Layer = Draw->GetDrawLayer();
+
+    auto Iter = Drawables.find(Layer);
+    if (Iter != Drawables.end())
+    {
+        Iter->second.emplace_back(Draw);
+    }
+    else
+    {
+        std::vector<std::shared_ptr<DrawableComponent>> Objs;
+        Objs.emplace_back(Draw);
+
+        Drawables.emplace(Layer, Objs);
+    }
 }
 
 void DrawableSystem::Sort()
 {
-    std::sort(Drawables.begin(), Drawables.end(),
-              [](std::shared_ptr<Object>& Left, std::shared_ptr<Object>& Right) -> bool
-              {
-                  return Left->GetDrawable()->GetSortOrder() < Right->GetDrawable()->GetSortOrder();
-              });
+    for (auto& [Layer, Objects] : Drawables)
+    {
+        if (!std::ranges::is_sorted(Objects.begin(), Objects.end(), LayerSort))
+        {
+            std::ranges::sort(Objects.begin(), Objects.end(), LayerSort);
+        }
+    }
+}
+
+bool DrawableSystem::LayerSort(const std::shared_ptr<DrawableComponent>& Left, const std::shared_ptr<DrawableComponent>& Right)
+{
+    return Left->GetSortOrder() < Right->GetSortOrder();
 }

@@ -10,6 +10,12 @@ public:
     Manifold Intersects(std::shared_ptr<ColliderComponent> Other) override;
     void ResolveCollision(const Manifold& Collision) override;
 
+    void SetOffset(const Vector2& NewOffset);
+    void SetOffset(float X, float Y);
+
+    void SetSize(const Vector2& NewSize);
+    void SetSize(float Width, float Height);
+
     void SetCollidable(const Rectangle& NewRect);
     const Rectangle& GetCollidable();
 

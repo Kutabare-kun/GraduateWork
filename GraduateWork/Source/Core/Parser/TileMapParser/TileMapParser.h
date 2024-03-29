@@ -47,7 +47,7 @@ struct Layer
     bool bIsVisible;
 };
 
-using MapTiles = std::map<std::string, std::shared_ptr<Layer>>;
+using MapTiles = std::vector<std::pair<std::string, std::shared_ptr<Layer>>>;
 using TileSet = std::unordered_map<unsigned, std::shared_ptr<TileInfo>>;
 using TileSheets = std::map<int, std::shared_ptr<TileSheetData>>;
 

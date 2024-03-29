@@ -1,6 +1,10 @@
 #pragma once
+#include <functional>
+#include <map>
 #include <raylib.h>
 #include <vector>
+
+#include "../Bitmask/Bitmask.h"
 
 struct FrameData
 {
@@ -41,6 +45,8 @@ struct FrameData
     }
 };
 
+using AnimationAction = std::function<void(void)>;
+
 class Animation
 {
 public:
@@ -52,11 +58,14 @@ public:
 
     const FrameData* GetCurrentFrame() const;
 
+    void AddFrameAction(unsigned FrameIndex, AnimationAction Action);
+
     bool UpdateFrame(float DeltaTime);
     void Reset();
 
 private:
     void IncrementFrame();
+    void RunActionForCurrentFrame();
 
     // Stores all frames for our animation.
     std::vector<FrameData> Frames;
@@ -66,4 +75,10 @@ private:
 
     // We use this to decide when to transition to the next frame.
     float CurrentFrameTime;
+
+    bool ReleaseFirstFrame;
+
+    std::map<int, std::vector<AnimationAction>> FrameActions;
+
+    Bitmask FramesWithActions;
 };

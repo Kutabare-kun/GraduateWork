@@ -22,6 +22,8 @@ public:
 
     void Draw() override;
 
+    bool ContinueToDraw() const override;
+
     void SetTextureAllocator(ResourceAllocator<TextureResource>* NewTextureAllocator);
 
     void Load(int Id);

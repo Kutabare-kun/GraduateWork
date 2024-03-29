@@ -17,7 +17,9 @@ enum class FacingDirection
 {
     None,
     Left,
-    Right
+    Right,
+    Up,
+    Down
 };
 
 class SpriteComponent;

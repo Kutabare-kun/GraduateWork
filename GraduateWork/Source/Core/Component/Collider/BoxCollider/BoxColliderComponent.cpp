@@ -67,6 +67,28 @@ void BoxColliderComponent::ResolveCollision(const Manifold& Collision)
     TransformComp->AddPosition(Resolve);
 }
 
+void BoxColliderComponent::SetOffset(const Vector2& NewOffset)
+{
+    Offset = NewOffset;
+}
+
+void BoxColliderComponent::SetOffset(float X, float Y)
+{
+    Offset = {X, Y};
+}
+
+void BoxColliderComponent::SetSize(const Vector2& NewSize)
+{
+    AABB.width = NewSize.x;
+    AABB.height = NewSize.y;
+}
+
+void BoxColliderComponent::SetSize(float Width, float Height)
+{
+    AABB.width = Width;
+    AABB.height = Height;
+}
+
 void BoxColliderComponent::SetCollidable(const Rectangle& NewRect)
 {
     AABB = NewRect;

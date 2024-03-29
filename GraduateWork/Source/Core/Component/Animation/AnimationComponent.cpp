@@ -55,6 +55,8 @@ void AnimationComponent::SetAnimationState(AnimationState State)
 void AnimationComponent::SetAnimationDirection(FacingDirection Direction)
 {
     if (AnimDirection == Direction) return;
+    if (DirectionalAnimations.find(Direction) == DirectionalAnimations.end()) return;
+    
     AnimDirection = Direction;
 
     Animations = DirectionalAnimations[AnimDirection];

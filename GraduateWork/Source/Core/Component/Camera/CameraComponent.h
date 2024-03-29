@@ -16,6 +16,10 @@ public:
     void UpdateZoom(float NewZoom);
     void UpdateRotation(float NewRotation);
 
+    void AddOffset(const Vector2& NewOffset);
+    void AddZoom(float NewZoom);
+    void AddRotation(float NewRotation);
+
     Camera2D GetCamera() const { return Camera; }
     
 protected:

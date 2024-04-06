@@ -43,29 +43,21 @@ void SpriteComponent::Start()
     ActorComponent::Start();
 }
 
-void SpriteComponent::SetTextureAllocator(ResourceAllocator<TextureResource>* NewTextureAllocator)
-{
-    TextureAllocator = NewTextureAllocator;
-}
-
 void SpriteComponent::Load(int Id)
 {
-    if (TextureAllocator && Id != -1 && Id != CurrentTextureID)
+    if (Id != -1 && Id != CurrentTextureID)
     {
         CurrentTextureID = Id;
-        Sprite = TextureAllocator->Get(Id)->Get();
+        Sprite = GetOwner()->GetContext()->TextureAllocator->Get(Id)->Get();
     }
 }
 
 void SpriteComponent::Load(const std::string& FilePath)
 {
-    if (TextureAllocator)
-    {
-        const int TextureID = TextureAllocator->Add(FilePath);
-        if (TextureID <= 0 || TextureID == CurrentTextureID) return;
+    const int TextureID = GetOwner()->GetContext()->TextureAllocator->Add(FilePath);
+    if (TextureID <= 0 || TextureID == CurrentTextureID) return;
         
-        Load(TextureID);
-    }
+    Load(TextureID);
 }
 
 Vector2 SpriteComponent::GetSpriteSize() const

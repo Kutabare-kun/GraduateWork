@@ -23,6 +23,9 @@ public:
     
     void Update(float DeltaTime) override;
 
+    Vector2 GetDirection() const { return LastDirection; }
+    Vector2 GetHeading() const { return Heading; }
+
     float GetSpeed() const { return Speed; }
 
     void SetSpeed(float NewSpeed) { Speed = NewSpeed; }
@@ -31,6 +34,8 @@ protected:
     float Speed = 0.0f;
 
 private:
+    Vector2 LastDirection = {};
+    Vector2 Heading = {};
     Vector2 Direction = {};
 
     std::shared_ptr<AnimationComponent> Animation;

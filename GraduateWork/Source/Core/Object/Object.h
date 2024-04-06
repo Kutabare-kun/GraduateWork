@@ -3,9 +3,11 @@
 #include <vector>
 #include <type_traits>
 
+#include "../Component/Collider/ColliderComponent.h"
 #include "../Component/Drawable/DrawableComponent.h"
 #include "../Component/InstanceID/InstanceIDComponent.h"
 #include "../Component/Transform/TransformComponent.h"
+#include "../Context/SharedContext/SharedContext.h"
 
 class Object
 {
@@ -31,6 +33,11 @@ public:
             DrawableComp = ThisDrawable;
         }
 
+        if (auto ThisCollider = std::dynamic_pointer_cast<ColliderComponent>(NewComponent); ThisCollider)
+        {
+            Collidables.push_back(ThisCollider);
+        }
+
         return NewComponent;
     }
 
@@ -52,81 +59,40 @@ public:
     }
 
 public:
-    explicit Object(const Vector2& Position = { 0.0f, 0.0f })
-    {
-        TransformComp = AddComponent<TransformComponent>(this, Position);
-        InstanceIDComp = AddComponent<InstanceIDComponent>(this);
-    }
-    
+    explicit Object(SharedContext* Context, const Vector2& Position = {0.0f, 0.0f});
+
     virtual ~Object() = default;
 
-    virtual void Awake()
-    {
-        for (auto& Component : Components)
-        {
-            Component->Awake();
-        }
-    }
+    virtual void Awake();
+    virtual void Start();
 
-    virtual void Start()
-    {
-        for (auto& Component : Components)
-        {
-            Component->Start();
-        }
-    }
-    
-    virtual void Update(float DeltaTime)
-    {
-        for (auto& Component : Components)
-        {
-            Component->Update(DeltaTime);
-        }
-    }
+    virtual void Update(float DeltaTime);
+    virtual void LateUpdate(float DeltaTime);
 
-    virtual void LateUpdate(float DeltaTime)
-    {
-        for (auto& Component : Components)
-        {
-            Component->LateUpdate(DeltaTime);
-        }
-    }
+    virtual void Draw();
 
-    virtual void Draw()
-    {
-        DrawableComp->Draw();
-    }
+    void OnCollisionBeginOverlap(std::shared_ptr<ColliderComponent> Other);
+    void OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other);
+    void OnCollisionEndOverlap(std::shared_ptr<ColliderComponent> Other);
 
-    bool IsQueuedForRemoval()
-    {
-        return bQueuedForRemoval;
-    }
-    
-    void QueueForRemoval()
-    {
-        bQueuedForRemoval = true;
-    }
+    bool IsQueuedForRemoval();
+    void QueueForRemoval();
 
-    std::shared_ptr<DrawableComponent> GetDrawable()
-    {
-        return DrawableComp;
-    }
+    std::shared_ptr<DrawableComponent> GetDrawable() { return DrawableComp; }
+    std::shared_ptr<TransformComponent> GetTransform() { return TransformComp; }
+    std::shared_ptr<InstanceIDComponent> GetInstanceID() { return InstanceIDComp; }
 
-    std::shared_ptr<TransformComponent> GetTransform()
-    {
-        return TransformComp;
-    }
-
-    std::shared_ptr<InstanceIDComponent> GetInstanceID()
-    {
-        return InstanceIDComp;
-    }
+    SharedContext* GetContext() { return Context; }
 
 protected:
-    bool bQueuedForRemoval = false;
+    bool bQueuedForRemoval;
+
+    SharedContext* Context;
+
     std::shared_ptr<TransformComponent> TransformComp;
     std::shared_ptr<DrawableComponent> DrawableComp;
     std::shared_ptr<InstanceIDComponent> InstanceIDComp;
-    
+
     std::vector<std::shared_ptr<ActorComponent>> Components;
+    std::vector<std::shared_ptr<ColliderComponent>> Collidables;
 };

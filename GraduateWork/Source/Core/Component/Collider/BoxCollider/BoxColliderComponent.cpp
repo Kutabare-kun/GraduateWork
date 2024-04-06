@@ -89,6 +89,18 @@ void BoxColliderComponent::SetSize(float Width, float Height)
     AABB.height = Height;
 }
 
+void BoxColliderComponent::OnCollisionBeginOverlap(std::shared_ptr<ColliderComponent> Other)
+{
+}
+
+void BoxColliderComponent::OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other)
+{
+}
+
+void BoxColliderComponent::OnCollisionEndOverlap(std::shared_ptr<ColliderComponent> Other)
+{
+}
+
 void BoxColliderComponent::SetCollidable(const Rectangle& NewRect)
 {
     AABB = NewRect;

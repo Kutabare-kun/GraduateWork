@@ -7,7 +7,7 @@ class Pawn
     : public Actor
 {
 public:
-    explicit Pawn(const Vector2& Position = {0.0f, 0.0f }, float Speed = 100.0f);
+    explicit Pawn(SharedContext* Context, const Vector2& Position = {0.0f, 0.0f }, float Speed = 100.0f);
 
     ~Pawn() override = default;
     

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "../../Allocator/ResourceAllocator.h"
+#include "../../Context/SharedContext/SharedContext.h"
 #include "../XML/rapidxml.hpp"
 
 class Object;
@@ -56,7 +57,7 @@ using namespace rapidxml;
 class TileMapParser
 {
 public:
-    TileMapParser(ResourceAllocator<TextureResource>& NewTextureAllocator);
+    TileMapParser(ResourceAllocator<TextureResource>& NewTextureAllocator, SharedContext& Context);
 
     std::vector<std::shared_ptr<Object>> Parse(const std::string& FilePath, const Vector2& Offset);
 
@@ -66,4 +67,5 @@ private:
     std::pair<std::string, std::shared_ptr<Layer>> BuildLayer(xml_node<>* LayerNode, const std::shared_ptr<TileSheets>& TileSheets);
 
     ResourceAllocator<TextureResource>& TextureAllocator;
+    SharedContext& Context;
 };

@@ -33,15 +33,15 @@ void Debug::DrawLine(const Vector2& Start, const Vector2& End, const Color& Colo
 
 void Debug::Log(const std::string& Message)
 {
-    std::cout << std::format("[LOG] {}\n", Message);
+    std::cout << std::format("[LOG] {}", Message) << std::endl;
 }
 
 void Debug::LogWarning(const std::string& Message)
 {
-    std::cout << std::format("[WARNING] {}\n", Message);
+    std::cout << std::format("[WARNING] {}", Message) << std::endl;
 }
 
 void Debug::LogError(const std::string& Message)
 {
-    std::cout << std::format("[ERROR] {}\n", Message);
+    std::cout << std::format("[ERROR] {}", Message) << std::endl;
 }

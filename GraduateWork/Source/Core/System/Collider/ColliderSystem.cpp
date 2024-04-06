@@ -3,7 +3,8 @@
 #include "../../StaticFunctions/Debug.h"
 #include "../../Window/Window.h"
 
-ColliderSystem::ColliderSystem()
+ColliderSystem::ColliderSystem(Quadtree& CollisionTree)
+    : CollisionTree(CollisionTree)
 {
     Bitmask DefaultCollision;
     DefaultCollision.SetBit((int)CollisionLayer::Default);
@@ -17,7 +18,6 @@ ColliderSystem::ColliderSystem()
     CollisionLayers.insert(std::make_pair(CollisionLayer::Player, PlayerCollision));
 
     const Vector2& ScreenSize = Window::GetInstance().GetScreenSize();
-    CollisionTree = std::make_unique<Quadtree>(5, 5, 0, Rectangle{0, 0, 16000, 16000}, nullptr);
 }
 
 void ColliderSystem::Add(std::vector<std::shared_ptr<Object>>& Objects)
@@ -65,13 +65,15 @@ void ColliderSystem::ProcessRemovals()
 }
 
 void ColliderSystem::Update()
-{    
-    CollisionTree->Clear();
+{
+    ProcessCollidingObjects();
+    
+    CollisionTree.Clear();
     for (auto [Layer, Colliders] : Collidables)
     {
         for (auto ColliderComp : Colliders)
         {
-            CollisionTree->Insert(ColliderComp);
+            CollisionTree.Insert(ColliderComp);
 
             Debug::GetInstance().DrawRectangle(ColliderComp->GetCollidable(), RED);
         }
@@ -79,7 +81,7 @@ void ColliderSystem::Update()
 
     Resolve();
 
-    CollisionTree->DrawDebug();
+    CollisionTree.DrawDebug();
 }
 
 void ColliderSystem::Resolve()
@@ -99,12 +101,12 @@ void ColliderSystem::Resolve()
             }
 
             std::vector<std::shared_ptr<BoxColliderComponent>> Collisions
-                = CollisionTree->Search(ColliderComp->GetCollidable());
+                = CollisionTree.Search(ColliderComp->GetCollidable());
 
             for (auto Collision : Collisions)
             {
-                if (Collision->GetOwner()->GetInstanceID()->GetInstanceID()
-                    == ColliderComp->GetOwner()->GetInstanceID()->GetInstanceID())
+                if (Collision->GetOwner()->GetInstanceID()->GetID()
+                    == ColliderComp->GetOwner()->GetInstanceID()->GetID())
                 {
                     continue;
                 }
@@ -116,7 +118,14 @@ void ColliderSystem::Resolve()
                     Manifold CollisionInfo = ColliderComp->Intersects(Collision);
                     
                     if (CollisionInfo.bColliding)
-                    {                        
+                    {
+                        auto CollisionPair = ObjectsColliding.emplace(std::make_pair(ColliderComp, Collision));
+                        if (CollisionPair.second)
+                        {
+                            ColliderComp->OnCollisionBeginOverlap(Collision);
+                            Collision->OnCollisionBeginOverlap(ColliderComp);
+                        }
+                        
                         if (Collision->GetOwner()->GetTransform()->IsStatic())
                         {
                             ColliderComp->ResolveCollision(CollisionInfo);
@@ -128,6 +137,45 @@ void ColliderSystem::Resolve()
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+void ColliderSystem::ProcessCollidingObjects()
+{
+    auto Iter = ObjectsColliding.begin();
+    while (Iter != ObjectsColliding.end())
+    {
+        auto Pair = *Iter;
+
+        std::shared_ptr<BoxColliderComponent> First = Pair.first;
+        std::shared_ptr<BoxColliderComponent> Second = Pair.second;
+
+        if (First->GetOwner()->IsQueuedForRemoval() || Second->GetOwner()->IsQueuedForRemoval())
+        {
+            First->GetOwner()->OnCollisionEndOverlap(Second);
+            Second->GetOwner()->OnCollisionEndOverlap(First);
+
+            Iter = ObjectsColliding.erase(Iter);
+        }
+        else
+        {
+            Manifold CollisionInfo = First->Intersects(Second);
+
+            if (!CollisionInfo.bColliding)
+            {
+                First->GetOwner()->OnCollisionEndOverlap(Second);
+                Second->GetOwner()->OnCollisionEndOverlap(First);
+
+                Iter = ObjectsColliding.erase(Iter);
+            }
+            else
+            {
+                First->GetOwner()->OnCollisionStayOverlap(Second);
+                Second->GetOwner()->OnCollisionStayOverlap(First);
+
+                ++Iter;
             }
         }
     }

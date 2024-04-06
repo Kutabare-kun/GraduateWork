@@ -2,10 +2,10 @@
 
 #include "../Object/Object.h"
 
-ObjectCollection::ObjectCollection()
+ObjectCollection::ObjectCollection(DrawableSystem& Drawables, ColliderSystem& Collidables)
+    : Drawables(Drawables)
+    , Collidables(Collidables)
 {
-    Drawables = std::make_unique<DrawableSystem>();
-    Collidables = std::make_unique<ColliderSystem>();
 }
 
 void ObjectCollection::AddObject(std::shared_ptr<Object> NewObject)
@@ -25,7 +25,7 @@ void ObjectCollection::Update(float DeltaTime)
         Element->Update(DeltaTime);
     }
 
-    Collidables->Update();
+    Collidables.Update();
 }
 
 void ObjectCollection::LateUpdate(float DeltaTime)
@@ -38,7 +38,7 @@ void ObjectCollection::LateUpdate(float DeltaTime)
 
 void ObjectCollection::Draw()
 {
-    Drawables->Draw();
+    Drawables.Draw();
 }
 
 void ObjectCollection::ProcessNewObjects()
@@ -57,8 +57,8 @@ void ObjectCollection::ProcessNewObjects()
 
     Objects.assign(NewObjects.begin(), NewObjects.end());
     
-    Drawables->Add(Objects);
-    Collidables->Add(Objects);
+    Drawables.Add(Objects);
+    Collidables.Add(Objects);
     
     NewObjects.clear();
 }
@@ -83,7 +83,7 @@ void ObjectCollection::ProcessRemovals()
 
     if (bRemoved)
     {
-        Drawables->ProcessRemovals();
-        Collidables->ProcessRemovals();
+        Drawables.ProcessRemovals();
+        Collidables.ProcessRemovals();
     }    
 }

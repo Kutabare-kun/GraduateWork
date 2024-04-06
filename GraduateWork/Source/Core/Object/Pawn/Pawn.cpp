@@ -1,8 +1,8 @@
 #include "Pawn.h"
 #include "../../Component/Movement/MovementComponent.h"
 
-Pawn::Pawn(const Vector2& Position, float Speed)
-    : Actor(Position)
+Pawn::Pawn(SharedContext* Context, const Vector2& Position, float Speed)
+    : Actor(Context, Position)
 {
     MovementComp = AddComponent<MovementComponent>(this, Speed);
 }

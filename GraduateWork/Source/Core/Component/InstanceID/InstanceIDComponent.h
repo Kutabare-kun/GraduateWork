@@ -8,9 +8,9 @@ public:
     InstanceIDComponent(Object* Owner);
     ~InstanceIDComponent() override;
 
-    int GetInstanceID() const;
+    unsigned int GetID() const;
 
 private:
-    static int InstanceCounter;
-    int InstanceID;
+    static unsigned int InstanceCounter;
+    unsigned int InstanceID;
 };

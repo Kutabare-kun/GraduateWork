@@ -10,8 +10,8 @@
 #include "../../StaticFunctions/Debug.h"
 #include "../../Utilities/Utilities.h"
 
-TileMapParser::TileMapParser(ResourceAllocator<TextureResource>& NewTextureAllocator)
-    : TextureAllocator(NewTextureAllocator)
+TileMapParser::TileMapParser(ResourceAllocator<TextureResource>& NewTextureAllocator, SharedContext& Context)
+    : TextureAllocator(NewTextureAllocator), Context(Context)
 {
 }
 
@@ -30,8 +30,6 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
 
     const int TileSizeX = std::atoi(RootNode->first_attribute("tilewidth")->value());
     const int TileSizeY = std::atoi(RootNode->first_attribute("tileheight")->value());
-    const int MapSizeX = std::atoi(RootNode->first_attribute("width")->value());
-    const int MapSizeY = std::atoi(RootNode->first_attribute("height")->value());
 
     std::vector<std::shared_ptr<Object>> TileObjects;
 
@@ -43,14 +41,13 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
         for (const auto& TileProperties : TileLayer.second->Tiles)
         {
             std::shared_ptr<TileInfo> TileInfoObj = TileProperties->Properties;
-            std::shared_ptr<Object> TileObject = std::make_shared<Object>();
+            std::shared_ptr<Object> TileObject = std::make_shared<Object>(&Context);
 
             constexpr unsigned TileScale = 4;
 
             if (TileLayer.second->bIsVisible)
             {
                 auto Sprite = TileObject->AddComponent<SpriteComponent>(TileObject.get());
-                Sprite->SetTextureAllocator(&TextureAllocator);
                 Sprite->Load(TextureID);
                 Sprite->SetTextureRect(TileInfoObj->TextureRect);
                 Sprite->SetSortOrder(LayerCount);
@@ -76,6 +73,8 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
                     static_cast<float>(TileSizeY * TileScale)
                 });
                 BoxColliderComp->SetLayer(CollisionLayer::Tile);
+                
+                Debug::GetInstance().Log(TextFormat("X: %d, Y: %d", TransformComp->GetOrigin().x, TransformComp->GetOrigin().y));
             }
             
             TileObjects.emplace_back(TileObject);
@@ -156,7 +155,6 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
     std::shared_ptr<Layer> LayerData = std::make_shared<Layer>();
 
     int Width = std::atoi(LayerNode->first_attribute("width")->value());
-    int Height = std::atoi(LayerNode->first_attribute("height")->value());
 
     xml_node<>* DataNode = LayerNode->first_node("data");
     char* MapIndices = DataNode->value();

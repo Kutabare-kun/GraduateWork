@@ -8,16 +8,28 @@
 #include "../../../Core/Directory/Directory.h"
 #include "../../../Core/Object/Pawn/Pawn.h"
 #include "../../../Core/StaticFunctions/Debug.h"
+#include "../../Components/InteractComponent/InteractComponent.h"
 
 SceneGame::SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>& NewTextureAllocator)
     : WorkingDirectory(NewDirectory), TextureAllocator(NewTextureAllocator)
 {
-    Objects = std::make_unique<ObjectCollection>();
-    MapParser = std::make_unique<TileMapParser>(TextureAllocator);
+    DrawableSys = std::make_unique<DrawableSystem>();
+    CollisionTree = std::make_unique<Quadtree>(5, 5, 0, Rectangle{0, 0, 16000, 16000}, nullptr);
+    ColliderSys = std::make_unique<ColliderSystem>(*CollisionTree);
+    RaycastSys = std::make_unique<Raycast>(*CollisionTree);
+    
+    Objects = std::make_unique<ObjectCollection>(*DrawableSys, *ColliderSys);
+    MapParser = std::make_unique<TileMapParser>(TextureAllocator, Context);
 }
 
 void SceneGame::OnCreate()
 {
+    // Make SharedContext
+    Context.Objects = Objects.get();
+    Context.TextureAllocator = &TextureAllocator;
+    Context.RaycastSys = RaycastSys.get();
+    // ~Make SharedContext
+    
     Vector2 MapOffset = {0.0f, 0.0f};
     std::vector<std::shared_ptr<Object>> LevelTiles = MapParser->Parse(WorkingDirectory.GetMap("TestMap.tmx"),
                                                                        MapOffset);
@@ -27,12 +39,13 @@ void SceneGame::OnCreate()
     {
         auto Sprite = Object->GetComponent<SpriteComponent>();
         if (!Sprite) return;
-
-        Sprite->SetTextureAllocator(&TextureAllocator);
+        
         Sprite->SetDrawLayer(Layer);
     };
 
-    auto Player = Objects->CreateObject<Pawn>(Vector2{0.0f, 0.0f}, 200.0f);
+    auto Player = Objects->CreateObject<Pawn>(&Context, Vector2{0.0f, 0.0f}, 200.0f);
+    Player->AddComponent<InteractComponent>(Player.get());
+    
     PlayerMovement = Player->GetComponent<MovementComponent>();
     auto PlayerAnimation = Player->GetComponent<AnimationComponent>();
     InitSpriteAllocator(Player.get(), DrawLayer::Entities);

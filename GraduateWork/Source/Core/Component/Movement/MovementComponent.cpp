@@ -22,18 +22,22 @@ void MovementComponent::InputValue(float Value, const Vector2& Direction)
     if (this->Direction.x > 0.0f)
     {
         Animation->SetAnimationDirection(FacingDirection::Right);
+        Heading = {1.0f, 0.0f};
     }
     else if (this->Direction.x < 0.0f)
     {
         Animation->SetAnimationDirection(FacingDirection::Left);
+        Heading = {-1.0f, 0.0f};
     }
     else if (this->Direction.y > 0.0f)
     {
         Animation->SetAnimationDirection(FacingDirection::Down);
+        Heading = {0.0f, 1.0f};
     }
     else if (this->Direction.y < 0.0f)
     {
         Animation->SetAnimationDirection(FacingDirection::Up);
+        Heading = {0.0f, -1.0f};
     }
 }
 
@@ -61,5 +65,7 @@ void MovementComponent::Update(float DeltaTime)
     auto OwnerTransform = GetOwner()->GetTransform();
     OwnerTransform->AddPosition(Velocity);
 
+    if (Vector2Length(Direction) > 0.0f)
+        LastDirection = Direction;
     Direction = Vector2Zero();
 }

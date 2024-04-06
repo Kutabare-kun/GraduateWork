@@ -60,8 +60,8 @@ void Quadtree::Remove(std::shared_ptr<BoxColliderComponent> Object)
     {
         for (int Index = 0; Index < Objects.size(); ++Index)
         {
-            if (Objects.at(Index)->GetOwner()->GetInstanceID()->GetInstanceID() == Object->
-                GetOwner()->GetInstanceID()->GetInstanceID())
+            if (Objects.at(Index)->GetOwner()->GetInstanceID()->GetID() == Object->
+                GetOwner()->GetInstanceID()->GetID())
             {
                 Objects.erase(Objects.begin() + Index);
                 break;

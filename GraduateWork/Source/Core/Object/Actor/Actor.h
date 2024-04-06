@@ -12,7 +12,7 @@ class Actor
 {
 public:
     // Constructor
-    Actor(const Vector2& Position);
+    Actor(SharedContext* Context, const Vector2& Position);
 
     // Destructor
     ~Actor() override = default;

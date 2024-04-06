@@ -2,8 +2,8 @@
 #include "../../Component/Sprite/SpriteComponent.h"
 #include "../../Component/Animation/AnimationComponent.h"
 
-Actor::Actor(const Vector2& Position)
-    : Object(Position)
+Actor::Actor(SharedContext* Context, const Vector2& Position)
+    : Object(Context, Position)
 {
     SpriteComp = AddComponent<SpriteComponent>(this, WHITE);
     AnimationComp = AddComponent<AnimationComponent>(this);

@@ -22,7 +22,7 @@ public:
     }
 
 public:
-    ObjectCollection();
+    ObjectCollection(DrawableSystem& Drawables, ColliderSystem& Collidables);
 
     void AddObject(std::shared_ptr<Object> NewObject);
     void AddObject(std::vector<std::shared_ptr<Object>>& Objects);
@@ -38,6 +38,6 @@ private:
     std::vector<std::shared_ptr<Object>> Objects;
     std::vector<std::shared_ptr<Object>> NewObjects;
 
-    std::unique_ptr<DrawableSystem> Drawables;
-    std::unique_ptr<ColliderSystem> Collidables;
+    DrawableSystem& Drawables;
+    ColliderSystem& Collidables;
 };

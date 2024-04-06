@@ -24,6 +24,10 @@ public:
     ColliderComponent(Object* Owner);
     ~ColliderComponent() override;
 
+    virtual void OnCollisionBeginOverlap(std::shared_ptr<ColliderComponent> Other) = 0;
+    virtual void OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other) = 0;
+    virtual void OnCollisionEndOverlap(std::shared_ptr<ColliderComponent> Other) = 0;
+
     virtual Manifold Intersects(std::shared_ptr<ColliderComponent> Other) = 0;
     virtual void ResolveCollision(const Manifold& Collision) = 0;
 

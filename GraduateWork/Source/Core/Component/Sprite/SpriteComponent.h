@@ -24,8 +24,6 @@ public:
 
     bool ContinueToDraw() const override;
 
-    void SetTextureAllocator(ResourceAllocator<TextureResource>* NewTextureAllocator);
-
     void Load(int Id);
     void Load(const std::string& FilePath);
 
@@ -45,6 +43,4 @@ private:
     Color Tint;
 
     int CurrentTextureID = -1;
-
-    ResourceAllocator<TextureResource>* TextureAllocator = nullptr;
 };

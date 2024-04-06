@@ -16,6 +16,10 @@ public:
     void SetSize(const Vector2& NewSize);
     void SetSize(float Width, float Height);
 
+    void OnCollisionBeginOverlap(std::shared_ptr<ColliderComponent> Other) override;
+    void OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other) override;
+    void OnCollisionEndOverlap(std::shared_ptr<ColliderComponent> Other) override;
+
     void SetCollidable(const Rectangle& NewRect);
     const Rectangle& GetCollidable();
 

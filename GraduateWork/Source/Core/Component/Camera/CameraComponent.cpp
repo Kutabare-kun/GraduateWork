@@ -10,8 +10,6 @@ CameraComponent::CameraComponent(class Actor* NewOwner)
     : ActorComponent(NewOwner, true),
     Camera({})
 {
-    Vector2 ScreenSize = Window::GetInstance().GetScreenSize();
-    Camera.offset = {ScreenSize.x / 2.0f, ScreenSize.y / 2.0f};
     Camera.zoom = 1.0f;
 }
 
@@ -19,8 +17,10 @@ void CameraComponent::Update(float DeltaTime)
 {
     ActorComponent::Update(DeltaTime);
 
-    Rectangle Rect = static_cast<Actor*>(GetOwner())->GetActorRectangle();
-    Camera.target = {Rect.x, Rect.y};
+    const Rectangle Rect = static_cast<Actor*>(GetOwner())->GetActorRectangle();
+    const Vector2 ScreenSize = Window::GetInstance().GetScreenSize();
+    Camera.offset = {ScreenSize.x / 2.0f, ScreenSize.y / 2.0f};
+    Camera.target = { Rect.x, Rect.y };
 }
 
 void CameraComponent::UpdateOffset(const Vector2& NewOffset)
@@ -30,7 +30,6 @@ void CameraComponent::UpdateOffset(const Vector2& NewOffset)
 
 void CameraComponent::UpdateZoom(float NewZoom)
 {
-    Debug::GetInstance().Log(TextFormat("Camera Zoom: Before %f, After %f", Camera.zoom, NewZoom));
     Camera.zoom = NewZoom;
 }
 

@@ -5,6 +5,8 @@
 #include "../../../Core/Collection/ObjectCollection.h"
 #include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Parser/TileMapParser/TileMapParser.h"
+#include "../../../Core/Timer/Manager/TimerManager.h"
+#include "../../../Core/UI/HUD/HUD.h"
 
 class MovementComponent;
 class TextureResource;
@@ -39,4 +41,7 @@ private:
     std::unique_ptr<ColliderSystem> ColliderSys;
     std::unique_ptr<Quadtree> CollisionTree;
     std::unique_ptr<Raycast> RaycastSys;
+    std::unique_ptr<TimerManager> TimerManagerSys;
+
+    std::shared_ptr<HUD> PlayerHUD;
 };

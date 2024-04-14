@@ -8,6 +8,8 @@
 #include "../Component/InstanceID/InstanceIDComponent.h"
 #include "../Component/Transform/TransformComponent.h"
 #include "../Context/SharedContext/SharedContext.h"
+#include "../../Game/Components/Interactable/InteractableComponent.h"
+#include "../../Game/Components/Interact/InteractComponent.h"
 
 class Object
 {
@@ -49,13 +51,28 @@ public:
         // Check that we don't already have a component of this type.
         for (auto& ExistingComponent : Components)
         {
-            if (std::dynamic_pointer_cast<Type>(ExistingComponent))
+            if (auto Element = std::dynamic_pointer_cast<Type>(ExistingComponent); Element)
             {
-                return std::dynamic_pointer_cast<Type>(ExistingComponent);
+                return Element;
             }
         }
 
         return nullptr;
+    }
+
+    template <typename Type>
+    std::vector<std::shared_ptr<Type>> GetComponents()
+    {
+        std::vector<std::shared_ptr<Type>> MatchingComponents;
+        for (auto& ExistingComponent : Components)
+        {
+            if (auto Element = std::dynamic_pointer_cast<Type>(ExistingComponent); Element)
+            {
+                MatchingComponents.emplace_back(Element);
+            }
+        }
+
+        return MatchingComponents;
     }
 
 public:
@@ -78,11 +95,14 @@ public:
     bool IsQueuedForRemoval();
     void QueueForRemoval();
 
-    std::shared_ptr<DrawableComponent> GetDrawable() { return DrawableComp; }
-    std::shared_ptr<TransformComponent> GetTransform() { return TransformComp; }
-    std::shared_ptr<InstanceIDComponent> GetInstanceID() { return InstanceIDComp; }
+    std::shared_ptr<DrawableComponent> GetDrawable() const { return DrawableComp; }
+    std::shared_ptr<TransformComponent> GetTransform() const { return TransformComp; }
+    std::shared_ptr<InstanceIDComponent> GetInstanceID() const { return InstanceIDComp; }
 
-    SharedContext* GetContext() { return Context; }
+    SharedContext* GetContext() const { return Context; }
+    std::string GetName() const { return Name + std::to_string(InstanceIDComp->GetID()); }
+
+    void SetName(const std::string& NewName) { Name = NewName; }
 
 protected:
     bool bQueuedForRemoval;
@@ -95,4 +115,6 @@ protected:
 
     std::vector<std::shared_ptr<ActorComponent>> Components;
     std::vector<std::shared_ptr<ColliderComponent>> Collidables;
+
+    std::string Name;
 };

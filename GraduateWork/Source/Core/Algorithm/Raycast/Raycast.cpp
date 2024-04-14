@@ -19,7 +19,7 @@ RaycastResult Raycast::Cast(const Vector2& From, const Vector2& To, int Exclusio
     }
 
     Rectangle CollisionArea = BuildRectangle(From, To);
-    Debug::GetInstance().DrawRectangle(CollisionArea, RED);
+    // Debug::GetInstance().DrawRectangle(CollisionArea, RED);
 
     std::vector<std::shared_ptr<BoxColliderComponent>> Entities = Quadtree.Search(CollisionArea);
     if (Entities.empty())
@@ -55,28 +55,6 @@ Rectangle Raycast::BuildRectangle(const Vector2& LineStart, const Vector2& LineE
     
     float Left, Top, Width, Height;
 
-    // if (LineStart.x < LineEnd.x)
-    // {
-    //     Left = LineStart.x;
-    //     Width = LineEnd.x - LineStart.x;
-    // }
-    // else
-    // {
-    //     Left = LineEnd.x;
-    //     Width = LineStart.x - LineEnd.x;
-    // }
-    //
-    // if (LineStart.y < LineEnd.y)
-    // {
-    //     Top = LineStart.y;
-    //     Height = LineEnd.y - LineStart.y;
-    // }
-    // else
-    // {
-    //     Top = LineEnd.y;
-    //     Height = LineStart.y - LineEnd.y;
-    // }
-
     if (LineStart.x == LineEnd.x)
     {
         Left = LineStart.x - HalfWidth;
@@ -99,12 +77,11 @@ std::vector<Vector2> Raycast::BuildLinePoints(const Vector2& From, const Vector2
 {
     std::vector<Vector2> Result;
 
-    Vector2 Difference = Vector2Subtract(To, From);
+    const Vector2 Difference = Vector2Subtract(To, From);
+    const float AbsDifferenceX = fabsf(Difference.x);
+    const float AbsDifferenceY = fabsf(Difference.y);
+
     int Steps{};
-
-    float AbsDifferenceX = fabsf(Difference.x);
-    float AbsDifferenceY = fabsf(Difference.y);
-
     if (AbsDifferenceX > AbsDifferenceY)
     {
         Steps = static_cast<int>(AbsDifferenceX);

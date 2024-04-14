@@ -27,7 +27,7 @@ void AnimationComponent::Update(float DeltaTime)
 {
     ActorComponent::Update(DeltaTime);
 
-    if (!Sprite) return;
+    if (!Sprite || !CurrentAnimation.second) return;
     if (!CurrentAnimation.second->UpdateFrame(DeltaTime)) return;
     
     UpdateSprite();

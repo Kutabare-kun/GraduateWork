@@ -28,6 +28,9 @@ public:
 
     float GetSpeed() const { return Speed; }
 
+    bool IsEnabled() const { return bIsEnabled; }
+    void SetEnabled(bool bNewEnabled) { bIsEnabled = bNewEnabled; }
+
     void SetSpeed(float NewSpeed) { Speed = NewSpeed; }
 
 protected:
@@ -37,6 +40,8 @@ private:
     Vector2 LastDirection = {};
     Vector2 Heading = {};
     Vector2 Direction = {};
+
+    bool bIsEnabled;
 
     std::shared_ptr<AnimationComponent> Animation;
 };

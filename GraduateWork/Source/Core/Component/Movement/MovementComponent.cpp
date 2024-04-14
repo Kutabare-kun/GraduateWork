@@ -7,12 +7,12 @@
 #include "../Animation/AnimationComponent.h"
 
 MovementComponent::MovementComponent(Object* NewOwner)
-    : ActorComponent(NewOwner, true)
+    : ActorComponent(NewOwner, true), bIsEnabled(true)
 {}
 
 MovementComponent::MovementComponent(Object* NewOwner, float NewSpeed)
     : ActorComponent(NewOwner, true),
-    Speed(NewSpeed)
+    Speed(NewSpeed), bIsEnabled(true)
 {}
 
 void MovementComponent::InputValue(float Value, const Vector2& Direction)

@@ -3,6 +3,7 @@
 #include "../../../Core/Algorithm/Raycast/Raycast.h"
 #include "../../../Core/Object/Object.h"
 #include "../../../Core/Component/Movement/MovementComponent.h"
+#include "../../../Core/Interface/Iteractable/IInteractable.h"
 #include "../../../Core/StaticFunctions/Debug.h"
 
 InteractComponent::InteractComponent(Object* Owner)
@@ -25,8 +26,14 @@ void InteractComponent::Update(float DeltaTime)
     const Vector2 StartPosition = GetOwner()->GetTransform()->GetPosition();
     const Vector2 EndPosition = {StartPosition.x + HeadingVector.x * InteractDistance, StartPosition.y + HeadingVector.y * InteractDistance};
 
-    RaycastResult Result = GetOwner()->GetContext()->RaycastSys->Cast(StartPosition, EndPosition, GetOwner()->GetInstanceID()->GetID());
+    const RaycastResult Result = GetOwner()->GetContext()->RaycastSys->Cast(StartPosition, EndPosition, GetOwner()->GetInstanceID()->GetID());
 
     if (Result.Collision)
-        Debug::GetInstance().Log(TextFormat("Object hit: %d", Result.Collision->GetInstanceID()->GetID()));
+    {
+        const auto Interactables = Result.Collision->GetComponents<IInteractable>();
+        for (const auto& Interface : Interactables)
+        {
+            Interface->OnInteraction(GetOwner());
+        }
+    }
 }

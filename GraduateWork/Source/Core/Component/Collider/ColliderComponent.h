@@ -8,7 +8,9 @@ enum class CollisionLayer
 {
     Default = 1,    // Bitmask 0001
     Player  = 2,    // Bitmask 0010
-    Tile   = 3,    // Bitmask 0011
+    Tile    = 3,    // Bitmask 0011
+    Enemy   = 4,    // Bitmask 0100
+    NPC     = 5,    // Bitmask 0101
 };
 
 struct Manifold

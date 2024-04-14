@@ -3,7 +3,10 @@
 
 int main(int Argc, char* Argv[])
 {
-    Window::GetInstance().Init({1200, 800}, "Graduate Work");
+    Window::GetInstance().Init(
+        {1200.0f, 800.0f},//{static_cast<float>(GetScreenWidth()), static_cast<float>(GetScreenHeight())},
+        "Graduate Work"
+    );
 
     SetTargetFPS(3000);
 
@@ -15,11 +18,11 @@ int main(int Argc, char* Argv[])
         MyGame.Update();
         MyGame.LateUpdate();
         MyGame.Draw();
-        
+
         MyGame.UpdateDeltaTime(GetFrameTime());
     }
 
     CloseWindow();
-    
+
     return 0;
 }

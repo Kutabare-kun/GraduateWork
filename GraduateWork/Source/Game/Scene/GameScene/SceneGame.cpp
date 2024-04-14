@@ -6,9 +6,9 @@
 #include "../../../Core/Resource/Texture/TextureResource.h"
 #include "../../../Core/Component/Sprite/SpriteComponent.h"
 #include "../../../Core/Directory/Directory.h"
-#include "../../../Core/Object/Pawn/Pawn.h"
 #include "../../../Core/StaticFunctions/Debug.h"
-#include "../../Components/InteractComponent/InteractComponent.h"
+#include "../../Actors/Player/Player.h"
+#include "../../Actors/Trader/Trader.h"
 
 SceneGame::SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>& NewTextureAllocator)
     : WorkingDirectory(NewDirectory), TextureAllocator(NewTextureAllocator)
@@ -17,6 +17,7 @@ SceneGame::SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>
     CollisionTree = std::make_unique<Quadtree>(5, 5, 0, Rectangle{0, 0, 16000, 16000}, nullptr);
     ColliderSys = std::make_unique<ColliderSystem>(*CollisionTree);
     RaycastSys = std::make_unique<Raycast>(*CollisionTree);
+    TimerManagerSys = std::make_unique<TimerManager>();
     
     Objects = std::make_unique<ObjectCollection>(*DrawableSys, *ColliderSys);
     MapParser = std::make_unique<TileMapParser>(TextureAllocator, Context);
@@ -28,6 +29,7 @@ void SceneGame::OnCreate()
     Context.Objects = Objects.get();
     Context.TextureAllocator = &TextureAllocator;
     Context.RaycastSys = RaycastSys.get();
+    Context.TimerManagerSys = TimerManagerSys.get();
     // ~Make SharedContext
     
     Vector2 MapOffset = {0.0f, 0.0f};
@@ -35,68 +37,12 @@ void SceneGame::OnCreate()
                                                                        MapOffset);
     Objects->AddObject(LevelTiles);
 
-    auto InitSpriteAllocator = [this](Object* Object, DrawLayer Layer)
-    {
-        auto Sprite = Object->GetComponent<SpriteComponent>();
-        if (!Sprite) return;
-        
-        Sprite->SetDrawLayer(Layer);
-    };
+    auto _Player = Objects->CreateObject<Player>(&Context, Vector2{0.0f, 0.0f}, 200.0f);
+    PlayerMovement = _Player->GetMovement();
+    Camera = _Player->GetCamera();
+    PlayerHUD = _Player->GetHUD();
 
-    auto Player = Objects->CreateObject<Pawn>(&Context, Vector2{0.0f, 0.0f}, 200.0f);
-    Player->AddComponent<InteractComponent>(Player.get());
-    
-    PlayerMovement = Player->GetComponent<MovementComponent>();
-    auto PlayerAnimation = Player->GetComponent<AnimationComponent>();
-    InitSpriteAllocator(Player.get(), DrawLayer::Entities);
-
-    const int RightVikingTextureID = TextureAllocator.Add(WorkingDirectory.GetTexture("RightViking.png"));
-    const int LeftVikingTextureID = TextureAllocator.Add(WorkingDirectory.GetTexture("LeftViking.png"));
-
-    constexpr int FrameWidth = 165;
-    constexpr int FrameHeight = 145;
-
-    std::shared_ptr<Animation> RightIdleAnimation = std::make_shared<Animation>();
-    constexpr float RightIdleAnimFrameTime = 0.2f;
-    RightIdleAnimation->AddFrame(RightVikingTextureID, 600, 0, FrameWidth, FrameHeight, RightIdleAnimFrameTime);
-    RightIdleAnimation->AddFrame(RightVikingTextureID, 800, 0, FrameWidth, FrameHeight, RightIdleAnimFrameTime);
-    RightIdleAnimation->AddFrame(RightVikingTextureID, 0, 145, FrameWidth, FrameHeight, RightIdleAnimFrameTime);
-    RightIdleAnimation->AddFrame(RightVikingTextureID, 200, 0, FrameWidth, FrameHeight, RightIdleAnimFrameTime);
-    PlayerAnimation->AddAnimation(FacingDirection::Right, AnimationState::Idle, RightIdleAnimation);
-
-    std::shared_ptr<Animation> RightWalkAnimation = std::make_shared<Animation>();
-    constexpr float RightWalkAnimFrameTime = 0.15f;
-    RightWalkAnimation->AddFrame(RightVikingTextureID, 600, 290, FrameWidth, FrameHeight, RightWalkAnimFrameTime);
-    RightWalkAnimation->AddFrame(RightVikingTextureID, 800, 290, FrameWidth, FrameHeight, RightWalkAnimFrameTime);
-    RightWalkAnimation->AddFrame(RightVikingTextureID, 0, 435, FrameWidth, FrameHeight, RightWalkAnimFrameTime);
-    RightWalkAnimation->AddFrame(RightVikingTextureID, 200, 435, FrameWidth, FrameHeight, RightWalkAnimFrameTime);
-    RightWalkAnimation->AddFrame(RightVikingTextureID, 400, 435, FrameWidth, FrameHeight, RightWalkAnimFrameTime);
-    PlayerAnimation->AddAnimation(FacingDirection::Right, AnimationState::Walk, RightWalkAnimation);
-
-    std::shared_ptr<Animation> LeftIdleAnimation = std::make_shared<Animation>();
-    const float LeftIdleAnimFrameTime = 0.2f;
-    LeftIdleAnimation->AddFrame(LeftVikingTextureID, 600, 0, FrameWidth, FrameHeight, LeftIdleAnimFrameTime);
-    LeftIdleAnimation->AddFrame(LeftVikingTextureID, 800, 0, FrameWidth, FrameHeight, LeftIdleAnimFrameTime);
-    LeftIdleAnimation->AddFrame(LeftVikingTextureID, 0, 145, FrameWidth, FrameHeight, LeftIdleAnimFrameTime);
-    LeftIdleAnimation->AddFrame(LeftVikingTextureID, 200, 0, FrameWidth, FrameHeight, LeftIdleAnimFrameTime);
-    PlayerAnimation->AddAnimation(FacingDirection::Left, AnimationState::Idle, LeftIdleAnimation);
-
-    std::shared_ptr<Animation> LeftWalkAnimation = std::make_shared<Animation>();
-    const float LeftWalkAnimFrameTime = 0.15f;
-    LeftWalkAnimation->AddFrame(LeftVikingTextureID, 600, 290, FrameWidth, FrameHeight, LeftWalkAnimFrameTime);
-    LeftWalkAnimation->AddFrame(LeftVikingTextureID, 800, 290, FrameWidth, FrameHeight, LeftWalkAnimFrameTime);
-    LeftWalkAnimation->AddFrame(LeftVikingTextureID, 0, 435, FrameWidth, FrameHeight, LeftWalkAnimFrameTime);
-    LeftWalkAnimation->AddFrame(LeftVikingTextureID, 200, 435, FrameWidth, FrameHeight, LeftWalkAnimFrameTime);
-    LeftWalkAnimation->AddFrame(LeftVikingTextureID, 400, 435, FrameWidth, FrameHeight, LeftWalkAnimFrameTime);
-    PlayerAnimation->AddAnimation(FacingDirection::Left, AnimationState::Walk, LeftWalkAnimation);
-
-    auto Collider = Player->AddComponent<BoxColliderComponent>(Player.get());
-    Collider->SetSize(FrameWidth * 0.4f, FrameHeight * 0.4f);
-    Collider->SetOffset(0.0f, 14.0f);
-    Collider->SetLayer(CollisionLayer::Player);
-
-    Camera = Player->AddComponent<CameraComponent>(Player.get());
-    Camera->UpdateZoom(0.5f);
+    Objects->CreateObject<Trader>(&Context, Vector2{200.0f, 200.0f});
 }
 
 void SceneGame::OnDestroy()
@@ -105,7 +51,7 @@ void SceneGame::OnDestroy()
 
 void SceneGame::ProcessInput()
 {
-    if (!PlayerMovement) return;
+    if (!PlayerMovement || !PlayerMovement->IsEnabled()) return;
 
     Vector2 PlayerInput = {0, 0};
 
@@ -129,6 +75,8 @@ void SceneGame::ProcessInput()
 
 void SceneGame::Update(float DeltaTime)
 {
+    TimerManagerSys->Update(DeltaTime);
+    
     Objects->ProcessRemovals();
     Objects->ProcessNewObjects();
 
@@ -138,6 +86,10 @@ void SceneGame::Update(float DeltaTime)
 void SceneGame::LateUpdate(float DeltaTime)
 {
     Objects->LateUpdate(DeltaTime);
+
+    // Update UI
+    PlayerHUD->Update(DeltaTime);
+    // ~Update UI
 }
 
 void SceneGame::Draw()
@@ -149,4 +101,6 @@ void SceneGame::Draw()
     Debug::GetInstance().Draw();
 
     EndMode2D();
+
+    PlayerHUD->Draw();
 }

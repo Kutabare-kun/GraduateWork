@@ -13,8 +13,10 @@ public:
 
     const Vector2& GetScreenSize() const;
     const std::string& GetTitle() const;
+
+    void FlipFullscreen();
+    void FlipBorderless();
     
 private:
-    Vector2 ScreenSize;
     std::string Title;
 };

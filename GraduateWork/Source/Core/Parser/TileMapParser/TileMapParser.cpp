@@ -73,8 +73,6 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
                     static_cast<float>(TileSizeY * TileScale)
                 });
                 BoxColliderComp->SetLayer(CollisionLayer::Tile);
-                
-                Debug::GetInstance().Log(TextFormat("X: %d, Y: %d", TransformComp->GetOrigin().x, TransformComp->GetOrigin().y));
             }
             
             TileObjects.emplace_back(TileObject);

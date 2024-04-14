@@ -32,6 +32,9 @@ public:
     // Return rectangle of actor
     Rectangle GetActorRectangle() const;
 
+    std::shared_ptr<SpriteComponent> GetSprite() const { return SpriteComp; }
+    std::shared_ptr<AnimationComponent> GetAnimation() const { return AnimationComp; }
+
 protected:
     std::shared_ptr<SpriteComponent> SpriteComp;
     std::shared_ptr<AnimationComponent> AnimationComp;

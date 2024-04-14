@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Allocator/ResourceAllocator.h"
 
+class TimerManager;
 class Raycast;
 class ObjectCollection;
 
@@ -10,4 +11,5 @@ public:
     ObjectCollection* Objects;
     ResourceAllocator<TextureResource>* TextureAllocator;
     Raycast* RaycastSys;
+    TimerManager* TimerManagerSys;
 };

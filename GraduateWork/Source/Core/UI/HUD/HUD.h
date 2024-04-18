@@ -1,14 +1,21 @@
 #pragma once
 #include "../UIObject.h"
 #include "../../Object/Object.h"
+#include "../Button/Button.h"
+#include "../Panel/Panel.h"
+#include "../../../Game/UI/Widget/GameUI/WidgetGameUI.h"
 
 class HUD
 {
 public:
-    template<typename Type>
-    std::shared_ptr<Type> AddWidget(Object* Owner)
+    template<typename Type = UIObject>
+    std::shared_ptr<Type> AddWidget(Object* Owner, const Rectangle& Bounds, UIObject* Parent = nullptr, Alignment HorizontalAlignment = Alignment::None)
     {
-        auto Widget = Widgets.emplace_back<Type>(Owner);
+        std::shared_ptr<Type> Widget = std::make_shared<Type>(Owner, Bounds, Parent, HorizontalAlignment);
+        
+        auto WidgetPtr = std::dynamic_pointer_cast<UIObject>(Widget);
+        Widgets.push_back(WidgetPtr);
+        
         return Widget;
     }
 

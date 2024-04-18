@@ -186,7 +186,6 @@
       <AdditionalIncludeDirectories>;C:\vcpkg\installed\x64-windows\include</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="Source\Core\Object\Object.cpp" />
-    <ClCompile Include="Source\Core\Object\Pawn\Pawn.cpp" />
     <ClCompile Include="Source\Core\Parser\TileMapParser\TileMapParser.cpp" />
     <ClCompile Include="Source\Core\Resource\Texture\TextureResource.cpp" />
     <ClCompile Include="Source\Core\SceneManager\SceneStateMachine.cpp" />
@@ -195,6 +194,7 @@
     <ClCompile Include="Source\Core\System\Drawable\DrawableSystem.cpp" />
     <ClCompile Include="Source\Core\Timer\Manager\TimerManager.cpp" />
     <ClCompile Include="Source\Core\Timer\Timer.cpp" />
+    <ClCompile Include="Source\Core\UI\Button\Button.cpp" />
     <ClCompile Include="Source\Core\UI\HUD\HUD.cpp" />
     <ClCompile Include="Source\Core\UI\Panel\Panel.cpp" />
     <ClCompile Include="Source\Core\UI\Text\Text.cpp" />
@@ -208,6 +208,7 @@
     <ClCompile Include="Source\Game\Scene\GameScene\SceneGame.cpp" />
     <ClCompile Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.cpp" />
     <ClCompile Include="Source\Game\UI\HUD\PlayerHUD\PlayerHUD.cpp" />
+    <ClCompile Include="Source\Game\UI\Widget\GameUI\WidgetGameUI.cpp" />
     <ClCompile Include="Source\GraduateWork.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -235,7 +236,6 @@
     <ClInclude Include="Source\Core\Interface\Iteractable\IInteractable.h" />
     <ClInclude Include="Source\Core\Object\Actor\Actor.h" />
     <ClInclude Include="Source\Core\Object\Object.h" />
-    <ClInclude Include="Source\Core\Object\Pawn\Pawn.h" />
     <ClInclude Include="Source\Core\Parser\TileMapParser\TileMapParser.h" />
     <ClInclude Include="Source\Core\Parser\XML\rapidxml.hpp" />
     <ClInclude Include="Source\Core\Parser\XML\rapidxml_iterators.hpp" />
@@ -251,6 +251,7 @@
     <ClInclude Include="Source\Core\System\Drawable\DrawableSystem.h" />
     <ClInclude Include="Source\Core\Timer\Manager\TimerManager.h" />
     <ClInclude Include="Source\Core\Timer\Timer.h" />
+    <ClInclude Include="Source\Core\UI\Button\Button.h" />
     <ClInclude Include="Source\Core\UI\HUD\HUD.h" />
     <ClInclude Include="Source\Core\UI\Panel\Panel.h" />
     <ClInclude Include="Source\Core\UI\Text\Text.h" />
@@ -265,6 +266,7 @@
     <ClInclude Include="Source\Game\Scene\GameScene\SceneGame.h" />
     <ClInclude Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.h" />
     <ClInclude Include="Source\Game\UI\HUD\PlayerHUD\PlayerHUD.h" />
+    <ClInclude Include="Source\Game\UI\Widget\GameUI\WidgetGameUI.h" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Game\Actors\Enemy\" />

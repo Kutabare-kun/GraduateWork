@@ -35,7 +35,7 @@ public:
     }
     
 public:
-    Panel(Object* Owner, const Rectangle& Bounds, std::shared_ptr<UIObject>&& Parent = nullptr, Alignment HorizontalAlignment = Alignment::None);
+    Panel(Object* Owner, const Rectangle& Bounds, UIObject* Parent = nullptr, Alignment HorizontalAlignment = Alignment::None);
     
     void Awake() override;
     void Update(float DeltaTime) override;

@@ -1,7 +1,7 @@
 #include "Panel.h"
 
-Panel::Panel(Object* Owner, const Rectangle& Bounds, std::shared_ptr<UIObject>&& Parent, Alignment HorizontalAlignment)
-    : UIObject(Owner, Bounds, std::move(Parent), HorizontalAlignment)
+Panel::Panel(Object* Owner, const Rectangle& Bounds, UIObject* Parent, Alignment HorizontalAlignment)
+    : UIObject(Owner, Bounds, Parent, HorizontalAlignment)
 {
 }
 
@@ -17,6 +17,8 @@ void Panel::Awake()
 
 void Panel::Update(float DeltaTime)
 {
+    UIObject::Update(DeltaTime);
+    
     for (auto& Element : Children)
     {
         Element->Update(DeltaTime);

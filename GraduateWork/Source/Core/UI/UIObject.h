@@ -8,23 +8,24 @@ enum class Alignment
     None,
     Left,
     Center,
-    Right
+    Right,
+    Full,
 };
 
 class UIObject
 {
 public:
-    UIObject(Object* Owner, const Rectangle& Bounds, std::shared_ptr<UIObject>&& Parent = nullptr, Alignment HorizontalAlignment = Alignment::None);
+    UIObject(Object* Owner, const Rectangle& Bounds, UIObject* Parent = nullptr, Alignment HorizontalAlignment = Alignment::None);
     virtual ~UIObject() = default;
 
     virtual void Awake();
     
     virtual void Draw() = 0;
-    virtual void Update(float DeltaTime) = 0;
+    virtual void Update(float DeltaTime);
 
     void AddToViewport();
 
-    bool AttachTo(std::shared_ptr<UIObject>& NewParent);
+    bool AttachTo(UIObject* NewParent);
     bool Detach();
 
     bool IsAttached() const { return bIsAttached; }
@@ -33,36 +34,39 @@ public:
     void SetVisible(bool bNewVisible) { bIsVisible = bNewVisible; }
 
     const Rectangle& GetBounds() const { return Parent ? Parent->GetBounds() : Bounds; }
-    const Rectangle& GetParentRelativeBounds() const { return Parent.get() ? Parent->GetRelativeBounds() : Rectangle{}; }
-    const Rectangle& GetRelativeBounds() const { return Bounds; }
+    const Rectangle& GetParentRelativeBounds() const { return Parent ? Parent->GetRelativeBounds() : Rectangle{}; }
+    const Rectangle& GetRelativeBounds() const;
+    const Rectangle& GetNativeBounds() const { return Bounds; }
 
     void SetBounds(const Rectangle& NewBounds) { Bounds = NewBounds; }
     
-    const Vector2& GetPosition() const { return Parent.get() ? Parent->GetPosition() : Vector2{ Bounds.x, Bounds.y }; }
-    const Vector2& GetParentRelativePosition() const { return Parent.get() ? Parent->GetRelativePosition() : Vector2{}; }
+    const Vector2& GetPosition() const { return Parent ? Parent->GetPosition() : Vector2{ Bounds.x, Bounds.y }; }
+    const Vector2& GetParentRelativePosition() const { return Parent ? Parent->GetRelativePosition() : Vector2{}; }
     const Vector2& GetRelativePosition() const;
+    const Vector2& GetNativePosition() const { return Vector2{ Bounds.x, Bounds.y }; }
 
     void SetPosition(const Vector2& NewPosition) { Bounds.x = NewPosition.x; Bounds.y = NewPosition.y; }
     
-    const Vector2& GetSize() const { return Parent.get() ? Parent->GetSize() : Vector2{ Bounds.width, Bounds.height }; }
-    const Vector2& GetParentRelativeSize() const { return Parent.get() ? Parent->GetRelativeSize() : Vector2{}; }
-    const Vector2& GetRelativeSize() const { return Vector2{ Bounds.width, Bounds.height }; }
+    const Vector2& GetSize() const { return Parent ? Parent->GetSize() : Vector2{ Bounds.width, Bounds.height }; }
+    const Vector2& GetParentRelativeSize() const { return Parent ? Parent->GetRelativeSize() : Vector2{}; }
+    const Vector2& GetRelativeSize() const;
+    const Vector2& GetNativeSize() const { return Vector2{ Bounds.width, Bounds.height }; }
 
     void SetSize(const Vector2& NewSize) { Bounds.width = NewSize.x; Bounds.height = NewSize.y; }
 
-    const Alignment& GetHorizontalAlignment() const { return HorizontalAlignment; }
-    void SetHorizontalAlignment(Alignment NewHorizontalAlignment) { HorizontalAlignment = NewHorizontalAlignment; }
+    const Alignment& GetObjectAlignment() const { return ObjectAlignment; }
+    void SetHorizontalAlignment(Alignment NewHorizontalAlignment) { ObjectAlignment = NewHorizontalAlignment; }
     
     Object* GetOwner() const { return Owner; }
-    std::shared_ptr<UIObject> GetParent() const { return Parent; }
+    UIObject* GetParent() const { return Parent; }
 
 private:
+    Object* Owner;
     Rectangle Bounds;
     bool bIsAttached;
     bool bIsVisible;
-    Object* Owner;
 
-    Alignment HorizontalAlignment;
+    Alignment ObjectAlignment;
 
-    std::shared_ptr<UIObject> Parent;
+    UIObject* Parent;
 };

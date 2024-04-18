@@ -28,7 +28,7 @@ class Text
     : public UIObject
 {
 public:
-    Text(Object* Owner, const Rectangle& Bounds, std::shared_ptr<UIObject>&& Parent, Alignment HorizontalAlignment,
+    Text(Object* Owner, const Rectangle& Bounds, UIObject* Parent, Alignment HorizontalAlignment,
          TextSettings& TextAppearance);
 
     ~Text() override;

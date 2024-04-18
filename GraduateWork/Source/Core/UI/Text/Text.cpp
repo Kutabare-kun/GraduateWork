@@ -2,9 +2,9 @@
 #include <cmath>
 
 
-Text::Text(Object* Owner, const Rectangle& Bounds, std::shared_ptr<UIObject>&& Parent, Alignment HorizontalAlignment,
+Text::Text(Object* Owner, const Rectangle& Bounds, UIObject* Parent, Alignment HorizontalAlignment,
            TextSettings& TextAppearance)
-    : UIObject(Owner, Bounds, std::move(Parent), HorizontalAlignment), TextAppearance(TextAppearance)
+    : UIObject(Owner, Bounds, Parent, HorizontalAlignment), TextAppearance(TextAppearance)
 {
 }
 
@@ -20,6 +20,8 @@ void Text::Awake()
 
 void Text::Update(float DeltaTime)
 {
+    UIObject::Update(DeltaTime);
+    
     while (GetTextWidth() > GetSize().x)
     {
         SetFontSize(TextAppearance.FontSize - 0.1f);

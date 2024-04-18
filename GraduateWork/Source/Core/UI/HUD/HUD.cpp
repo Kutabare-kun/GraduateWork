@@ -69,7 +69,7 @@ void HUD::AddToViewport(UIObject* Widget)
     if (Widget)
     {
         auto WidgetToShow = GetWidget(Widget);
-        if (!WidgetToShow)
+        if (WidgetToShow)
         {
             ShowWidgets.emplace_back(WidgetToShow);
         }

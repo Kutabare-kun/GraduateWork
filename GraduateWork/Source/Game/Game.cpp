@@ -9,7 +9,8 @@ Game::Game()
     : StateMachine(SceneStateMachine::GetInstance()),
       WorkingDir(Directory::GetInstance())
 {
-    std::shared_ptr<SceneSplashScreen> SplashScreen = std::make_shared<SceneSplashScreen>(WorkingDir, StateMachine, TextureAllocator);
+    std::shared_ptr<SceneSplashScreen> SplashScreen = std::make_shared<SceneSplashScreen>(
+        WorkingDir, StateMachine, TextureAllocator);
     std::shared_ptr<SceneGame> GameScene = std::make_shared<SceneGame>(WorkingDir, TextureAllocator);
 
     unsigned SplashScreenID = StateMachine.Add(SplashScreen);
@@ -30,7 +31,7 @@ void Game::CaptureInput()
     {
         StateMachine.SwitchTo(0);
         StateMachine.Remove(1);
-        
+
         std::shared_ptr<SceneGame> GameScene = std::make_shared<SceneGame>(WorkingDir, TextureAllocator);
         unsigned GameSceneID = StateMachine.Add(GameScene);
 
@@ -58,6 +59,6 @@ void Game::Draw()
     StateMachine.Draw();
 
     DrawFPS(10, 10);
-    
+
     EndDrawing();
 }

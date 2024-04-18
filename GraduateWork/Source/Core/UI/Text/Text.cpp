@@ -4,7 +4,7 @@
 
 Text::Text(Object* Owner, const Rectangle& Bounds, UIObject* Parent, Alignment HorizontalAlignment,
            TextSettings& TextAppearance)
-    : UIObject(Owner, Bounds, Parent, HorizontalAlignment), TextAppearance(TextAppearance)
+    : UIObject(Owner, Bounds, Parent, HorizontalAlignment), TextAppearance(TextAppearance), TextPadding()
 {
 }
 
@@ -21,27 +21,33 @@ void Text::Awake()
 void Text::Update(float DeltaTime)
 {
     UIObject::Update(DeltaTime);
-    
-    while (GetTextWidth() > GetSize().x)
+
+    while (GetTextWidth() > GetRelativeSize().x)
     {
         SetFontSize(TextAppearance.FontSize - 0.1f);
     }
 }
 
 void Text::Draw()
-{   
-    if (GetParent())
+{
+    const float TextWidth = GetTextWidth();
+    Vector2 TextPosition = GetParent() ? GetParentRelativePosition() : GetRelativePosition();
+    Vector2 TextSize = GetParent() ? GetParentRelativeSize() : GetRelativeSize();
+
+    switch (GetObjectAlignment())
     {
-        DrawTextPro(TextAppearance.TextFont, TextAppearance.InfoText.c_str(), GetParentRelativePosition(),
-                    TextAppearance.Origin, TextAppearance.Rotation, TextAppearance.FontSize, TextAppearance.Spacing,
-                    TextAppearance.Tint);
+    case Alignment::Center:
+        TextPosition.x -= TextWidth / 2.0f;
+        break;
+    case Alignment::Right:
+        TextPosition.x += TextSize.x - TextWidth;
+        break;
+        default: break;
     }
-    else
-    {
-        DrawTextPro(TextAppearance.TextFont, TextAppearance.InfoText.c_str(), GetRelativePosition(),
-                    TextAppearance.Origin, TextAppearance.Rotation, TextAppearance.FontSize, TextAppearance.Spacing,
-                    TextAppearance.Tint);
-    }
+
+    DrawTextPro(TextAppearance.TextFont, TextAppearance.InfoText.c_str(), TextPosition,
+                TextAppearance.Origin, TextAppearance.Rotation, TextAppearance.FontSize, TextAppearance.Spacing,
+                TextAppearance.Tint);
 }
 
 int Text::GetTextWidth() const

@@ -3,6 +3,12 @@
 
 #include "../UIObject.h"
 
+enum class ButtonState
+{
+    Normal,
+    Clicked
+};
+
 using OnEvent = std::function<void(void)>;
 
 class Button
@@ -20,10 +26,16 @@ public:
 
     void AttachOnClicked(OnEvent&& Event);
 
-    void SetTexture(int TextureID);
+    void SetTexture(int TextureID, ButtonState State);
+
+    void SetTextUI(std::shared_ptr<UIObject>& ButtonText);
 
 private:
     OnEvent OnClicked;
 
-    std::shared_ptr<TextureResource> ButtonTexture;
+    ButtonState CurrentState;
+
+    std::map<ButtonState, std::shared_ptr<TextureResource>> ButtonTextures;
+
+    std::shared_ptr<UIObject> ButtonText;
 };

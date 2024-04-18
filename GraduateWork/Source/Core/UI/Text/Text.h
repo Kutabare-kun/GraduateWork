@@ -48,6 +48,7 @@ public:
     float GetRotation() const { return TextAppearance.Rotation; }
     float GetFontSize() const { return TextAppearance.FontSize; }
     float GetSpacing() const { return TextAppearance.Spacing; }
+    const Padding& GetPadding() const { return TextPadding; }
 
     void SetTextFont(const Font& NewTextFont) { TextAppearance.TextFont = NewTextFont; }
     void SetInfoText(const std::string& NewInfoText) { TextAppearance.InfoText = NewInfoText; }
@@ -56,7 +57,10 @@ public:
     void SetFontSize(float NewFontSize) { TextAppearance.FontSize = NewFontSize; }
     void SetSpacing(float NewSpacing) { TextAppearance.Spacing = NewSpacing; }
     void SetTint(const Color& NewTint) { TextAppearance.Tint = NewTint; }
+    void SetPadding(const Padding& NewPadding) { TextPadding = NewPadding; }
 
 private:
     TextSettings TextAppearance;
+
+    Padding TextPadding;
 };

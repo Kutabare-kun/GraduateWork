@@ -8,10 +8,10 @@
 class HUD
 {
 public:
-    template<typename Type = UIObject>
-    std::shared_ptr<Type> AddWidget(Object* Owner, const Rectangle& Bounds, UIObject* Parent = nullptr, Alignment HorizontalAlignment = Alignment::None)
+    template<typename Type = UIObject, typename ...Arguments>
+    std::shared_ptr<Type> AddWidget(Arguments&&... Args)
     {
-        std::shared_ptr<Type> Widget = std::make_shared<Type>(Owner, Bounds, Parent, HorizontalAlignment);
+        std::shared_ptr<Type> Widget = std::make_shared<Type>(std::forward<Arguments>(Args)...);
         
         auto WidgetPtr = std::dynamic_pointer_cast<UIObject>(Widget);
         Widgets.push_back(WidgetPtr);

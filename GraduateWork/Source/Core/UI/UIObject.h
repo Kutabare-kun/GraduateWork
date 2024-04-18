@@ -12,6 +12,14 @@ enum class Alignment
     Full,
 };
 
+struct Padding
+{
+    float Left;
+    float Right;
+    float Top;
+    float Bottom;
+};
+
 class UIObject
 {
 public:

@@ -1,7 +1,5 @@
 #pragma once
 #include "../../../Core/Object/Actor/Actor.h"
-#include "../../UI/HUD/PlayerHUD/PlayerHUD.h"
-
 
 class CameraComponent;
 class MovementComponent;
@@ -22,8 +20,6 @@ public:
 
     std::shared_ptr<MovementComponent> GetMovement() const { return MovementComp; }
     std::shared_ptr<CameraComponent> GetCamera() const { return CameraComp; }
-    
-    std::shared_ptr<PlayerHUD> GetHUD() const { return ContentHUD; }
 
 protected:
     std::shared_ptr<MovementComponent> MovementComp;
@@ -31,6 +27,4 @@ protected:
 
 private:
     void CreateAnimation();
-
-    std::shared_ptr<PlayerHUD> ContentHUD;
 };

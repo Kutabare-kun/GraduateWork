@@ -9,6 +9,7 @@
 #include "../../../Core/StaticFunctions/Debug.h"
 #include "../../Actors/Player/Player.h"
 #include "../../Actors/Trader/Trader.h"
+#include "../../UI/HUD/PlayerHUD.h"
 
 SceneGame::SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>& NewTextureAllocator)
     : WorkingDirectory(NewDirectory), TextureAllocator(NewTextureAllocator)
@@ -40,7 +41,8 @@ void SceneGame::OnCreate()
     auto _Player = Objects->CreateObject<Player>(&Context, Vector2{0.0f, 0.0f}, 200.0f);
     PlayerMovement = _Player->GetMovement();
     Camera = _Player->GetCamera();
-    PlayerHUD = _Player->GetHUD();
+
+    HUD = _Player->GetComponent<PlayerHUD>();
 
     Objects->CreateObject<Trader>(&Context, Vector2{200.0f, 200.0f});
 }
@@ -86,10 +88,6 @@ void SceneGame::Update(float DeltaTime)
 void SceneGame::LateUpdate(float DeltaTime)
 {
     Objects->LateUpdate(DeltaTime);
-
-    // Update UI
-    PlayerHUD->Update(DeltaTime);
-    // ~Update UI
 }
 
 void SceneGame::Draw()
@@ -102,5 +100,5 @@ void SceneGame::Draw()
 
     EndMode2D();
 
-    PlayerHUD->Draw();
+    HUD->Draw();
 }

@@ -4,7 +4,7 @@
 int main(int Argc, char* Argv[])
 {
     Window::GetInstance().Init(
-        {1200.0f, 800.0f},//{static_cast<float>(GetScreenWidth()), static_cast<float>(GetScreenHeight())},
+        {1200.0f, 720.0f},//{static_cast<float>(GetScreenWidth()), static_cast<float>(GetScreenHeight())},
         "Graduate Work"
     );
 

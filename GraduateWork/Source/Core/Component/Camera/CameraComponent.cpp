@@ -7,7 +7,7 @@
 #include "../../Window/Window.h"
 
 CameraComponent::CameraComponent(class Actor* NewOwner)
-    : ActorComponent(NewOwner, true),
+    : ActorComponent(NewOwner),
     Camera({})
 {
     Camera.zoom = 1.0f;

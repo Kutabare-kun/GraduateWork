@@ -7,6 +7,7 @@
 #include "../../../Core/Component/Animation/AnimationComponent.h"
 #include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
+#include "../../UI/HUD/PlayerHUD.h"
 
 class InteractComponent;
 
@@ -26,8 +27,8 @@ Player::Player(SharedContext* Context, const Vector2& Position, float Speed)
     Collider->SetSize(165 * 0.4f, 145 * 0.4f);
     Collider->SetOffset(0.0f, 14.0f);
     Collider->SetLayer(CollisionLayer::Player);
-    
-    ContentHUD = std::make_shared<PlayerHUD>(this);
+
+    AddComponent<PlayerHUD>(this);
 }
 
 Player::~Player()
@@ -89,14 +90,12 @@ void Player::CreateAnimation()
 }
 
 void Player::Awake()
-{
+{    
     Actor::Awake();
 
     GetSprite()->SetDrawLayer(DrawLayer::Entities);
 
     CreateAnimation();
-
-    ContentHUD->Awake();
 }
 
 void Player::Update(float DeltaTime)

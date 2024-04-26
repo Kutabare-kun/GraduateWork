@@ -7,11 +7,11 @@
 #include "../Animation/AnimationComponent.h"
 
 MovementComponent::MovementComponent(Object* NewOwner)
-    : ActorComponent(NewOwner, true), bIsEnabled(true)
+    : ActorComponent(NewOwner), bIsEnabled(true)
 {}
 
 MovementComponent::MovementComponent(Object* NewOwner, float NewSpeed)
-    : ActorComponent(NewOwner, true),
+    : ActorComponent(NewOwner),
     Speed(NewSpeed), bIsEnabled(true)
 {}
 

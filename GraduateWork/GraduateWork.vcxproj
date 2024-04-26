@@ -194,11 +194,10 @@
     <ClCompile Include="Source\Core\System\Drawable\DrawableSystem.cpp" />
     <ClCompile Include="Source\Core\Timer\Manager\TimerManager.cpp" />
     <ClCompile Include="Source\Core\Timer\Timer.cpp" />
-    <ClCompile Include="Source\Core\UI\Button\Button.cpp" />
-    <ClCompile Include="Source\Core\UI\HUD\HUD.cpp" />
-    <ClCompile Include="Source\Core\UI\Panel\Panel.cpp" />
-    <ClCompile Include="Source\Core\UI\Text\Text.cpp" />
-    <ClCompile Include="Source\Core\UI\UIObject.cpp" />
+    <ClCompile Include="Source\Core\UI\Button\UIButton.cpp" />
+    <ClCompile Include="Source\Core\UI\HUD\BaseHUD.cpp" />
+    <ClCompile Include="Source\Core\UI\Panel\UIPanel.cpp" />
+    <ClCompile Include="Source\Core\UI\UIBase\UIBase.cpp" />
     <ClCompile Include="Source\Core\Window\Window.cpp" />
     <ClCompile Include="Source\Game\Actors\Player\Player.cpp" />
     <ClCompile Include="Source\Game\Actors\Trader\Trader.cpp" />
@@ -207,8 +206,8 @@
     <ClCompile Include="Source\Game\Game.cpp" />
     <ClCompile Include="Source\Game\Scene\GameScene\SceneGame.cpp" />
     <ClCompile Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.cpp" />
-    <ClCompile Include="Source\Game\UI\HUD\PlayerHUD\PlayerHUD.cpp" />
-    <ClCompile Include="Source\Game\UI\Widget\GameUI\WidgetGameUI.cpp" />
+    <ClCompile Include="Source\Game\UI\HUD\PlayerHUD.cpp" />
+    <ClCompile Include="Source\Game\UI\Widgets\TestWidget.cpp" />
     <ClCompile Include="Source\GraduateWork.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -251,11 +250,10 @@
     <ClInclude Include="Source\Core\System\Drawable\DrawableSystem.h" />
     <ClInclude Include="Source\Core\Timer\Manager\TimerManager.h" />
     <ClInclude Include="Source\Core\Timer\Timer.h" />
-    <ClInclude Include="Source\Core\UI\Button\Button.h" />
-    <ClInclude Include="Source\Core\UI\HUD\HUD.h" />
-    <ClInclude Include="Source\Core\UI\Panel\Panel.h" />
-    <ClInclude Include="Source\Core\UI\Text\Text.h" />
-    <ClInclude Include="Source\Core\UI\UIObject.h" />
+    <ClInclude Include="Source\Core\UI\Button\UIButton.h" />
+    <ClInclude Include="Source\Core\UI\HUD\BaseHUD.h" />
+    <ClInclude Include="Source\Core\UI\Panel\UIPanel.h" />
+    <ClInclude Include="Source\Core\UI\UIBase\UIBase.h" />
     <ClInclude Include="Source\Core\Utilities\Utilities.h" />
     <ClInclude Include="Source\Core\Window\Window.h" />
     <ClInclude Include="Source\Game\Actors\Player\Player.h" />
@@ -265,8 +263,8 @@
     <ClInclude Include="Source\Game\Game.h" />
     <ClInclude Include="Source\Game\Scene\GameScene\SceneGame.h" />
     <ClInclude Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.h" />
-    <ClInclude Include="Source\Game\UI\HUD\PlayerHUD\PlayerHUD.h" />
-    <ClInclude Include="Source\Game\UI\Widget\GameUI\WidgetGameUI.h" />
+    <ClInclude Include="Source\Game\UI\HUD\PlayerHUD.h" />
+    <ClInclude Include="Source\Game\UI\Widgets\TestWidget.h" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Game\Actors\Enemy\" />

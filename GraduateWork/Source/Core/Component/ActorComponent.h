@@ -3,7 +3,7 @@
 class ActorComponent
 {
 public:
-    ActorComponent(class Object* NewOwner, bool bEnableTicks = false);
+    explicit ActorComponent(class Object* NewOwner);
     virtual ~ActorComponent() = default;
 
     virtual void Awake();
@@ -15,11 +15,6 @@ public:
     virtual void LateUpdate(float DeltaTime);
 
     virtual Object* GetOwner() const { return Owner; }
-
-    bool IsEnableTicks() const { return bEnableTicks; }
-
-protected:
-    bool bEnableTicks = false;
     
 private:
     class Object* Owner = nullptr;

@@ -6,8 +6,8 @@
 #include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Parser/TileMapParser/TileMapParser.h"
 #include "../../../Core/Timer/Manager/TimerManager.h"
-#include "../../../Core/UI/HUD/HUD.h"
 
+class PlayerHUD;
 class MovementComponent;
 class TextureResource;
 class Directory;
@@ -43,5 +43,5 @@ private:
     std::unique_ptr<Raycast> RaycastSys;
     std::unique_ptr<TimerManager> TimerManagerSys;
 
-    std::shared_ptr<HUD> PlayerHUD;
+    std::shared_ptr<PlayerHUD> HUD;
 };

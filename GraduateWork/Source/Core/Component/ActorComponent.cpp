@@ -1,7 +1,7 @@
 #include "ActorComponent.h"
 
-ActorComponent::ActorComponent(Object* NewOwner, bool bEnableTicks)
-    : bEnableTicks(bEnableTicks), Owner(NewOwner)
+ActorComponent::ActorComponent(Object* NewOwner)
+    : Owner(NewOwner)
 {}
 
 void ActorComponent::Awake()

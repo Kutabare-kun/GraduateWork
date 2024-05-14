@@ -6,14 +6,30 @@
 #include "../../../Core/Window/Window.h"
 
 SceneSplashScreen::SceneSplashScreen(Directory& WorkingDir, SceneStateMachine& StateMachine,
-                                     ResourceAllocator<TextureResource>& TextureAllocator)
+                                     ResourceAllocator<TextureResource>& TextureAllocator,
+                                     ResourceAllocator<FontResource>& FontAllocator)
     : WorkingDir(WorkingDir),
       StateMachine(StateMachine),
-      TextureAllocator(TextureAllocator)
-
+      TextureAllocator(TextureAllocator),
+      FontAllocator(FontAllocator)
 {
     Timer = 0.0f;
     TimerLimit = 3.0f;
+
+    Context.Objects = nullptr;
+    Context.TextureAllocator = &TextureAllocator;
+    Context.FontAllocator = &FontAllocator;
+    Context.RaycastSys = nullptr;
+    Context.TimerManagerSys = nullptr;
+
+    SplashScreenObject = std::make_unique<Object>(&Context);
+    SplashScreenWidget = std::make_unique<WidgetSplashScreen>(SplashScreenObject.get(), Slot{
+                                                                  Padding{0.0f},
+                                                                  Rectangle{
+                                                                      0.0f, 0.0f, static_cast<float>(GetScreenWidth()),
+                                                                      static_cast<float>(GetScreenHeight())
+                                                                  }
+                                                              }, nullptr);
 }
 
 void SceneSplashScreen::OnCreate()
@@ -29,6 +45,8 @@ void SceneSplashScreen::OnDestroy()
 void SceneSplashScreen::OnActivate()
 {
     Timer = 0.0f;
+
+    SplashScreenWidget->Awake();
 }
 
 void SceneSplashScreen::SetSwitchToScene(unsigned Id)
@@ -38,6 +56,8 @@ void SceneSplashScreen::SetSwitchToScene(unsigned Id)
 
 void SceneSplashScreen::Update(float DeltaTime)
 {
+    SplashScreenWidget->Update(DeltaTime);
+    
     Timer += DeltaTime;
 
     if (Timer >= TimerLimit)
@@ -48,10 +68,11 @@ void SceneSplashScreen::Update(float DeltaTime)
 
 void SceneSplashScreen::Draw()
 {
-    // Draw splash screen at the top left corner
-    DrawTextureEx(SplashTexture, {0, 0}, 0.0f, 10.0f, WHITE);
+    // Draw splash screen
+    SplashScreenWidget->Draw();
 
     Vector2 ScreenSize = Window::GetInstance().GetScreenSize();
 
-    DrawText(TextFormat("%f", TimerLimit - Timer), static_cast<int>(ScreenSize.x - 200.0f), static_cast<int>(ScreenSize.y - 20.0f), 20, RED);
+    DrawText(TextFormat("%f", TimerLimit - Timer), static_cast<int>(ScreenSize.x - 200.0f),
+             static_cast<int>(ScreenSize.y - 20.0f), 20, RED);
 }

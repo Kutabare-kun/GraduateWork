@@ -2,25 +2,28 @@
 
 #include "../../Directory/Directory.h"
 
-UIButton::UIButton(Object* Owner, const Slot& LayoutSlot, UIBase* Parent)
+UIButton::UIButton(Object* Owner, const Slot& LayoutSlot, UIBase* Parent, ButtonStateTexture& ButtonStateTextures)
     : UIBase(Owner, LayoutSlot, Parent)
 {
+    auto TextureAllocator = GetOwner()->GetContext()->TextureAllocator;
+    const Directory& DirectorySys = Directory::GetInstance();
+
+    const int ButtonNormal = TextureAllocator->Add(DirectorySys.GetTexture(std::move(ButtonStateTextures.NormalFile)));
+    ButtonTextures.emplace(ButtonState::Normal, TextureAllocator->Get(ButtonNormal));
+
+    const int ButtonClicked = TextureAllocator->Add(DirectorySys.GetTexture(std::move(ButtonStateTextures.PressedFile)));
+    ButtonTextures.emplace(ButtonState::Pressed, TextureAllocator->Get(ButtonClicked));
+
+    const int ButtonHovered = TextureAllocator->Add(DirectorySys.GetTexture(std::move(ButtonStateTextures.HoveredFile)));
+    ButtonTextures.emplace(ButtonState::Hovered, TextureAllocator->Get(ButtonHovered));
+
+    const int ButtonDisabled = TextureAllocator->Add(DirectorySys.GetTexture(std::move(ButtonStateTextures.DisabledFile)));
+    ButtonTextures.emplace(ButtonState::Disabled, TextureAllocator->Get(ButtonDisabled));
 }
 
 void UIButton::Awake()
 {
     UIBase::Awake();
-
-    auto TextureAllocator = GetOwner()->GetContext()->TextureAllocator;
-    const Directory& DirectorySys = Directory::GetInstance();
-
-    const int ButtonNormal = TextureAllocator->Add(DirectorySys.GetTexture("Button_Normal.png"));
-    ButtonTextures.emplace(ButtonState::Normal, TextureAllocator->Get(ButtonNormal));
-
-    const int ButtonClicked = TextureAllocator->Add(DirectorySys.GetTexture("Button_Clicked.png"));
-    ButtonTextures.emplace(ButtonState::Pressed, TextureAllocator->Get(ButtonClicked));
-    ButtonTextures.emplace(ButtonState::Hovered, TextureAllocator->Get(ButtonClicked));
-    ButtonTextures.emplace(ButtonState::Disabled, TextureAllocator->Get(ButtonClicked));
 }
 
 void UIButton::Update(float DeltaTime)
@@ -48,8 +51,6 @@ void UIButton::Update(float DeltaTime)
 
 void UIButton::Draw()
 {
-    UIBase::Draw();
-
     DrawTexturePro(ButtonTextures[CurrentState]->Get_Impl(),
                    {
                        0, 0,
@@ -57,4 +58,6 @@ void UIButton::Draw()
                        (float)ButtonTextures[CurrentState]->Get_Impl().height
                    },
                    GetBounds(), {0, 0}, 0, WHITE);
+
+    UIBase::Draw();
 }

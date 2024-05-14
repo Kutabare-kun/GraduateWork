@@ -46,23 +46,26 @@ void DrawableSystem::Draw()
 
 void DrawableSystem::Add(std::shared_ptr<Object>& NewObject)
 {
-    const std::shared_ptr<DrawableComponent> Draw = NewObject->GetDrawable();
+    const std::vector<std::shared_ptr<DrawableComponent>> Draw = NewObject->GetDrawable();
 
-    if (!Draw) return;
+    if (Draw.empty()) return;
 
-    DrawLayer Layer = Draw->GetDrawLayer();
-
-    auto Iter = Drawables.find(Layer);
-    if (Iter != Drawables.end())
+    for (auto& Comp : Draw)
     {
-        Iter->second.emplace_back(Draw);
-    }
-    else
-    {
-        std::vector<std::shared_ptr<DrawableComponent>> Objs;
-        Objs.emplace_back(Draw);
+        DrawLayer Layer = Comp->GetDrawLayer();
 
-        Drawables.emplace(Layer, Objs);
+        auto Iter = Drawables.find(Layer);
+        if (Iter != Drawables.end())
+        {
+            Iter->second.emplace_back(Comp);
+        }
+        else
+        {
+            std::vector<std::shared_ptr<DrawableComponent>> Objs;
+            Objs.emplace_back(Comp);
+
+            Drawables.emplace(Layer, Objs);
+        }
     }
 }
 

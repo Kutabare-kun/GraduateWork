@@ -1,7 +1,6 @@
 #include "SceneGame.h"
 
 #include "../../../Core/Animation/Animation.h"
-#include "../../../Core/Component/Animation/AnimationComponent.h"
 #include "../../../Core/Component/Movement/MovementComponent.h"
 #include "../../../Core/Resource/Texture/TextureResource.h"
 #include "../../../Core/Component/Sprite/SpriteComponent.h"
@@ -11,8 +10,9 @@
 #include "../../Actors/Trader/Trader.h"
 #include "../../UI/HUD/PlayerHUD.h"
 
-SceneGame::SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>& NewTextureAllocator)
-    : WorkingDirectory(NewDirectory), TextureAllocator(NewTextureAllocator)
+SceneGame::SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>& NewTextureAllocator,
+    ResourceAllocator<FontResource>& NewFontAllocator)
+    : WorkingDirectory(NewDirectory), TextureAllocator(NewTextureAllocator), FontAllocator(NewFontAllocator)
 {
     DrawableSys = std::make_unique<DrawableSystem>();
     CollisionTree = std::make_unique<Quadtree>(5, 5, 0, Rectangle{0, 0, 16000, 16000}, nullptr);
@@ -29,6 +29,7 @@ void SceneGame::OnCreate()
     // Make SharedContext
     Context.Objects = Objects.get();
     Context.TextureAllocator = &TextureAllocator;
+    Context.FontAllocator = &FontAllocator;
     Context.RaycastSys = RaycastSys.get();
     Context.TimerManagerSys = TimerManagerSys.get();
     // ~Make SharedContext

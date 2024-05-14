@@ -6,6 +6,7 @@ enum class DrawLayer
     Background,
     Foreground,
     Entities,
+    UI,
 };
 
 class DrawableComponent

@@ -16,7 +16,7 @@ class SceneGame
     : public Scene
 {
 public:
-    SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>& NewTextureAllocator);
+    SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>& NewTextureAllocator, ResourceAllocator<FontResource>& NewFontAllocator);
     
     void OnCreate() override;
     void OnDestroy() override;
@@ -29,6 +29,7 @@ public:
 private:
     Directory& WorkingDirectory;
     ResourceAllocator<TextureResource>& TextureAllocator;
+    ResourceAllocator<FontResource>& FontAllocator;
 
     std::unique_ptr<TileMapParser> MapParser;
     

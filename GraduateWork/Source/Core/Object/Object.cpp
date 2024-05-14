@@ -41,7 +41,10 @@ void Object::LateUpdate(float DeltaTime)
 
 void Object::Draw()
 {
-    DrawableComp->Draw();
+    for (const auto& Comp : DrawableComp)
+    {
+        Comp->Draw();
+    }
 }
 
 void Object::OnCollisionBeginOverlap(std::shared_ptr<ColliderComponent> Other)

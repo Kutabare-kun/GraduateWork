@@ -187,6 +187,7 @@
     </ClCompile>
     <ClCompile Include="Source\Core\Object\Object.cpp" />
     <ClCompile Include="Source\Core\Parser\TileMapParser\TileMapParser.cpp" />
+    <ClCompile Include="Source\Core\Resource\Font\FontResource.cpp" />
     <ClCompile Include="Source\Core\Resource\Texture\TextureResource.cpp" />
     <ClCompile Include="Source\Core\SceneManager\SceneStateMachine.cpp" />
     <ClCompile Include="Source\Core\StaticFunctions\Debug.cpp" />
@@ -196,7 +197,9 @@
     <ClCompile Include="Source\Core\Timer\Timer.cpp" />
     <ClCompile Include="Source\Core\UI\Button\UIButton.cpp" />
     <ClCompile Include="Source\Core\UI\HUD\BaseHUD.cpp" />
+    <ClCompile Include="Source\Core\UI\Image\UIImage.cpp" />
     <ClCompile Include="Source\Core\UI\Panel\UIPanel.cpp" />
+    <ClCompile Include="Source\Core\UI\Text\UIText.cpp" />
     <ClCompile Include="Source\Core\UI\UIBase\UIBase.cpp" />
     <ClCompile Include="Source\Core\Window\Window.cpp" />
     <ClCompile Include="Source\Game\Actors\Player\Player.cpp" />
@@ -208,6 +211,7 @@
     <ClCompile Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.cpp" />
     <ClCompile Include="Source\Game\UI\HUD\PlayerHUD.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\TestWidget.cpp" />
+    <ClCompile Include="Source\Game\UI\Widgets\WidgetSplashScreen.cpp" />
     <ClCompile Include="Source\GraduateWork.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +246,7 @@
     <ClInclude Include="Source\Core\Parser\XML\rapidxml_utils.hpp" />
     <ClInclude Include="Source\Core\Pattern\Singleton.h" />
     <ClInclude Include="Source\Core\Resource\Base\BaseResource.h" />
+    <ClInclude Include="Source\Core\Resource\Font\FontResource.h" />
     <ClInclude Include="Source\Core\Resource\Texture\TextureResource.h" />
     <ClInclude Include="Source\Core\SceneManager\SceneStateMachine.h" />
     <ClInclude Include="Source\Core\SceneManager\Scene\Scene.h" />
@@ -252,7 +257,9 @@
     <ClInclude Include="Source\Core\Timer\Timer.h" />
     <ClInclude Include="Source\Core\UI\Button\UIButton.h" />
     <ClInclude Include="Source\Core\UI\HUD\BaseHUD.h" />
+    <ClInclude Include="Source\Core\UI\Image\UIImage.h" />
     <ClInclude Include="Source\Core\UI\Panel\UIPanel.h" />
+    <ClInclude Include="Source\Core\UI\Text\UIText.h" />
     <ClInclude Include="Source\Core\UI\UIBase\UIBase.h" />
     <ClInclude Include="Source\Core\Utilities\Utilities.h" />
     <ClInclude Include="Source\Core\Window\Window.h" />
@@ -265,6 +272,7 @@
     <ClInclude Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.h" />
     <ClInclude Include="Source\Game\UI\HUD\PlayerHUD.h" />
     <ClInclude Include="Source\Game\UI\Widgets\TestWidget.h" />
+    <ClInclude Include="Source\Game\UI\Widgets\WidgetSplashScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Game\Actors\Enemy\" />
@@ -296,8 +304,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>

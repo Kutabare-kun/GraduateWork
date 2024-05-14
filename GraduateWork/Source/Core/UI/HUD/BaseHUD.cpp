@@ -3,6 +3,7 @@
 BaseHUD::BaseHUD(Object* Owner)
     : ActorComponent(Owner)
 {
+    
 }
 
 void BaseHUD::Awake()
@@ -31,4 +32,9 @@ void BaseHUD::Draw()
     {
         Element->Draw();
     }
+}
+
+bool BaseHUD::ContinueToDraw() const
+{
+    return !GetOwner()->IsQueuedForRemoval();
 }

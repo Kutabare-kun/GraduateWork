@@ -6,7 +6,7 @@
 #include "../UIBase/UIBase.h"
 
 class BaseHUD
-    : public ActorComponent
+    : public ActorComponent, public DrawableComponent
 {
 public:
     BaseHUD(Object* Owner);
@@ -14,7 +14,8 @@ public:
     void Awake() override;
     void LateUpdate(float DeltaTime) override;
 
-    virtual void Draw();
+    void Draw() override;
+    bool ContinueToDraw() const override;
 
 protected:
     std::vector<std::shared_ptr<UIBase>> UIElements;

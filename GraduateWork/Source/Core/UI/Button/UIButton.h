@@ -11,13 +11,21 @@ enum class ButtonState
     Disabled
 };
 
+struct ButtonStateTexture
+{
+    std::string NormalFile;
+    std::string HoveredFile;
+    std::string PressedFile;
+    std::string DisabledFile;
+};
+
 using ButtonAction = std::function<void()>;
 
 class UIButton
     : public UIBase
 {
 public:
-    UIButton(Object* Owner, const Slot& LayoutSlot, UIBase* Parent);
+    UIButton(Object* Owner, const Slot& LayoutSlot, UIBase* Parent, ButtonStateTexture& ButtonStateTextures);
     
     void Awake() override;
 

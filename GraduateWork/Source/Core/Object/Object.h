@@ -32,7 +32,7 @@ public:
 
         if (auto ThisDrawable = std::dynamic_pointer_cast<DrawableComponent>(NewComponent); ThisDrawable)
         {
-            DrawableComp = ThisDrawable;
+            DrawableComp.push_back(ThisDrawable);
         }
 
         if (auto ThisCollider = std::dynamic_pointer_cast<ColliderComponent>(NewComponent); ThisCollider)
@@ -95,7 +95,7 @@ public:
     bool IsQueuedForRemoval();
     void QueueForRemoval();
 
-    std::shared_ptr<DrawableComponent> GetDrawable() const { return DrawableComp; }
+    std::vector<std::shared_ptr<DrawableComponent>> GetDrawable() const { return DrawableComp; }
     std::shared_ptr<TransformComponent> GetTransform() const { return TransformComp; }
     std::shared_ptr<InstanceIDComponent> GetInstanceID() const { return InstanceIDComp; }
 
@@ -110,7 +110,7 @@ protected:
     SharedContext* Context;
 
     std::shared_ptr<TransformComponent> TransformComp;
-    std::shared_ptr<DrawableComponent> DrawableComp;
+    std::vector<std::shared_ptr<DrawableComponent>> DrawableComp;
     std::shared_ptr<InstanceIDComponent> InstanceIDComp;
 
     std::vector<std::shared_ptr<ActorComponent>> Components;

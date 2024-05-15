@@ -1,4 +1,7 @@
 #pragma once
+#include <memory>
+#include <vector>
+
 #include "../ActorComponent.h"
 #include "raylib.h"
 
@@ -21,6 +24,13 @@ public:
     void SetOrigin(const Vector2& NewOrigin);
     void SetStatic(bool bIsStatic);
 
+    void SetParent(std::shared_ptr<TransformComponent> NewParent);
+    const std::shared_ptr<TransformComponent> GetParent() const { return Parent; }
+
+    void AddChild(std::shared_ptr<TransformComponent> NewChild);
+    void RemoveChild(std::shared_ptr<TransformComponent> Child);
+    const std::vector<std::shared_ptr<TransformComponent>>& GetChildren() const { return Children; }
+
     const Vector2& GetPosition() const { return Position; }
     float GetRotation() const { return Rotation; }
     const Vector2& GetScale() const { return Scale; }
@@ -34,4 +44,7 @@ private:
     Vector2 Scale;
 
     bool bIsStatic;
+
+    std::shared_ptr<TransformComponent> Parent;
+    std::vector<std::shared_ptr<TransformComponent>> Children;
 };

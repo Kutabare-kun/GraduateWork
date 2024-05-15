@@ -8,8 +8,10 @@
 #include "../Component/InstanceID/InstanceIDComponent.h"
 #include "../Component/Transform/TransformComponent.h"
 #include "../Context/SharedContext/SharedContext.h"
+//#include "../Component/Velocity/VelocityComponent.h"
 #include "../../Game/Components/Interactable/InteractableComponent.h"
 #include "../../Game/Components/Interact/InteractComponent.h"
+#include "../Component/Tag/TagComponent.h"
 
 class Object
 {
@@ -98,6 +100,7 @@ public:
     std::vector<std::shared_ptr<DrawableComponent>> GetDrawable() const { return DrawableComp; }
     std::shared_ptr<TransformComponent> GetTransform() const { return TransformComp; }
     std::shared_ptr<InstanceIDComponent> GetInstanceID() const { return InstanceIDComp; }
+    std::shared_ptr<TagComponent> GetTag() const { return TagComp; }
 
     SharedContext* GetContext() const { return Context; }
     std::string GetName() const { return Name + std::to_string(InstanceIDComp->GetID()); }
@@ -110,9 +113,10 @@ protected:
     SharedContext* Context;
 
     std::shared_ptr<TransformComponent> TransformComp;
-    std::vector<std::shared_ptr<DrawableComponent>> DrawableComp;
     std::shared_ptr<InstanceIDComponent> InstanceIDComp;
+    std::shared_ptr<TagComponent> TagComp;
 
+    std::vector<std::shared_ptr<DrawableComponent>> DrawableComp;
     std::vector<std::shared_ptr<ActorComponent>> Components;
     std::vector<std::shared_ptr<ColliderComponent>> Collidables;
 

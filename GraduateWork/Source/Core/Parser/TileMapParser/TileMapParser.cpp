@@ -200,7 +200,7 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
 
                 if (!TileSheet)
                 {
-                    Debug::GetInstance().Log(TextFormat("No tile sheet found for ID: ", TileId));
+                    //Debug::GetInstance().Log(TextFormat("No tile sheet found for ID: ", TileId));
                     continue;
                 }
                 

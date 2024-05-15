@@ -5,6 +5,7 @@ Object::Object(SharedContext* Context, const Vector2& Position)
 {
     TransformComp = AddComponent<TransformComponent>(this, Position);
     InstanceIDComp = AddComponent<InstanceIDComponent>(this);
+    TagComp = AddComponent<TagComponent>(this);
 }
 
 void Object::Awake()

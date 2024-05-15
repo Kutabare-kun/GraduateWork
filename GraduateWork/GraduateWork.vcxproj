@@ -101,6 +101,11 @@
       <AdditionalIncludeDirectories>;C:\vcpkg\installed\x64-windows\include</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="Source\Core\Component\Animation\AnimationComponent.cpp" />
+    <ClCompile Include="Source\Core\Component\BehaviorTree\BehaviorTree.cpp" />
+    <ClCompile Include="Source\Core\Component\BehaviorTree\Composite\BTCompositeNode.cpp" />
+    <ClCompile Include="Source\Core\Component\BehaviorTree\Node\BTNode.cpp" />
+    <ClCompile Include="Source\Core\Component\BehaviorTree\Selector\BTSelector.cpp" />
+    <ClCompile Include="Source\Core\Component\BehaviorTree\Sequence\BTSequence.cpp" />
     <ClCompile Include="Source\Core\Component\Camera\CameraComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Collider\BoxCollider\BoxColliderComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Collider\ColliderComponent.cpp" />
@@ -108,7 +113,9 @@
     <ClCompile Include="Source\Core\Component\InstanceID\InstanceIDComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Movement\MovementComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Sprite\SpriteComponent.cpp" />
+    <ClCompile Include="Source\Core\Component\Tag\TagComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Transform\TransformComponent.cpp" />
+    <ClCompile Include="Source\Core\Component\Velocity\VelocityComponent.cpp" />
     <ClCompile Include="Source\Core\Directory\Directory.cpp" />
     <ClCompile Include="Source\Core\Object\Actor\Actor.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
@@ -206,6 +213,7 @@
     <ClCompile Include="Source\Game\Actors\Trader\Trader.cpp" />
     <ClCompile Include="Source\Game\Components\Interactable\InteractableComponent.cpp" />
     <ClCompile Include="Source\Game\Components\Interact\InteractComponent.cpp" />
+    <ClCompile Include="Source\Game\Components\WalkInLine\WalkInLineComponent.cpp" />
     <ClCompile Include="Source\Game\Game.cpp" />
     <ClCompile Include="Source\Game\Scene\GameScene\SceneGame.cpp" />
     <ClCompile Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.cpp" />
@@ -224,6 +232,11 @@
     <ClInclude Include="Source\Core\Collection\ObjectCollection.h" />
     <ClInclude Include="Source\Core\Component\ActorComponent.h" />
     <ClInclude Include="Source\Core\Component\Animation\AnimationComponent.h" />
+    <ClInclude Include="Source\Core\Component\BehaviorTree\BehaviorTree.h" />
+    <ClInclude Include="Source\Core\Component\BehaviorTree\Composite\BTCompositeNode.h" />
+    <ClInclude Include="Source\Core\Component\BehaviorTree\Node\BTNode.h" />
+    <ClInclude Include="Source\Core\Component\BehaviorTree\Selector\BTSelector.h" />
+    <ClInclude Include="Source\Core\Component\BehaviorTree\Sequence\BTSequence.h" />
     <ClInclude Include="Source\Core\Component\Camera\CameraComponent.h" />
     <ClInclude Include="Source\Core\Component\Collider\BoxCollider\BoxColliderComponent.h" />
     <ClInclude Include="Source\Core\Component\Collider\ColliderComponent.h" />
@@ -231,7 +244,9 @@
     <ClInclude Include="Source\Core\Component\InstanceID\InstanceIDComponent.h" />
     <ClInclude Include="Source\Core\Component\Movement\MovementComponent.h" />
     <ClInclude Include="Source\Core\Component\Sprite\SpriteComponent.h" />
+    <ClInclude Include="Source\Core\Component\Tag\TagComponent.h" />
     <ClInclude Include="Source\Core\Component\Transform\TransformComponent.h" />
+    <ClInclude Include="Source\Core\Component\Velocity\VelocityComponent.h" />
     <ClInclude Include="Source\Core\Context\SharedContext\SharedContext.h" />
     <ClInclude Include="Source\Core\Directory\Directory.h" />
     <ClInclude Include="Source\Core\Hash\ComponentPairHash\ComponentPairHash.h" />
@@ -267,6 +282,7 @@
     <ClInclude Include="Source\Game\Actors\Trader\Trader.h" />
     <ClInclude Include="Source\Game\Components\Interactable\InteractableComponent.h" />
     <ClInclude Include="Source\Game\Components\Interact\InteractComponent.h" />
+    <ClInclude Include="Source\Game\Components\WalkInLine\WalkInLineComponent.h" />
     <ClInclude Include="Source\Game\Game.h" />
     <ClInclude Include="Source\Game\Scene\GameScene\SceneGame.h" />
     <ClInclude Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.h" />

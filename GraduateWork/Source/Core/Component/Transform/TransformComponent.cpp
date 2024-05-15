@@ -2,6 +2,8 @@
 
 #include <raymath.h>
 
+#include "../../Object/Object.h"
+
 TransformComponent::TransformComponent(Object* NewOwner, const Vector2& NewPosition, const Vector2& NewOrigin,
                                        float NewRotation, Vector2 NewScale)
     : ActorComponent(NewOwner), Position(NewPosition), Origin(NewOrigin), Rotation(NewRotation), Scale(NewScale),
@@ -32,6 +34,30 @@ void TransformComponent::SetOrigin(const Vector2& NewOrigin)
 void TransformComponent::SetStatic(bool bIsStatic)
 {
     this->bIsStatic = bIsStatic;
+}
+
+void TransformComponent::SetParent(std::shared_ptr<TransformComponent> NewParent)
+{
+    Parent = NewParent;
+    Parent->AddChild(GetOwner()->GetTransform());
+}
+
+void TransformComponent::AddChild(std::shared_ptr<TransformComponent> NewChild)
+{
+    Children.push_back(NewChild);
+}
+
+void TransformComponent::RemoveChild(std::shared_ptr<TransformComponent> Child)
+{
+    for (auto Iter = Children.begin(); Iter != Children.end(); ++Iter)
+    {
+        if (auto Component = *Iter;
+            Component->GetOwner()->GetInstanceID()->GetID() == Child->GetOwner()->GetInstanceID()->GetID())
+        {
+            Children.erase(Iter);
+            break;
+        }
+    }
 }
 
 void TransformComponent::AddPosition(const Vector2& DeltaPosition)

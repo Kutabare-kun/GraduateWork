@@ -75,13 +75,13 @@ void ColliderSystem::Update()
         {
             CollisionTree.Insert(ColliderComp);
 
-            Debug::GetInstance().DrawRectangle(ColliderComp->GetCollidable(), RED);
+            //Debug::GetInstance().DrawRectangle(ColliderComp->GetCollidable(), RED);
         }
     }
 
     Resolve();
 
-    CollisionTree.DrawDebug();
+    //CollisionTree.DrawDebug();
 }
 
 void ColliderSystem::Resolve()

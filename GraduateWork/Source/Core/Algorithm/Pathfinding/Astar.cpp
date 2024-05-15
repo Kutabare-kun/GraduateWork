@@ -1,43 +1,51 @@
 #include "Astar.h"
 
 #include <iostream>
+#include <raymath.h>
 #include <set>
 
-std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vector<std::vector<bool>>& Grid,
-                                                                  const std::pair<int, int>& Start, const std::pair<int, int>& End)
+struct PairComparator {
+    bool operator()(const std::pair<double, Vector2>& a, const std::pair<double, Vector2>& b) const {
+        // Compare the pairs based on the double value
+        return a.first < b.first;
+    }
+};
+
+std::pair<bool, std::vector<Vector2>> Astar::FindPath(const std::vector<std::vector<bool>>& Grid,
+                                                                  const Vector2& Start, const Vector2& End)
 {
-    const std::pair GridSize = std::make_pair(Grid.size(), Grid[0].size());
+    const Vector2 GridSize = Vector2{static_cast<float>(Grid.size()), static_cast<float>(Grid[0].size())};
     if (!IsValid(Start, GridSize) || !IsValid(End, GridSize))
     {
-        return std::make_pair<bool, std::vector<std::pair<int, int>>>(false, {});
+        return std::make_pair<bool, std::vector<Vector2>>(false, {});
     }
 
     if (!IsUnblocked(Grid, Start) || !IsUnblocked(Grid, End))
     {
-        return std::make_pair<bool, std::vector<std::pair<int, int>>>(false, {});
+        return std::make_pair<bool, std::vector<Vector2>>(false, {});
     }
 
     if (IsDestination(Start, End))
     {
-        return std::make_pair<bool, std::vector<std::pair<int, int>>>(true, {});
+        return std::make_pair<bool, std::vector<Vector2>>(true, {});
     }
 
-    std::vector<std::vector<Cell>> CellDetails(GridSize.first,
-                                               std::vector<Cell>(GridSize.second,
+    std::vector<std::vector<Cell>> CellDetails(static_cast<int>(GridSize.x),
+                                               std::vector<Cell>(static_cast<int>(GridSize.y),
                                                                  Cell{
-                                                                     std::make_pair<int, int>(-1, -1),
+                                                                     Vector2{-1, -1},
                                                                      FLT_MAX,
                                                                      FLT_MAX,
                                                                      FLT_MAX
                                                                  })
     );
 
-    std::pair<int, int> Position{Start};
+    Vector2 Position{Start};
 
-    CellDetails[Position.first][Position.second] = Cell{Position, 0, 0, 0};
+    CellDetails[static_cast<int>(Position.x)][static_cast<int>(Position.y)] = Cell{Position, 0, 0, 0};
 
-    std::vector<std::vector<bool>> ClosedList(GridSize.first, std::vector<bool>(GridSize.second, false));
-    std::set<std::pair<double, std::pair<int, int>>> OpenList;
+    std::vector<std::vector<bool>> ClosedList(static_cast<int>(GridSize.x), std::vector<bool>(static_cast<int>(GridSize.y), false));
+    std::set<std::pair<double, Vector2>, PairComparator> OpenList;
 
     OpenList.insert(std::make_pair(0.0, Position));
 
@@ -45,23 +53,23 @@ std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vec
 
     while (!OpenList.empty())
     {
-        std::pair<double, std::pair<int, int>> P = *OpenList.begin();
+        std::pair<double, Vector2> P = *OpenList.begin();
         OpenList.erase(OpenList.begin());
 
-        Position = std::make_pair(P.second.first, P.second.second);
-        ClosedList[Position.first][Position.second] = true;
+        Position = {P.second.x, P.second.y};
+        ClosedList[static_cast<int>(Position.x)][static_cast<int>(Position.y)] = true;
 
         double GNew, HNew, FNew;
 
-        const std::vector<std::pair<int, int>> Neighbours {
-            std::make_pair(Position.first - 1, Position.second), // North
-            std::make_pair(Position.first + 1, Position.second), // South
-            std::make_pair(Position.first, Position.second + 1), // East
-            std::make_pair(Position.first, Position.second - 1), // West
-            std::make_pair(Position.first - 1, Position.second + 1), // North-East
-            std::make_pair(Position.first - 1, Position.second - 1), // North-West
-            std::make_pair(Position.first + 1, Position.second + 1), // South-East
-            std::make_pair(Position.first + 1, Position.second - 1), // South-West
+        const std::vector<Vector2> Neighbours {
+            {Position.x - 1, Position.y},              // North
+            {Position.x + 1, Position.y},              // South
+            {Position.x, Position.y + 1},              // East
+            {Position.x, Position.y - 1},              // West
+            {Position.x - 1, Position.y + 1},       // North-East
+            {Position.x - 1, Position.y - 1},       // North-West
+            {Position.x + 1, Position.y + 1},       // South-East
+            {Position.x + 1, Position.y - 1},       // South-West
         };
 
         enum Compass
@@ -81,23 +89,23 @@ std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vec
         {
             if (IsDestination(Neighbours[North], End))
             {
-                CellDetails[Neighbours[North].first][Neighbours[North].second] = Cell{Position, 0, 0, 0};
+                CellDetails[static_cast<int>(Neighbours[North].x)][static_cast<int>(Neighbours[North].y)] = Cell{Position, 0, 0, 0};
                 bFoundDest = true;
                 break;
             }
-            else if (!ClosedList[Neighbours[North].first][Neighbours[North].second]
+            else if (!ClosedList[static_cast<int>(Neighbours[North].x)][static_cast<int>(Neighbours[North].y)]
                 && IsUnblocked(Grid, Neighbours[North]))
             {
-                GNew = CellDetails[Position.first][Position.second].G + 1.0;
+                GNew = CellDetails[static_cast<int>(Position.x)][static_cast<int>(Position.y)].G + 1.0;
                 HNew = CalculateHValue(Neighbours[North], End);
                 FNew = GNew + HNew;
 
-                if (CellDetails[Neighbours[North].first][Neighbours[North].second].F == FLT_MAX
-                    || CellDetails[Neighbours[North].first][Neighbours[North].second].F > FNew)
+                if (CellDetails[static_cast<int>(Neighbours[North].x)][static_cast<int>(Neighbours[North].y)].F == FLT_MAX
+                    || CellDetails[static_cast<int>(Neighbours[North].x)][static_cast<int>(Neighbours[North].y)].F > FNew)
                 {
                     OpenList.insert(std::make_pair(FNew, Neighbours[North]));
 
-                    CellDetails[Neighbours[North].first][Neighbours[North].second] = Cell{Position, GNew, HNew, FNew};
+                    CellDetails[static_cast<int>(Neighbours[North].x)][static_cast<int>(Neighbours[North].y)] = Cell{Position, GNew, HNew, FNew};
                 }
             }
         }
@@ -108,23 +116,23 @@ std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vec
         {
             if (IsDestination(Neighbours[South], End))
             {
-                CellDetails[Neighbours[South].first][Neighbours[South].second] = Cell{Position, 0, 0, 0};
+                CellDetails[static_cast<int>(static_cast<int>(Neighbours[South].x))][static_cast<int>(Neighbours[South].y)] = Cell{Position, 0, 0, 0};
                 bFoundDest = true;
                 break;
             }
-            else if (!ClosedList[Neighbours[South].first][Neighbours[South].second]
+            else if (!ClosedList[static_cast<int>(Neighbours[South].x)][static_cast<int>(Neighbours[South].y)]
                 && IsUnblocked(Grid, Neighbours[South]))
             {
-                GNew = CellDetails[Position.first][Position.second].G + 1.0;
+                GNew = CellDetails[static_cast<int>(Position.x)][static_cast<int>(Position.y)].G + 1.0;
                 HNew = CalculateHValue(Neighbours[South], End);
                 FNew = GNew + HNew;
 
-                if (CellDetails[Neighbours[South].first][Neighbours[South].second].F == FLT_MAX
-                    || CellDetails[Neighbours[South].first][Neighbours[South].second].F > FNew)
+                if (CellDetails[static_cast<int>(Neighbours[South].x)][static_cast<int>(Neighbours[South].y)].F == FLT_MAX
+                    || CellDetails[static_cast<int>(Neighbours[South].x)][static_cast<int>(Neighbours[South].y)].F > FNew)
                 {
                     OpenList.insert(std::make_pair(FNew, Neighbours[South]));
 
-                    CellDetails[Neighbours[South].first][Neighbours[South].second] = Cell{Position, GNew, HNew, FNew};
+                    CellDetails[static_cast<int>(Neighbours[South].x)][static_cast<int>(Neighbours[South].y)] = Cell{Position, GNew, HNew, FNew};
                 }
             }
         }
@@ -135,23 +143,23 @@ std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vec
         {
             if (IsDestination(Neighbours[East], End))
             {
-                CellDetails[Neighbours[East].first][Neighbours[East].second] = Cell{Position, 0, 0, 0};
+                CellDetails[static_cast<int>(Neighbours[East].x)][static_cast<int>(Neighbours[East].y)] = Cell{Position, 0, 0, 0};
                 bFoundDest = true;
                 break;
             }
-            else if (!ClosedList[Neighbours[East].first][Neighbours[East].second]
+            else if (!ClosedList[static_cast<int>(Neighbours[East].x)][static_cast<int>(Neighbours[East].y)]
                 && IsUnblocked(Grid, Neighbours[East]))
             {
-                GNew = CellDetails[Position.first][Position.second].G + 1.0;
+                GNew = CellDetails[static_cast<int>(Position.x)][static_cast<int>(Position.y)].G + 1.0;
                 HNew = CalculateHValue(Neighbours[East], End);
                 FNew = GNew + HNew;
 
-                if (CellDetails[Neighbours[East].first][Neighbours[East].second].F == FLT_MAX
-                    || CellDetails[Neighbours[East].first][Neighbours[East].second].F > FNew)
+                if (CellDetails[static_cast<int>(Neighbours[East].x)][static_cast<int>(Neighbours[East].y)].F == FLT_MAX
+                    || CellDetails[static_cast<int>(Neighbours[East].x)][static_cast<int>(Neighbours[East].y)].F > FNew)
                 {
                     OpenList.insert(std::make_pair(FNew, Neighbours[East]));
 
-                    CellDetails[Neighbours[East].first][Neighbours[East].second] = Cell{Position, GNew, HNew, FNew};
+                    CellDetails[static_cast<int>(Neighbours[East].x)][static_cast<int>(Neighbours[East].y)] = Cell{Position, GNew, HNew, FNew};
                 }
             }
         }
@@ -162,23 +170,23 @@ std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vec
         {
             if (IsDestination(Neighbours[West], End))
             {
-                CellDetails[Neighbours[West].first][Neighbours[West].second] = Cell{Position, 0, 0, 0};
+                CellDetails[static_cast<int>(Neighbours[West].x)][static_cast<int>(Neighbours[West].y)] = Cell{Position, 0, 0, 0};
                 bFoundDest = true;
                 break;
             }
-            else if (!ClosedList[Neighbours[West].first][Neighbours[West].second]
+            else if (!ClosedList[static_cast<int>(Neighbours[West].x)][static_cast<int>(Neighbours[West].y)]
                 && IsUnblocked(Grid, Neighbours[West]))
             {
-                GNew = CellDetails[Position.first][Position.second].G + 1.0;
+                GNew = CellDetails[static_cast<int>(Position.x)][static_cast<int>(Position.y)].G + 1.0;
                 HNew = CalculateHValue(Neighbours[West], End);
                 FNew = GNew + HNew;
 
-                if (CellDetails[Neighbours[West].first][Neighbours[West].second].F == FLT_MAX
-                    || CellDetails[Neighbours[West].first][Neighbours[West].second].F > FNew)
+                if (CellDetails[static_cast<int>(Neighbours[West].x)][static_cast<int>(Neighbours[West].y)].F == FLT_MAX
+                    || CellDetails[static_cast<int>(Neighbours[West].x)][static_cast<int>(Neighbours[West].y)].F > FNew)
                 {
                     OpenList.insert(std::make_pair(FNew, Neighbours[West]));
 
-                    CellDetails[Neighbours[West].first][Neighbours[West].second] = Cell{Position, GNew, HNew, FNew};
+                    CellDetails[static_cast<int>(Neighbours[West].x)][static_cast<int>(Neighbours[West].y)] = Cell{Position, GNew, HNew, FNew};
                 }
             }
         }
@@ -189,23 +197,23 @@ std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vec
         {
             if (IsDestination(Neighbours[NorthEast], End))
             {
-                CellDetails[Neighbours[NorthEast].first][Neighbours[NorthEast].second] = Cell{Position, 0, 0, 0};
+                CellDetails[static_cast<int>(Neighbours[NorthEast].x)][static_cast<int>(Neighbours[NorthEast].y)] = Cell{Position, 0, 0, 0};
                 bFoundDest = true;
                 break;
             }
-            else if (!ClosedList[Neighbours[NorthEast].first][Neighbours[NorthEast].second]
+            else if (!ClosedList[static_cast<int>(Neighbours[NorthEast].x)][static_cast<int>(Neighbours[NorthEast].y)]
                 && IsUnblocked(Grid, Neighbours[NorthEast]))
             {
-                GNew = CellDetails[Position.first][Position.second].G + 1.0;
+                GNew = CellDetails[static_cast<int>(Position.x)][static_cast<int>(Position.y)].G + 1.0;
                 HNew = CalculateHValue(Neighbours[NorthEast], End);
                 FNew = GNew + HNew;
         
-                if (CellDetails[Neighbours[NorthEast].first][Neighbours[NorthEast].second].F == FLT_MAX
-                    || CellDetails[Neighbours[NorthEast].first][Neighbours[NorthEast].second].F > FNew)
+                if (CellDetails[static_cast<int>(Neighbours[NorthEast].x)][static_cast<int>(Neighbours[NorthEast].y)].F == FLT_MAX
+                    || CellDetails[static_cast<int>(Neighbours[NorthEast].x)][static_cast<int>(Neighbours[NorthEast].y)].F > FNew)
                 {
                     OpenList.insert(std::make_pair(FNew, Neighbours[NorthEast]));
         
-                    CellDetails[Neighbours[NorthEast].first][Neighbours[NorthEast].second] = Cell{
+                    CellDetails[static_cast<int>(Neighbours[NorthEast].x)][static_cast<int>(Neighbours[NorthEast].y)] = Cell{
                         Position, GNew, HNew, FNew
                     };
                 }
@@ -218,23 +226,23 @@ std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vec
         {
             if (IsDestination(Neighbours[NorthWest], End))
             {
-                CellDetails[Neighbours[NorthWest].first][Neighbours[NorthWest].second] = Cell{Position, 0, 0, 0};
+                CellDetails[static_cast<int>(Neighbours[NorthWest].x)][static_cast<int>(Neighbours[NorthWest].y)] = Cell{Position, 0, 0, 0};
                 bFoundDest = true;
                 break;
             }
-            else if (!ClosedList[Neighbours[NorthWest].first][Neighbours[NorthWest].second]
+            else if (!ClosedList[static_cast<int>(Neighbours[NorthWest].x)][static_cast<int>(Neighbours[NorthWest].y)]
                 && IsUnblocked(Grid, Neighbours[NorthWest]))
             {
-                GNew = CellDetails[Position.first][Position.second].G + 1.0;
+                GNew = CellDetails[static_cast<int>(Position.x)][static_cast<int>(Position.y)].G + 1.0;
                 HNew = CalculateHValue(Neighbours[NorthWest], End);
                 FNew = GNew + HNew;
         
-                if (CellDetails[Neighbours[NorthWest].first][Neighbours[NorthWest].second].F == FLT_MAX
-                    || CellDetails[Neighbours[NorthWest].first][Neighbours[NorthWest].second].F > FNew)
+                if (CellDetails[static_cast<int>(Neighbours[NorthWest].x)][static_cast<int>(Neighbours[NorthWest].y)].F == FLT_MAX
+                    || CellDetails[static_cast<int>(Neighbours[NorthWest].x)][static_cast<int>(Neighbours[NorthWest].y)].F > FNew)
                 {
                     OpenList.insert(std::make_pair(FNew, Neighbours[NorthWest]));
         
-                    CellDetails[Neighbours[NorthWest].first][Neighbours[NorthWest].second] = Cell{
+                    CellDetails[static_cast<int>(Neighbours[NorthWest].x)][static_cast<int>(Neighbours[NorthWest].y)] = Cell{
                         Position, GNew, HNew, FNew
                     };
                 }
@@ -247,23 +255,23 @@ std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vec
         {
             if (IsDestination(Neighbours[SouthWest], End))
             {
-                CellDetails[Neighbours[SouthWest].first][Neighbours[SouthWest].second] = Cell{Position, 0, 0, 0};
+                CellDetails[static_cast<int>(Neighbours[SouthWest].x)][static_cast<int>(Neighbours[SouthWest].y)] = Cell{Position, 0, 0, 0};
                 bFoundDest = true;
                 break;
             }
-            else if (!ClosedList[Neighbours[SouthWest].first][Neighbours[SouthWest].second]
+            else if (!ClosedList[static_cast<int>(Neighbours[SouthWest].x)][static_cast<int>(Neighbours[SouthWest].y)]
                 && IsUnblocked(Grid, Neighbours[SouthWest]))
             {
-                GNew = CellDetails[Position.first][Position.second].G + 1.0;
+                GNew = CellDetails[static_cast<int>(Position.x)][static_cast<int>(Position.y)].G + 1.0;
                 HNew = CalculateHValue(Neighbours[SouthWest], End);
                 FNew = GNew + HNew;
         
-                if (CellDetails[Neighbours[SouthWest].first][Neighbours[SouthWest].second].F == FLT_MAX
-                    || CellDetails[Neighbours[SouthWest].first][Neighbours[SouthWest].second].F > FNew)
+                if (CellDetails[static_cast<int>(Neighbours[SouthWest].x)][static_cast<int>(Neighbours[SouthWest].y)].F == FLT_MAX
+                    || CellDetails[static_cast<int>(Neighbours[SouthWest].x)][static_cast<int>(Neighbours[SouthWest].y)].F > FNew)
                 {
                     OpenList.insert(std::make_pair(FNew, Neighbours[SouthWest]));
         
-                    CellDetails[Neighbours[SouthWest].first][Neighbours[SouthWest].second] = Cell{
+                    CellDetails[static_cast<int>(Neighbours[SouthWest].x)][static_cast<int>(Neighbours[SouthWest].y)] = Cell{
                         Position, GNew, HNew, FNew
                     };
                 }
@@ -276,23 +284,23 @@ std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vec
         {
             if (IsDestination(Neighbours[SouthEast], End))
             {
-                CellDetails[Neighbours[SouthEast].first][Neighbours[SouthEast].second] = Cell{Position, 0, 0, 0};
+                CellDetails[static_cast<int>(Neighbours[SouthEast].x)][static_cast<int>(Neighbours[SouthEast].y)] = Cell{Position, 0, 0, 0};
                 bFoundDest = true;
                 break;
             }
-            else if (!ClosedList[Neighbours[SouthEast].first][Neighbours[SouthEast].second] && IsUnblocked(
+            else if (!ClosedList[static_cast<int>(Neighbours[SouthEast].x)][static_cast<int>(Neighbours[SouthEast].y)] && IsUnblocked(
                 Grid, Neighbours[SouthEast]))
             {
-                GNew = CellDetails[Position.first][Position.second].G + 1.0;
+                GNew = CellDetails[static_cast<int>(Position.x)][static_cast<int>(Position.y)].G + 1.0;
                 HNew = CalculateHValue(Neighbours[SouthEast], End);
                 FNew = GNew + HNew;
         
-                if (CellDetails[Neighbours[SouthEast].first][Neighbours[SouthEast].second].F == FLT_MAX
-                    || CellDetails[Neighbours[SouthEast].first][Neighbours[SouthEast].second].F > FNew)
+                if (CellDetails[static_cast<int>(Neighbours[SouthEast].x)][static_cast<int>(Neighbours[SouthEast].y)].F == FLT_MAX
+                    || CellDetails[static_cast<int>(Neighbours[SouthEast].x)][static_cast<int>(Neighbours[SouthEast].y)].F > FNew)
                 {
                     OpenList.insert(std::make_pair(FNew, Neighbours[SouthEast]));
         
-                    CellDetails[Neighbours[SouthEast].first][Neighbours[SouthEast].second] = Cell{
+                    CellDetails[static_cast<int>(Neighbours[SouthEast].x)][static_cast<int>(Neighbours[SouthEast].y)] = Cell{
                         Position, GNew, HNew, FNew
                     };
                 }
@@ -306,43 +314,43 @@ std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vec
         return MakePath(CellDetails, End);
     }
 
-    return std::make_pair<bool, std::vector<std::pair<int, int>>>(false, {});
+    return std::make_pair<bool, std::vector<Vector2>>(false, {});
 }
 
-bool Astar::IsValid(const std::pair<int, int>& Position, const std::pair<int, int>& GridSize) const
+bool Astar::IsValid(const Vector2& Position, const Vector2& GridSize) const
 {
-    return Position.first >= 0
-        && Position.first < GridSize.first
-        && Position.second >= 0
-        && Position.second < GridSize.second;
+    return Position.x >= 0
+        && Position.x < GridSize.x
+        && Position.y >= 0
+        && Position.y < GridSize.y;
 }
 
-bool Astar::IsUnblocked(const std::vector<std::vector<bool>>& Grid, const std::pair<int, int>& Position) const
+bool Astar::IsUnblocked(const std::vector<std::vector<bool>>& Grid, const Vector2& Position) const
 {
-    return !Grid[Position.first][Position.second];
+    return !Grid[static_cast<int>(Position.x)][static_cast<int>(Position.y)];
 }
 
-bool Astar::IsDestination(const std::pair<int, int>& Position, const std::pair<int, int>& End) const
+bool Astar::IsDestination(const Vector2& Position, const Vector2& End) const
 {
-    return Position.first == End.first
-        && Position.second == End.second;
+    return static_cast<int>(Position.x) == static_cast<int>(End.x)
+        && static_cast<int>(Position.y) == static_cast<int>(End.y);
 }
 
-double Astar::CalculateHValue(const std::pair<int, int>& Position, const std::pair<int, int>& End) const
+double Astar::CalculateHValue(const Vector2& Position, const Vector2& End) const
 {
-    return sqrt(pow(Position.first - End.first, 2) + pow(Position.second - End.second, 2));
+    return sqrt(pow(Position.x - End.x, 2) + pow(Position.y - End.y, 2));
 }
 
-std::pair<bool, std::vector<std::pair<int, int>>> Astar::MakePath(const std::vector<std::vector<Cell>>& CellDetails,
-                                                                  const std::pair<int, int>& End) const
+std::pair<bool, std::vector<Vector2>> Astar::MakePath(const std::vector<std::vector<Cell>>& CellDetails,
+                                                                  const Vector2& End) const
 {
-    std::pair<int, int> Position = End;
-    std::vector<std::pair<int, int>> Path;
+    Vector2 Position = End;
+    std::vector<Vector2> Path;
 
-    while (CellDetails[Position.first][Position.second].Position != Position)
+    while (!Vector2Equals(CellDetails[static_cast<int>(Position.x)][static_cast<int>(Position.y)].Position, Position))
     {
         Path.emplace_back(Position);
-        Position = CellDetails[Position.first][Position.second].Position;
+        Position = CellDetails[static_cast<int>(Position.x)][static_cast<int>(Position.y)].Position;
     }
 
     std::reverse(Path.begin(), Path.end());

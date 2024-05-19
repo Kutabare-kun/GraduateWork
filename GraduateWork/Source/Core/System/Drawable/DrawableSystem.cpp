@@ -31,15 +31,15 @@ void DrawableSystem::ProcessRemovals()
     }
 }
 
-void DrawableSystem::Draw()
+void DrawableSystem::Draw(const Camera2D& OwnerCamera)
 {
     Sort();
-    
+
     for (auto& [Layer, Objects] : Drawables)
     {
         for (auto& Element : Objects)
         {
-            Element->Draw();
+            Element->Draw(OwnerCamera);
         }
     }
 }
@@ -80,7 +80,8 @@ void DrawableSystem::Sort()
     }
 }
 
-bool DrawableSystem::LayerSort(const std::shared_ptr<DrawableComponent>& Left, const std::shared_ptr<DrawableComponent>& Right)
+bool DrawableSystem::LayerSort(const std::shared_ptr<DrawableComponent>& Left,
+                               const std::shared_ptr<DrawableComponent>& Right)
 {
     return Left->GetSortOrder() < Right->GetSortOrder();
 }

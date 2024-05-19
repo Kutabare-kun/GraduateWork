@@ -1,5 +1,7 @@
 #pragma once
 
+#include <raylib.h>
+
 enum class DrawLayer
 {
     Default,
@@ -15,7 +17,7 @@ public:
     DrawableComponent();
     virtual ~DrawableComponent();
 
-    virtual void Draw() = 0;
+    virtual void Draw(const Camera2D& OwnerCamera) = 0;
 
     void SetDrawLayer(DrawLayer NewLayer);
     DrawLayer GetDrawLayer() const;

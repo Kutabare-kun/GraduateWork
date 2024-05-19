@@ -1,12 +1,12 @@
 #pragma once
 #include <vector>
-#include "raylib.h"
 
-#include "../../../Core/Pattern/Singleton.h"
+#include "../../Pattern/Singleton.h"
+#include <raylib.h>
 
 struct Cell
 {
-    Vector2 Position;
+    std::pair<int, int> Position;
     double G;
     double H;
     double F;
@@ -15,17 +15,20 @@ struct Cell
 class Astar : public Singleton<Astar>
 {
 public:
-    std::pair<bool, std::vector<Vector2>> FindPath(const std::vector<std::vector<bool>>& Grid,
-                                                               const Vector2& Start,
-                                                               const Vector2& End);
+    std::pair<bool, std::vector<std::pair<int, int>>> FindPath(const std::vector<std::vector<bool>>& Grid,
+                                                               const std::pair<int, int>& Start,
+                                                               const std::pair<int, int>& End);
+
+    Vector2 GridToVec(const std::pair<int, int>& Position, const int CellSize) const;
+    std::pair<int, int> VecToGrid(const Vector2& Position, const int CellSize) const;
 
 protected:
-    bool IsValid(const Vector2& Position, const Vector2& GridSize) const;
-    bool IsUnblocked(const std::vector<std::vector<bool>>& Grid, const Vector2& Position) const;
-    bool IsDestination(const Vector2& Position, const Vector2& End) const;
+    bool IsValid(const std::pair<int, int>& Position, const std::pair<int, int>& GridSize) const;
+    bool IsUnblocked(const std::vector<std::vector<bool>>& Grid, const std::pair<int, int>& Position) const;
+    bool IsDestination(const std::pair<int, int>& Position, const std::pair<int, int>& End) const;
 
-    double CalculateHValue(const Vector2& Position, const Vector2& End) const;
+    double CalculateHValue(const std::pair<int, int>& Position, const std::pair<int, int>& End) const;
 
-    std::pair<bool, std::vector<Vector2>> MakePath(const std::vector<std::vector<Cell>>& CellDetails,
-                                                               const Vector2& End) const;
+    std::pair<bool, std::vector<std::pair<int, int>>> MakePath(const std::vector<std::vector<Cell>>& CellDetails,
+                                                               const std::pair<int, int>& End) const;
 };

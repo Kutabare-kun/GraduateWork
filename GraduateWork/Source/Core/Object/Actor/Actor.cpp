@@ -24,9 +24,9 @@ void Actor::LateUpdate(float DeltaTime)
     Object::LateUpdate(DeltaTime);
 }
 
-void Actor::Draw()
+void Actor::Draw(const Camera2D& OwnerCamera)
 {
-    Object::Draw();
+    Object::Draw(OwnerCamera);
 }
 
 Rectangle Actor::GetActorRectangle()

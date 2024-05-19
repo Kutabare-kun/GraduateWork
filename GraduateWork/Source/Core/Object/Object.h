@@ -88,7 +88,7 @@ public:
     virtual void Update(float DeltaTime);
     virtual void LateUpdate(float DeltaTime);
 
-    virtual void Draw();
+    virtual void Draw(const Camera2D& OwnerCamera);
 
     void OnCollisionBeginOverlap(std::shared_ptr<ColliderComponent> Other);
     void OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other);

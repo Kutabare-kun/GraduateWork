@@ -16,7 +16,7 @@ public:
     void Update(float DeltaTime) override;
     void LateUpdate(float DeltaTime) override;
 
-    void Draw() override;
+    void Draw(const Camera2D& OwnerCamera) override;
 
     std::shared_ptr<MovementComponent> GetMovement() const { return MovementComp; }
     std::shared_ptr<CameraComponent> GetCamera() const { return CameraComp; }

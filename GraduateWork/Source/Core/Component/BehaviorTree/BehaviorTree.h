@@ -2,7 +2,8 @@
 #include <memory>
 
 #include "../ActorComponent.h"
-#include "Node/BTNode.h"
+
+class BTSequence;
 
 struct Blackboard
 {
@@ -12,11 +13,18 @@ struct Blackboard
     }
 
     virtual ~Blackboard() = default;
+
+    void UpdateDeltaTime(float DeltaTime)
+    {
+        this->_DeltaTime = DeltaTime;
+    }
     
     Object* GetOwner() const { return Owner; }
+    float GetDeltaTime() const { return _DeltaTime; }
 
 private:
     Object* Owner;
+    float _DeltaTime = 0.0f;
 };
 
 class BehaviorTree
@@ -25,12 +33,14 @@ class BehaviorTree
 public:
     BehaviorTree(Object* Owner);
 
+    void Awake() override;
+
     void Update(float DeltaTime) override;
 
-    const std::unique_ptr<BTNode>& GetRoot() { return Root; }
+    const std::shared_ptr<BTSequence>& GetRoot() { return Root; }
     std::shared_ptr<Blackboard> GetBlackboard() { return Blackboard; }
 
-private:
-    std::unique_ptr<BTNode> Root;
+protected:
+    std::shared_ptr<BTSequence> Root;
     std::shared_ptr<Blackboard> Blackboard;
 };

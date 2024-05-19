@@ -6,12 +6,13 @@
 #include "../../../Core/Component/Sprite/SpriteComponent.h"
 #include "../../../Core/Directory/Directory.h"
 #include "../../../Core/StaticFunctions/Debug.h"
+#include "../../Actors/Enemy/Enemy.h"
 #include "../../Actors/Player/Player.h"
 #include "../../Actors/Trader/Trader.h"
 #include "../../UI/HUD/PlayerHUD.h"
 
 SceneGame::SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>& NewTextureAllocator,
-    ResourceAllocator<FontResource>& NewFontAllocator)
+                     ResourceAllocator<FontResource>& NewFontAllocator)
     : WorkingDirectory(NewDirectory), TextureAllocator(NewTextureAllocator), FontAllocator(NewFontAllocator)
 {
     DrawableSys = std::make_unique<DrawableSystem>();
@@ -34,18 +35,19 @@ void SceneGame::OnCreate()
     Context.TimerManagerSys = TimerManagerSys.get();
     // ~Make SharedContext
     
-    Vector2 MapOffset = {0.0f, 0.0f};
+    Vector2 MapOffset = {384.0f, 128.0f};
     std::vector<std::shared_ptr<Object>> LevelTiles = MapParser->Parse(WorkingDirectory.GetMap("TestMap.tmx"),
                                                                        MapOffset);
     Objects->AddObject(LevelTiles);
 
-    auto _Player = Objects->CreateObject<Player>(&Context, Vector2{0.0f, 0.0f}, 200.0f);
+    auto _Player = Objects->CreateObject<Player>(&Context, Vector2{400.0f, 400.0f}, 200.0f);
     PlayerMovement = _Player->GetMovement();
     Camera = _Player->GetCamera();
 
     HUD = _Player->GetComponent<PlayerHUD>();
 
-    Objects->CreateObject<Trader>(&Context, Vector2{200.0f, 200.0f});
+    Objects->CreateObject<Trader>(&Context, Vector2{600.0f, 600.0f});
+    Objects->CreateObject<Enemy>(&Context, Vector2{800.0f, 800.0f});
 }
 
 void SceneGame::OnDestroy()
@@ -93,13 +95,7 @@ void SceneGame::LateUpdate(float DeltaTime)
 
 void SceneGame::Draw()
 {
-    BeginMode2D(Camera->GetCamera());
+    Objects->Draw(Camera->GetCamera());
 
-    Objects->Draw();
-
-    Debug::GetInstance().Draw();
-
-    EndMode2D();
-
-    HUD->Draw();
+    Debug::GetInstance().Draw(Camera->GetCamera());
 }

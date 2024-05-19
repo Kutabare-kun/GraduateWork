@@ -8,17 +8,22 @@ class BTCompositeNode
     : public BTNode
 {
 public:
-    template<typename Type>
-    std::unique_ptr<BTNode> AddChild()
+    template <typename Type, typename... Arguments>
+    std::shared_ptr<Type> AddChild(Arguments&&... Args)
     {
-        std::unique_ptr<Type> InsertedNode = Children.emplace_back<Type>();
-        return std::dynamic_pointer_cast<BTNode>(InsertedNode);
+        static_assert(std::is_base_of_v<BTNode, Type>, "Type must derive from BTNode");
+
+        auto Child = std::make_shared<Type>(std::forward<Arguments>(Args)...);
+        Children.push_back(Child);
+        return Child;
     }
 
 public:
-    const std::vector<std::unique_ptr<BTNode>>& GetChildren() const { return Children; }
-    void RemoveChild(std::unique_ptr<BTNode>& Child);
-    
+    BTCompositeNode(std::shared_ptr<Blackboard> NodeBlackboard);
+
+    const std::vector<std::shared_ptr<BTNode>>& GetChildren() const { return Children; }
+    void RemoveChild(std::shared_ptr<BTNode>& Child);
+
 private:
-    std::vector<std::unique_ptr<BTNode>> Children;
+    std::vector<std::shared_ptr<BTNode>> Children;
 };

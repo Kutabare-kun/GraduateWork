@@ -35,7 +35,7 @@ void Trader::LateUpdate(float DeltaTime)
     Actor::LateUpdate(DeltaTime);
 }
 
-void Trader::Draw()
+void Trader::Draw(const Camera2D& OwnerCamera)
 {
-    Actor::Draw();
+    Actor::Draw(OwnerCamera);
 }

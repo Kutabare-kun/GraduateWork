@@ -1,5 +1,6 @@
 #include "TileMapParser.h"
 
+#include <iostream>
 #include <sstream>
 
 #include "../../Component/Collider/BoxCollider/BoxColliderComponent.h"
@@ -18,15 +19,14 @@ TileMapParser::TileMapParser(ResourceAllocator<TextureResource>& NewTextureAlloc
 std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& FilePath, const Vector2& Offset)
 {
     char* FileLocation = new char[FilePath.size() + 1];
-
     strcpy_s(FileLocation, FilePath.size() + 1, FilePath.c_str());
 
-    rapidxml::file<> XmlFile(FileLocation);
-    rapidxml::xml_document<> Doc;
+    file<> XmlFile(FileLocation);
+    xml_document<> Doc;
     Doc.parse<0>(XmlFile.data());
     xml_node<>* RootNode = Doc.first_node("map");
 
-    std::shared_ptr<MapTiles> Tiles = BuildMapTiles(RootNode);
+    const std::shared_ptr<MapTiles> Tiles = BuildMapTiles(RootNode);
 
     const int TileSizeX = std::atoi(RootNode->first_attribute("tilewidth")->value());
     const int TileSizeY = std::atoi(RootNode->first_attribute("tileheight")->value());
@@ -36,14 +36,16 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
     constexpr int TextureID = 1;
     int LayerCount = Tiles->size() - 1;
 
+    constexpr int TileScale{ 4 };
+
+    Context.MaxTileSize = TileSizeX * TileScale;
+
     for (const auto& TileLayer : *Tiles)
     {
         for (const auto& TileProperties : TileLayer.second->Tiles)
         {
             std::shared_ptr<TileInfo> TileInfoObj = TileProperties->Properties;
             std::shared_ptr<Object> TileObject = std::make_shared<Object>(&Context);
-
-            constexpr unsigned TileScale = 4;
 
             if (TileLayer.second->bIsVisible)
             {
@@ -53,8 +55,8 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
                 Sprite->SetSortOrder(LayerCount);
                 Sprite->SetDrawLayer(DrawLayer::Background);
             }
-            
-            auto TransformComp = TileObject->GetTransform();
+
+            const auto TransformComp = TileObject->GetTransform();
             TransformComp->SetScale({TileScale, TileScale});
             const Vector2 Position = {
                 TileProperties->Position.x * static_cast<float>(TileSizeX) * TileScale + Offset.x,
@@ -74,7 +76,7 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
                 });
                 BoxColliderComp->SetLayer(CollisionLayer::Tile);
             }
-            
+
             TileObjects.emplace_back(TileObject);
         }
 
@@ -102,8 +104,8 @@ std::shared_ptr<TileSheets> TileMapParser::BuildTileSheetData(xml_node<>* RootNo
         char* FileLocation = new char[FileTileSheet.size() + 1];
         strcpy_s(FileLocation, FileTileSheet.size() + 1, FileTileSheet.c_str());
 
-        rapidxml::file<> XmlFile(FileLocation);
-        rapidxml::xml_document<> Doc;
+        file<> XmlFile(FileLocation);
+        xml_document<> Doc;
         Doc.parse<0>(XmlFile.data());
 
         xml_node<>* TileSheetNode = Doc.first_node("tileset");
@@ -153,6 +155,7 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
     std::shared_ptr<Layer> LayerData = std::make_shared<Layer>();
 
     int Width = std::atoi(LayerNode->first_attribute("width")->value());
+    std::string LayerName = LayerNode->first_attribute("name")->value();
 
     xml_node<>* DataNode = LayerNode->first_node("data");
     char* MapIndices = DataNode->value();
@@ -160,6 +163,12 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
     std::stringstream FileStream(MapIndices);
 
     int Count = 0;
+
+    if (LayerName == "Collision")
+    {
+        std::vector<std::vector<bool>> CollisionMap(Width, std::vector<bool>(Width, false));
+        Context.CollisionMap = std::move(CollisionMap);
+    }
 
     std::string Line;
     while (FileStream.good())
@@ -178,6 +187,11 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
         }
 
         int TileId = std::stoi(Substr);
+
+        if (LayerName == "Collision")
+        {
+            Context.CollisionMap[Count / Width][Count % Width] = TileId != 0;
+        }
 
         if (TileId != 0)
         {
@@ -200,10 +214,9 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
 
                 if (!TileSheet)
                 {
-                    //Debug::GetInstance().Log(TextFormat("No tile sheet found for ID: ", TileId));
                     continue;
                 }
-                
+
                 Vector2 TexturePosition{
                     static_cast<float>((TileId - FirstID) % TileSheet->Columns),
                     static_cast<float>((TileId - FirstID) / TileSheet->Columns)
@@ -246,6 +259,6 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
         bIsLayerVisible = std::atoi(VisibleAttribute->value()) == 1;
     }
     LayerData->bIsVisible = bIsLayerVisible;
-    
+
     return std::make_pair(layerName, LayerData);
 }

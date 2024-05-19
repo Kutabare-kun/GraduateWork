@@ -10,11 +10,11 @@ class BaseHUD
 {
 public:
     BaseHUD(Object* Owner);
-    
+
     void Awake() override;
     void LateUpdate(float DeltaTime) override;
 
-    void Draw() override;
+    void Draw(const Camera2D& OwnerCamera) override;
     bool ContinueToDraw() const override;
 
 protected:

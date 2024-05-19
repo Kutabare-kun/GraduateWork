@@ -3,7 +3,7 @@
 BaseHUD::BaseHUD(Object* Owner)
     : ActorComponent(Owner)
 {
-    
+    SetDrawLayer(DrawLayer::UI);
 }
 
 void BaseHUD::Awake()
@@ -26,7 +26,7 @@ void BaseHUD::LateUpdate(float DeltaTime)
     }
 }
 
-void BaseHUD::Draw()
+void BaseHUD::Draw(const Camera2D& OwnerCamera)
 {
     for (auto& Element : UIElements)
     {

@@ -6,24 +6,30 @@
 
 SpriteComponent::SpriteComponent(Object* NewOwner, const Color& NewTint)
     : ActorComponent(NewOwner), Tint(NewTint)
-{}
+{
+}
 
 SpriteComponent::~SpriteComponent()
-{}
+{
+}
 
-void SpriteComponent::Draw()
+void SpriteComponent::Draw(const Camera2D& OwnerCamera)
 {
     Vector2 Position = Transform->GetPosition();
     const Vector2& Scale = Transform->GetScale();
 
     Position.x -= (abs(SourceRect.width) / 2.0f * Scale.x);
     Position.y -= (abs(SourceRect.height) / 2.0f * Scale.y);
-    
+
+    BeginMode2D(OwnerCamera);
+
     DrawTexturePro(Sprite, SourceRect,
-        {Position.x, Position.y, SourceRect.width * Scale.x, SourceRect.height * Scale.y},
-        {SourceRect.width * Transform->GetOrigin().x, SourceRect.height * Transform->GetOrigin().y},
-        Transform->GetRotation(),
-        Tint);
+                   {Position.x, Position.y, SourceRect.width * Scale.x, SourceRect.height * Scale.y},
+                   {SourceRect.width * Transform->GetOrigin().x, SourceRect.height * Transform->GetOrigin().y},
+                   Transform->GetRotation(),
+                   Tint);
+
+    EndMode2D();
 }
 
 bool SpriteComponent::ContinueToDraw() const
@@ -56,13 +62,13 @@ void SpriteComponent::Load(const std::string& FilePath)
 {
     const int TextureID = GetOwner()->GetContext()->TextureAllocator->Add(FilePath);
     if (TextureID <= 0 || TextureID == CurrentTextureID) return;
-        
+
     Load(TextureID);
 }
 
 Vector2 SpriteComponent::GetSpriteSize() const
 {
-    return { static_cast<float>(Sprite.width), static_cast<float>(Sprite.height) };
+    return {static_cast<float>(Sprite.width), static_cast<float>(Sprite.height)};
 }
 
 void SpriteComponent::SetScale(Vector2 NewScale)

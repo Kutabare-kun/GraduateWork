@@ -19,7 +19,7 @@ RaycastResult Raycast::Cast(const Vector2& From, const Vector2& To, int Exclusio
     }
 
     Rectangle CollisionArea = BuildRectangle(From, To);
-    // Debug::GetInstance().DrawRectangle(CollisionArea, RED);
+    Debug::GetInstance().DrawRectangle(CollisionArea, RED);
 
     std::vector<std::shared_ptr<BoxColliderComponent>> Entities = Quadtree.Search(CollisionArea);
     if (Entities.empty())
@@ -30,6 +30,7 @@ RaycastResult Raycast::Cast(const Vector2& From, const Vector2& To, int Exclusio
     std::vector<Vector2> LinePoints = BuildLinePoints(From, To);
     for (auto& Point : LinePoints)
     {
+        Debug::GetInstance().DrawPixel(Point, BLUE);
         for (auto& Entity : Entities)
         {
             if (static_cast<int>(Entity->GetOwner()->GetInstanceID()->GetID()) == ExclusionID)
@@ -50,25 +51,30 @@ RaycastResult Raycast::Cast(const Vector2& From, const Vector2& To, int Exclusio
 
 Rectangle Raycast::BuildRectangle(const Vector2& LineStart, const Vector2& LineEnd)
 {
-    constexpr float RectWidth = 0.2f;
-    constexpr float HalfWidth = RectWidth / 2.0f;
+    const float Left = (LineStart.x < LineEnd.x) ? LineStart.x : LineEnd.x;
+    const float Top = (LineStart.y < LineEnd.y) ? LineStart.y : LineEnd.y;
+    const float Width = fabsf(LineStart.x - LineEnd.x);
+    const float Height = fabsf(LineStart.y - LineEnd.y);
     
-    float Left, Top, Width, Height;
-
-    if (LineStart.x == LineEnd.x)
-    {
-        Left = LineStart.x - HalfWidth;
-        Top = (LineStart.y < LineEnd.y) ? LineStart.y : LineEnd.y;
-        Width = RectWidth;
-        Height = fabsf(LineEnd.y - LineStart.y);
-    }
-    else
-    {
-        Left = (LineStart.x < LineEnd.x) ? LineStart.x : LineEnd.x;
-        Top = LineStart.y - HalfWidth;
-        Width = fabsf(LineEnd.x - LineStart.x);
-        Height = RectWidth;
-    }
+    // constexpr float RectWidth = 0.2f;
+    // constexpr float HalfWidth = RectWidth / 2.0f;
+    //
+    // float Left, Top, Width, Height;
+    //
+    // if (LineStart.x == LineEnd.x)
+    // {
+    //     Left = LineStart.x - HalfWidth;
+    //     Top = (LineStart.y < LineEnd.y) ? LineStart.y : LineEnd.y;
+    //     Width = RectWidth;
+    //     Height = fabsf(LineEnd.y - LineStart.y);
+    // }
+    // else
+    // {
+    //     Left = (LineStart.x < LineEnd.x) ? LineStart.x : LineEnd.x;
+    //     Top = LineStart.y - HalfWidth;
+    //     Width = fabsf(LineEnd.x - LineStart.x);
+    //     Height = RectWidth;
+    // }
 
     return Rectangle{Left, Top, Width, Height};
 }

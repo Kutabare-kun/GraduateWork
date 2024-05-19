@@ -15,9 +15,9 @@ Player::Player(SharedContext* Context, const Vector2& Position, float Speed)
     : Actor(Context, Position)
 {
     SetName("Player_");
-    
+
     MovementComp = AddComponent<MovementComponent>(this, Speed);
-    
+
     CameraComp = AddComponent<CameraComponent>(this);
     CameraComp->UpdateZoom(0.5f);
 
@@ -38,8 +38,10 @@ Player::~Player()
 void Player::CreateAnimation()
 {
     // Atlas Texture
-    const int RightVikingTextureID = GetContext()->TextureAllocator->Add(Directory::GetInstance().GetTexture("RightViking.png"));
-    const int LeftVikingTextureID = GetContext()->TextureAllocator->Add(Directory::GetInstance().GetTexture("LeftViking.png"));
+    const int RightVikingTextureID = GetContext()->TextureAllocator->Add(
+        Directory::GetInstance().GetTexture("RightViking.png"));
+    const int LeftVikingTextureID = GetContext()->TextureAllocator->Add(
+        Directory::GetInstance().GetTexture("LeftViking.png"));
     // ~Atlas Texture
 
     // Sprite Size
@@ -90,7 +92,7 @@ void Player::CreateAnimation()
 }
 
 void Player::Awake()
-{    
+{
     Actor::Awake();
 
     GetSprite()->SetDrawLayer(DrawLayer::Entities);
@@ -108,7 +110,7 @@ void Player::LateUpdate(float DeltaTime)
     Actor::LateUpdate(DeltaTime);
 }
 
-void Player::Draw()
+void Player::Draw(const Camera2D& OwnerCamera)
 {
-    Actor::Draw();
+    Actor::Draw(OwnerCamera);
 }

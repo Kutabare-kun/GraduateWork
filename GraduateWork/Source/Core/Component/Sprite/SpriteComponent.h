@@ -20,7 +20,7 @@ public:
     void Awake() override;
     void Start() override;
 
-    void Draw() override;
+    void Draw(const Camera2D& OwnerCamera) override;
 
     bool ContinueToDraw() const override;
 

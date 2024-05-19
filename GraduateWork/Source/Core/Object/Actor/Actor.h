@@ -24,7 +24,7 @@ public:
 
     void LateUpdate(float DeltaTime) override;
 
-    void Draw() override;
+    void Draw(const Camera2D& OwnerCamera) override;
 
     // Return rectangle of actor
     Rectangle GetActorRectangle();

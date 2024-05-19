@@ -36,9 +36,9 @@ void ObjectCollection::LateUpdate(float DeltaTime)
     }
 }
 
-void ObjectCollection::Draw()
+void ObjectCollection::Draw(const Camera2D& OwnerCamera)
 {
-    Drawables.Draw();
+    Drawables.Draw(OwnerCamera);
 }
 
 void ObjectCollection::ProcessNewObjects()

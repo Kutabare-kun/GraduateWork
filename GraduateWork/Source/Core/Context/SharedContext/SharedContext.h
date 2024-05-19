@@ -14,4 +14,7 @@ public:
     ResourceAllocator<FontResource>* FontAllocator;
     Raycast* RaycastSys;
     TimerManager* TimerManagerSys;
+    std::vector<std::vector<bool>> CollisionMap;
+
+    int MaxTileSize;
 };

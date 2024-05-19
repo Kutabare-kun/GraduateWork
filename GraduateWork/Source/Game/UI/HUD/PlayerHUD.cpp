@@ -19,7 +19,7 @@ void PlayerHUD::LateUpdate(float DeltaTime)
     BaseHUD::LateUpdate(DeltaTime);
 }
 
-void PlayerHUD::Draw()
+void PlayerHUD::Draw(const Camera2D& OwnerCamera)
 {
-    BaseHUD::Draw();
+    BaseHUD::Draw(OwnerCamera);
 }

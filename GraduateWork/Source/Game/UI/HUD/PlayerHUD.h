@@ -14,7 +14,7 @@ public:
 
     void LateUpdate(float DeltaTime) override;
 
-    void Draw() override;
+    void Draw(const Camera2D& OwnerCamera) override;
 
 private:
     std::shared_ptr<TestWidget> UITestWidget;

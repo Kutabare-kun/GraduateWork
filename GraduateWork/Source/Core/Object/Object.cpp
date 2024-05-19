@@ -40,11 +40,11 @@ void Object::LateUpdate(float DeltaTime)
     }
 }
 
-void Object::Draw()
+void Object::Draw(const Camera2D& OwnerCamera)
 {
     for (const auto& Comp : DrawableComp)
     {
-        Comp->Draw();
+        Comp->Draw(OwnerCamera);
     }
 }
 

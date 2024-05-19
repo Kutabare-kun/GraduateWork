@@ -21,6 +21,30 @@ public:
         return Obj;
     }
 
+    template<typename Type>
+    std::shared_ptr<Type> GetObject()
+    {
+        static_assert(std::is_base_of_v<Object, Type>, "Type must derive from Object");
+
+        for (auto& CurrentObject : Objects)
+        {
+            if (auto ThisObject = std::dynamic_pointer_cast<Type>(CurrentObject); ThisObject)
+            {
+                return ThisObject;
+            }
+        }
+
+        for (auto& CurrentObject : NewObjects)
+        {
+            if (auto ThisObject = std::dynamic_pointer_cast<Type>(CurrentObject); ThisObject)
+            {
+                return ThisObject;
+            }
+        }
+
+        return nullptr;
+    }
+
 public:
     ObjectCollection(DrawableSystem& Drawables, ColliderSystem& Collidables);
 
@@ -29,7 +53,7 @@ public:
 
     void Update(float DeltaTime);
     void LateUpdate(float DeltaTime);
-    void Draw();
+    void Draw(const Camera2D& OwnerCamera);
 
     void ProcessNewObjects();
     void ProcessRemovals();

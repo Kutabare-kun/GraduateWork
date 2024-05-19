@@ -14,7 +14,7 @@ public:
 
     void ProcessRemovals();
 
-    void Draw();
+    void Draw(const Camera2D& OwnerCamera);
 
 private:
     void Add(std::shared_ptr<Object>& NewObject);

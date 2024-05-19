@@ -1,13 +1,15 @@
 #include "Raycast.h"
 
 #include <raymath.h>
+#include <algorithm>
 
 #include "../../StaticFunctions/Debug.h"
 #include "../../Object/Object.h"
 
 Raycast::Raycast(::Quadtree& NewQuadtree)
     : Quadtree(NewQuadtree)
-{}
+{
+}
 
 RaycastResult Raycast::Cast(const Vector2& From, const Vector2& To, int ExclusionID)
 {
@@ -19,7 +21,7 @@ RaycastResult Raycast::Cast(const Vector2& From, const Vector2& To, int Exclusio
     }
 
     Rectangle CollisionArea = BuildRectangle(From, To);
-    Debug::GetInstance().DrawRectangle(CollisionArea, RED);
+    // Debug::GetInstance().DrawRectangle(CollisionArea, RED);
 
     std::vector<std::shared_ptr<BoxColliderComponent>> Entities = Quadtree.Search(CollisionArea);
     if (Entities.empty())
@@ -27,13 +29,107 @@ RaycastResult Raycast::Cast(const Vector2& From, const Vector2& To, int Exclusio
         return Result;
     }
 
-    std::vector<Vector2> LinePoints = BuildLinePoints(From, To);
-    for (auto& Point : LinePoints)
+    // std::vector<std::pair<Vector2, Object*>> CollidedPoints;
+    //
+    // std::pair<Vector2, Vector2> Line = std::make_pair(From, To);
+    // for (auto& Entity : Entities)
+    // {
+    //     if (static_cast<int>(Entity->GetOwner()->GetInstanceID()->GetID()) == ExclusionID)
+    //     {
+    //         continue;
+    //     }
+    //
+    //     const Rectangle& EntityRect = Entity->GetCollidable();
+    //     std::pair<Vector2, Vector2> MainDiagonal = std::make_pair<Vector2, Vector2>(
+    //         {EntityRect.x, EntityRect.y},
+    //         {EntityRect.x + EntityRect.width, EntityRect.y + EntityRect.height}
+    //     );
+    //
+    //     std::pair<Vector2, Vector2> SecondaryDiagonal = std::make_pair<Vector2, Vector2>(
+    //         {EntityRect.x + EntityRect.width, EntityRect.y},
+    //         {EntityRect.x, EntityRect.y + EntityRect.height}
+    //     );
+    //
+    //     Debug::GetInstance().DrawLine(MainDiagonal.first, MainDiagonal.second, DARKPURPLE);
+    //     Debug::GetInstance().DrawLine(SecondaryDiagonal.first, SecondaryDiagonal.second, DARKPURPLE);
+    //
+    //     Vector2 CollisionPoint{};
+    //     CheckCollisionLines(Line.first, Line.second, MainDiagonal.first, MainDiagonal.second, &CollisionPoint);
+    //     if (!Vector2Equals(CollisionPoint, Vector2Zero()))
+    //     {
+    //         CollidedPoints.emplace_back(CollisionPoint, Entity->GetOwner());
+    //     }
+    //
+    //     CheckCollisionLines(Line.first, Line.second, SecondaryDiagonal.first, SecondaryDiagonal.second, &CollisionPoint);
+    //     if (!Vector2Equals(CollisionPoint, Vector2Zero()))
+    //     {
+    //         CollidedPoints.emplace_back(CollisionPoint, Entity->GetOwner());
+    //     }
+    // }
+    //
+    // Debug::GetInstance().Log(TextFormat("Count: %i", CollidedPoints.size()));
+    //
+    // std::ranges::sort(CollidedPoints, [&From](const auto& A, const auto& B)
+    // {
+    //     return Vector2Distance(From, A.first) < Vector2Distance(From, B.first);
+    // });
+    //
+    // if (!CollidedPoints.empty())
+    // {
+    //     for (const auto& [Vec2, OwnerPoint] : CollidedPoints)
+    //     {
+    //         Debug::GetInstance().DrawLine(From, Vec2, GRAY);
+    //     }
+    //     
+    //     Result.Collision = CollidedPoints[0].second;
+    //     return Result;
+    // }
+
+    for (const std::vector<Vector2> LinePoints = BuildLinePoints(From, To); auto& Point : LinePoints)
     {
-        Debug::GetInstance().DrawPixel(Point, BLUE);
+        // Debug::GetInstance().DrawPixel(Point, BLUE);
         for (auto& Entity : Entities)
         {
             if (static_cast<int>(Entity->GetOwner()->GetInstanceID()->GetID()) == ExclusionID)
+            {
+                continue;
+            }
+            
+            if (const Rectangle& EntityRect = Entity->GetCollidable(); CheckCollisionPointRec(Point, EntityRect))
+            {
+                Result.Collision = Entity->GetOwner();
+                return Result;
+            }
+        }
+    }
+
+    return Result;
+}
+
+RaycastResult Raycast::Cast(const Vector2& From, const Vector2& To, CollisionLayer Layer)
+{
+    RaycastResult Result;
+
+    if (Vector2Equals(From, To))
+    {
+        return Result;
+    }
+
+    Rectangle CollisionArea = BuildRectangle(From, To);
+    // Debug::GetInstance().DrawRectangle(CollisionArea, RED);
+
+    std::vector<std::shared_ptr<BoxColliderComponent>> Entities = Quadtree.Search(CollisionArea);
+    if (Entities.empty())
+    {
+        return Result;
+    }
+
+    for (const std::vector<Vector2> LinePoints = BuildLinePoints(From, To); auto& Point : LinePoints)
+    {
+        // Debug::GetInstance().DrawPixel(Point, BLUE);
+        for (auto& Entity : Entities)
+        {
+            if (Entity->GetLayer() == Layer)
             {
                 continue;
             }
@@ -55,26 +151,6 @@ Rectangle Raycast::BuildRectangle(const Vector2& LineStart, const Vector2& LineE
     const float Top = (LineStart.y < LineEnd.y) ? LineStart.y : LineEnd.y;
     const float Width = fabsf(LineStart.x - LineEnd.x);
     const float Height = fabsf(LineStart.y - LineEnd.y);
-    
-    // constexpr float RectWidth = 0.2f;
-    // constexpr float HalfWidth = RectWidth / 2.0f;
-    //
-    // float Left, Top, Width, Height;
-    //
-    // if (LineStart.x == LineEnd.x)
-    // {
-    //     Left = LineStart.x - HalfWidth;
-    //     Top = (LineStart.y < LineEnd.y) ? LineStart.y : LineEnd.y;
-    //     Width = RectWidth;
-    //     Height = fabsf(LineEnd.y - LineStart.y);
-    // }
-    // else
-    // {
-    //     Left = (LineStart.x < LineEnd.x) ? LineStart.x : LineEnd.x;
-    //     Top = LineStart.y - HalfWidth;
-    //     Width = fabsf(LineEnd.x - LineStart.x);
-    //     Height = RectWidth;
-    // }
 
     return Rectangle{Left, Top, Width, Height};
 }

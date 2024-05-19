@@ -16,7 +16,7 @@ Enemy::Enemy(SharedContext* Context, const Vector2& Position)
     Collider->SetOffset(0.0f, 14.0f);
     Collider->SetLayer(CollisionLayer::Enemy);
 
-    AddComponent<MovementComponent>(this, 150.0f);
+    AddComponent<MovementComponent>(this, 200.0f);
 
     BehaviorTreeComp = AddComponent<BehaviorTreeSimple>(this);
 }

@@ -19,6 +19,8 @@ void MovementComponent::InputValue(float Value, const Vector2& Direction)
 {
     this->Direction = Vector2Add(Vector2Scale(Direction, Value), this->Direction);
 
+    if (!Animation) return;
+
     if (this->Direction.x > 0.0f)
     {
         Animation->SetAnimationDirection(FacingDirection::Right);

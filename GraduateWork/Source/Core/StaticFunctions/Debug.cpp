@@ -24,11 +24,15 @@ void Debug::Draw(const Camera2D& OwnerCamera)
         DrawPixelV(Pixel, Color);
     }
 
-    EndMode2D();
+    for (auto& [Text, Position, FontSize, Color] : Texts)
+    {
+        const int TextSize = MeasureText(Text.c_str(), FontSize);
+        ::DrawText(Text.c_str(), static_cast<int>(Position.x - TextSize / 2.0f), static_cast<int>(Position.y), FontSize,
+                   Color);
+    }
 
-    Rectangles.clear();
-    Lines.clear();
-    Pixels.clear();
+    EndMode2D();
+    Clear();
 }
 
 void Debug::DrawRectangle(const Rectangle& Rect, const Color& Color)
@@ -46,6 +50,11 @@ void Debug::DrawPixel(const Vector2& Position, const Color& Color)
     Pixels.emplace_back(Position, Color);
 }
 
+void Debug::DrawText(const std::string& Text, const Vector2& Position, int FontSize, const Color& Color)
+{
+    Texts.emplace_back(Text, Position, FontSize, Color);
+}
+
 void Debug::Log(const std::string& Message)
 {
     std::cout << std::format("[LOG] {}", Message) << std::endl;
@@ -59,4 +68,12 @@ void Debug::LogWarning(const std::string& Message)
 void Debug::LogError(const std::string& Message)
 {
     std::cout << std::format("[ERROR] {}", Message) << std::endl;
+}
+
+void Debug::Clear()
+{
+    Rectangles.clear();
+    Lines.clear();
+    Pixels.clear();
+    Texts.clear();
 }

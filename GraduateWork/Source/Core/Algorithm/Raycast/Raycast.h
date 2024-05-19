@@ -14,6 +14,7 @@ public:
     Raycast(Quadtree& NewQuadtree);
 
     RaycastResult Cast(const Vector2& From, const Vector2& To, int ExclusionID = -1);
+    RaycastResult Cast(const Vector2& From, const Vector2& To, CollisionLayer Layer = CollisionLayer::Default);
 
 private:
     Rectangle BuildRectangle(const Vector2& LineStart, const Vector2& LineEnd);

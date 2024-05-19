@@ -35,24 +35,6 @@ std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vec
                                                                  })
     );
 
-    {
-        int RowCount{};
-        int ColumnCount{};
-        constexpr float SIZE{256.0f}; 
-
-        for (auto& Row : Grid)
-        {
-            for (auto&& Column : Row)
-            {
-                Debug::GetInstance().DrawRectangle({RowCount * SIZE, ColumnCount * SIZE, SIZE, SIZE}, Column ? BLUE : DARKGREEN);
-
-                ++RowCount;
-            }
-            ++ColumnCount;
-            RowCount = 0;
-        }
-    }
-
     std::pair<int, int> Position{Start};
 
     CellDetails[Position.first][Position.second] = Cell{Position, 0, 0, 0};

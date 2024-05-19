@@ -6,16 +6,26 @@
 ColliderSystem::ColliderSystem(Quadtree& CollisionTree)
     : CollisionTree(CollisionTree)
 {
+    // Default collision layers
     Bitmask DefaultCollision;
     DefaultCollision.SetBit((int)CollisionLayer::Default);
     CollisionLayers.emplace(CollisionLayer::Default, DefaultCollision);
-
     CollisionLayers.insert(std::make_pair(CollisionLayer::Tile, Bitmask{}));
+    // ~Default collision layers
 
+    // Player collision layer
     Bitmask PlayerCollision;
     PlayerCollision.SetBit((int)CollisionLayer::Player);
     PlayerCollision.SetBit((int)CollisionLayer::Tile);
     CollisionLayers.insert(std::make_pair(CollisionLayer::Player, PlayerCollision));
+    // ~Player collision layer
+
+    // Enemy collision layer
+    Bitmask EnemyCollision;
+    EnemyCollision.SetBit((int)CollisionLayer::Enemy);
+    EnemyCollision.SetBit((int)CollisionLayer::Tile);
+    CollisionLayers.insert(std::make_pair(CollisionLayer::Enemy, EnemyCollision));
+    // ~Enemy collision layer
 
     const Vector2& ScreenSize = Window::GetInstance().GetScreenSize();
 }

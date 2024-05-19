@@ -26,17 +26,18 @@ bool MoveToLocation::Run()
     std::shared_ptr<TransformComponent> TransformComp = BBS->GetOwner()->GetTransform();
     if (!TransformComp) return false;
 
-    std::shared_ptr<VelocityComponent> VelocityComp = BBS->GetOwner()->GetComponent<VelocityComponent>();
+    std::shared_ptr<MovementComponent> MovementComp = BBS->GetOwner()->GetComponent<MovementComponent>();
+    if (!MovementComp) return false;
 
     const Vector2 MoveTo = Vector2Subtract(*BBS->MoveToLocation, TransformComp->GetPosition());
     const float Distance = Vector2Distance(TransformComp->GetPosition(), *BBS->MoveToLocation);
 
     if (Distance < 5.0f)
     {
-        VelocityComp->SetVelocity(Vector2Zero());
+        BBS->MoveToLocation.reset();
         return false;
     }
 
-    VelocityComp->SetVelocity(Vector2Normalize(MoveTo));
+    MovementComp->InputValue(1.0f, Vector2Normalize(MoveTo));
     return Distance > 5.0f;
 }

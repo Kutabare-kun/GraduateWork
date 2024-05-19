@@ -22,24 +22,22 @@ bool MoveToTarget::Run()
 
     if (!BBS->Target) return false;
 
+    if (BBS->MoveToLocation) return false;
+
     std::shared_ptr<TransformComponent> TargetTransformComp = BBS->Target->GetTransform();
     if (!TargetTransformComp) return false;
 
     std::shared_ptr<TransformComponent> OwnerTransformComp = BBS->GetOwner()->GetTransform();
     if (!OwnerTransformComp) return false;
 
-    std::shared_ptr<VelocityComponent> VelocityComp = BBS->GetOwner()->GetComponent<VelocityComponent>();
-    if (!VelocityComp) return false;
+    std::shared_ptr<MovementComponent> MovementComp = BBS->GetOwner()->GetComponent<MovementComponent>();
+    if (!MovementComp) return false;
 
     const Vector2 MoveTo = Vector2Subtract(TargetTransformComp->GetPosition(), OwnerTransformComp->GetPosition());
     const float Distance = Vector2Distance(OwnerTransformComp->GetPosition(), TargetTransformComp->GetPosition());
 
-    if (Distance < GetDistance())
-    {
-        VelocityComp->SetVelocity(Vector2Zero());
-        return false;
-    }
+    if (Distance < GetDistance()) return false;
 
-    VelocityComp->SetVelocity(Vector2Normalize(MoveTo));
+    MovementComp->InputValue(1.0f, Vector2Normalize(MoveTo));
     return Distance > GetDistance();
 }

@@ -9,12 +9,14 @@
 Enemy::Enemy(SharedContext* Context, const Vector2& Position)
     : Actor(Context, Position), BehaviorTreeComp(nullptr)
 {
+    SetName("Enemy_");
+
     const auto Collider = AddComponent<BoxColliderComponent>(this);
     Collider->SetSize(165 * 0.4f, 145 * 0.4f);
     Collider->SetOffset(0.0f, 14.0f);
     Collider->SetLayer(CollisionLayer::Enemy);
 
-    AddComponent<VelocityComponent>(this);
+    AddComponent<MovementComponent>(this, 150.0f);
 
     BehaviorTreeComp = AddComponent<BehaviorTreeSimple>(this);
 }

@@ -36,6 +36,8 @@ public:
     std::shared_ptr<AnimationComponent> GetAnimation() const { return AnimationComp; }
 
 protected:
+    virtual void CreateAnimation() = 0;
+    
     std::shared_ptr<SpriteComponent> SpriteComp;
     std::shared_ptr<AnimationComponent> AnimationComp;
 };

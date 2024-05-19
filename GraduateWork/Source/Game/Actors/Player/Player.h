@@ -4,19 +4,14 @@
 class CameraComponent;
 class MovementComponent;
 
-class Player
+class Player final
     : public Actor
 {
 public:
     Player(SharedContext* Context, const Vector2& Position = {0.0f, 0.0f });
-    ~Player() override;
+    ~Player() override = default;
 
     void Awake() override;
-
-    void Update(float DeltaTime) override;
-    void LateUpdate(float DeltaTime) override;
-
-    void Draw(const Camera2D& OwnerCamera) override;
 
     std::shared_ptr<MovementComponent> GetMovement() const { return MovementComp; }
     std::shared_ptr<CameraComponent> GetCamera() const { return CameraComp; }
@@ -26,5 +21,5 @@ protected:
     std::shared_ptr<CameraComponent> CameraComp;
 
 private:
-    void CreateAnimation();
+    void CreateAnimation() override;
 };

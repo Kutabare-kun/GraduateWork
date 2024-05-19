@@ -12,12 +12,6 @@ public:
 
     void Awake() override;
 
-    void Update(float DeltaTime) override;
-
-    void LateUpdate(float DeltaTime) override;
-
-    void Draw(const Camera2D& OwnerCamera) override;
-
     std::shared_ptr<BehaviorTree> GetBehaviorTree() const { return BehaviorTreeComp; }
 
 protected:

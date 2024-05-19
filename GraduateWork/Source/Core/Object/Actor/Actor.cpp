@@ -12,6 +12,8 @@ Actor::Actor(SharedContext* Context, const Vector2& Position)
 void Actor::Awake()
 {
     Object::Awake();
+
+    CreateAnimation();
 }
 
 void Actor::Update(float DeltaTime)

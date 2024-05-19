@@ -14,4 +14,7 @@ public:
     void LateUpdate(float DeltaTime) override;
 
     void Draw(const Camera2D& OwnerCamera) override;
+
+protected:
+    void CreateAnimation() override;
 };

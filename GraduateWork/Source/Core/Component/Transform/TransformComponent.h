@@ -21,6 +21,7 @@ public:
     void SetPosition(const Vector2& NewPosition);
     void SetRotation(float NewRotation);
     void SetScale(Vector2 NewScale);
+    void SetScale(float NewScale);
     void SetOrigin(const Vector2& NewOrigin);
     void SetStatic(bool bIsStatic);
 

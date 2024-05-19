@@ -210,6 +210,9 @@
     <ClCompile Include="Source\Core\UI\UIBase\UIBase.cpp" />
     <ClCompile Include="Source\Core\Window\Window.cpp" />
     <ClCompile Include="Source\Game\Actors\Enemy\Enemy.cpp" />
+    <ClCompile Include="Source\Game\Actors\Enemy\Eye\EyeEnemy.cpp" />
+    <ClCompile Include="Source\Game\Actors\Enemy\Goblin\GoblinEnemy.cpp" />
+    <ClCompile Include="Source\Game\Actors\Enemy\Slime\SlimeEnemy.cpp" />
     <ClCompile Include="Source\Game\Actors\Player\Player.cpp" />
     <ClCompile Include="Source\Game\Actors\Trader\Trader.cpp" />
     <ClCompile Include="Source\Game\Components\Attribute\AttributeComponent.cpp" />
@@ -287,6 +290,9 @@
     <ClInclude Include="Source\Core\Utilities\Utilities.h" />
     <ClInclude Include="Source\Core\Window\Window.h" />
     <ClInclude Include="Source\Game\Actors\Enemy\Enemy.h" />
+    <ClInclude Include="Source\Game\Actors\Enemy\Eye\EyeEnemy.h" />
+    <ClInclude Include="Source\Game\Actors\Enemy\Goblin\GoblinEnemy.h" />
+    <ClInclude Include="Source\Game\Actors\Enemy\Slime\SlimeEnemy.h" />
     <ClInclude Include="Source\Game\Actors\Player\Player.h" />
     <ClInclude Include="Source\Game\Actors\Trader\Trader.h" />
     <ClInclude Include="Source\Game\Components\Attribute\AttributeComponent.h" />

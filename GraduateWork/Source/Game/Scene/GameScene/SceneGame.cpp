@@ -6,7 +6,9 @@
 #include "../../../Core/Component/Sprite/SpriteComponent.h"
 #include "../../../Core/Directory/Directory.h"
 #include "../../../Core/StaticFunctions/Debug.h"
-#include "../../Actors/Enemy/Enemy.h"
+#include "../../Actors/Enemy/Eye/EyeEnemy.h"
+#include "../../Actors/Enemy/Goblin/GoblinEnemy.h"
+#include "../../Actors/Enemy/Slime/SlimeEnemy.h"
 #include "../../Actors/Player/Player.h"
 #include "../../Actors/Trader/Trader.h"
 #include "../../UI/HUD/PlayerHUD.h"
@@ -43,18 +45,17 @@ void SceneGame::OnCreate()
     auto _Player = Objects->CreateObject<Player>(&Context, Vector2{400.0f, 400.0f});
     PlayerMovement = _Player->GetMovement();
     Camera = _Player->GetCamera();
-
     HUD = _Player->GetComponent<PlayerHUD>();
 
     Objects->CreateObject<Trader>(&Context, Vector2{600.0f, 600.0f});
 
-    for (int i = 0; i < 2; ++i)
-    {
-        for (int j = 0; j < 2; ++j)
-        {
-            Objects->CreateObject<Enemy>(&Context, Vector2{800.0f + i * 200.0f, 800.0f + j * 200.0f});
-        }
-    }
+    Objects->CreateObject<EyeEnemy>(&Context, Vector2 {700.0f, 700.0f});
+    Objects->CreateObject<GoblinEnemy>(&Context, Vector2{700.0f, 800.0f});
+    Objects->CreateObject<SlimeEnemy>(&Context, Vector2{800.0f, 700.0f});
+
+    // for (int i = 0; i < 2; ++i)
+    //     for (int j = 0; j < 2; ++j)
+    //         Objects->CreateObject<Enemy>(&Context, Vector2{800.0f + i * 200.0f, 800.0f + j * 200.0f});
 }
 
 void SceneGame::OnDestroy()

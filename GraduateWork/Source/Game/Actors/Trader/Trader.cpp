@@ -39,3 +39,7 @@ void Trader::Draw(const Camera2D& OwnerCamera)
 {
     Actor::Draw(OwnerCamera);
 }
+
+void Trader::CreateAnimation()
+{
+}

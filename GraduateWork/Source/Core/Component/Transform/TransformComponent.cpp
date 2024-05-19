@@ -26,6 +26,11 @@ void TransformComponent::SetScale(Vector2 NewScale)
     Scale = NewScale;
 }
 
+void TransformComponent::SetScale(float NewScale)
+{
+    Scale = {NewScale, NewScale};
+}
+
 void TransformComponent::SetOrigin(const Vector2& NewOrigin)
 {
     Origin = NewOrigin;

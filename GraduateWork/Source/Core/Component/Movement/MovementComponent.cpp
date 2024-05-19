@@ -2,18 +2,21 @@
 
 #include <raymath.h>
 
+#include "../../../Game/Components/Attribute/AttributeComponent.h"
 #include "../../Object/Actor/Actor.h"
 #include "../Transform/TransformComponent.h"
 #include "../Animation/AnimationComponent.h"
 
 MovementComponent::MovementComponent(Object* NewOwner)
     : ActorComponent(NewOwner), bIsEnabled(true)
-{}
+{
+}
 
 MovementComponent::MovementComponent(Object* NewOwner, float NewSpeed)
     : ActorComponent(NewOwner),
-    Speed(NewSpeed), bIsEnabled(true)
-{}
+      Speed(NewSpeed), bIsEnabled(true)
+{
+}
 
 void MovementComponent::InputValue(float Value, const Vector2& Direction)
 {
@@ -48,13 +51,18 @@ void MovementComponent::Awake()
     ActorComponent::Awake();
 
     Animation = GetOwner()->GetComponent<AnimationComponent>();
+
+    const std::shared_ptr<AttributeComponent> AttributeComp = GetOwner()->GetComponent<AttributeComponent>();
+    if (AttributeComp) SpeedPtr = AttributeComp->GetAttribute(MainAttribute::MoveSpeed)->GetCurrentValuePtr();
 }
 
 void MovementComponent::Update(float DeltaTime)
 {
     ActorComponent::Update(DeltaTime);
-    
-    if (Speed <= 0.0f) return;
+
+    if (!bIsEnabled) return;
+    if (Speed <= FLT_EPSILON && (!SpeedPtr || *SpeedPtr <= FLT_EPSILON)) return;
+
     if (Vector2Length(Direction) <= 0.0f)
     {
         Animation->SetAnimationState(AnimationState::Idle);
@@ -63,7 +71,7 @@ void MovementComponent::Update(float DeltaTime)
 
     Animation->SetAnimationState(AnimationState::Walk);
 
-    const Vector2 Velocity = Vector2Scale(Direction, Speed * DeltaTime);
+    const Vector2 Velocity = Vector2Scale(Direction, SpeedPtr ? *SpeedPtr * DeltaTime : Speed * DeltaTime);
     auto OwnerTransform = GetOwner()->GetTransform();
     OwnerTransform->AddPosition(Velocity);
 

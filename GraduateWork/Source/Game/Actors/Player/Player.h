@@ -8,7 +8,7 @@ class Player
     : public Actor
 {
 public:
-    Player(SharedContext* Context, const Vector2& Position = {0.0f, 0.0f }, float Speed = 100.0f);
+    Player(SharedContext* Context, const Vector2& Position = {0.0f, 0.0f });
     ~Player() override;
 
     void Awake() override;

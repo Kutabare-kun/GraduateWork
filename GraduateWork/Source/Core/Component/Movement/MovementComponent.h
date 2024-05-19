@@ -35,6 +35,7 @@ public:
 
 protected:
     float Speed = 0.0f;
+    const float* SpeedPtr = nullptr;
 
 private:
     Vector2 LastDirection = {};

@@ -212,6 +212,9 @@
     <ClCompile Include="Source\Game\Actors\Enemy\Enemy.cpp" />
     <ClCompile Include="Source\Game\Actors\Player\Player.cpp" />
     <ClCompile Include="Source\Game\Actors\Trader\Trader.cpp" />
+    <ClCompile Include="Source\Game\Components\Attribute\AttributeComponent.cpp" />
+    <ClCompile Include="Source\Game\Components\Attribute\Data\AttributeData.cpp" />
+    <ClCompile Include="Source\Game\Components\Attribute\Player\PlayerAttribute.cpp" />
     <ClCompile Include="Source\Game\Components\BehaviorTree\Simple\BehaviorTreeSimple.cpp" />
     <ClCompile Include="Source\Game\Components\BehaviorTree\Task\FindLocation\FindLocation.cpp" />
     <ClCompile Include="Source\Game\Components\BehaviorTree\Task\Move\Location\MoveToLocation.cpp" />
@@ -286,6 +289,9 @@
     <ClInclude Include="Source\Game\Actors\Enemy\Enemy.h" />
     <ClInclude Include="Source\Game\Actors\Player\Player.h" />
     <ClInclude Include="Source\Game\Actors\Trader\Trader.h" />
+    <ClInclude Include="Source\Game\Components\Attribute\AttributeComponent.h" />
+    <ClInclude Include="Source\Game\Components\Attribute\Data\AttributeData.h" />
+    <ClInclude Include="Source\Game\Components\Attribute\Player\PlayerAttribute.h" />
     <ClInclude Include="Source\Game\Components\BehaviorTree\Simple\BehaviorTreeSimple.h" />
     <ClInclude Include="Source\Game\Components\BehaviorTree\Task\FindLocation\FindLocation.h" />
     <ClInclude Include="Source\Game\Components\BehaviorTree\Task\Move\Location\MoveToLocation.h" />

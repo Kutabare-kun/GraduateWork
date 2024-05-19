@@ -7,16 +7,16 @@
 #include "../../../Core/Component/Animation/AnimationComponent.h"
 #include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
+#include "../../Components/Attribute/AttributeComponent.h"
+#include "../../Components/Attribute/Player/PlayerAttribute.h"
 #include "../../UI/HUD/PlayerHUD.h"
 
 class InteractComponent;
 
-Player::Player(SharedContext* Context, const Vector2& Position, float Speed)
+Player::Player(SharedContext* Context, const Vector2& Position)
     : Actor(Context, Position)
 {
     SetName("Player_");
-
-    MovementComp = AddComponent<MovementComponent>(this, Speed);
 
     CameraComp = AddComponent<CameraComponent>(this);
     CameraComp->UpdateZoom(0.5f);
@@ -29,6 +29,8 @@ Player::Player(SharedContext* Context, const Vector2& Position, float Speed)
     Collider->SetLayer(CollisionLayer::Player);
 
     AddComponent<PlayerHUD>(this);
+    AddComponent<PlayerAttribute>(this);
+    MovementComp = AddComponent<MovementComponent>(this);
 }
 
 Player::~Player()

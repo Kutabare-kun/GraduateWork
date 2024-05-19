@@ -40,7 +40,7 @@ void SceneGame::OnCreate()
                                                                        MapOffset);
     Objects->AddObject(LevelTiles);
 
-    auto _Player = Objects->CreateObject<Player>(&Context, Vector2{400.0f, 400.0f}, 800.0f);
+    auto _Player = Objects->CreateObject<Player>(&Context, Vector2{400.0f, 400.0f});
     PlayerMovement = _Player->GetMovement();
     Camera = _Player->GetCamera();
 

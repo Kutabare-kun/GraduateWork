@@ -20,7 +20,7 @@ void TestWidget::Awake()
         "Button_Clicked.png",
         "Button_Clicked.png"
     };
-    
+
     std::shared_ptr<UIButton> ActionButton = std::make_shared<UIButton>(
         GetOwner(), Slot{Padding{0.0f}, Rectangle{0.0f, 0.0f, 200.0f, 80.0f}}, this, ButtonTextures);
     AddChild(ActionButton);
@@ -39,11 +39,11 @@ void TestWidget::Awake()
         1.0f,
         WHITE
     };
-    
+
     std::shared_ptr<UIText> ButtonText = std::make_shared<UIText>(
         GetOwner(), Slot{Padding{0.0f}, Rectangle{0.0f, 0.0f, 200.0f, 80.0f}},
         ActionButton.get(), ButtonTextSettings);
-    
+
     ActionButton->AddChild(ButtonText);
 
     UIPanel::Awake();

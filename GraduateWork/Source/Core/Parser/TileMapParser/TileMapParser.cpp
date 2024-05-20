@@ -36,7 +36,7 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
     constexpr int TextureID = 1;
     int LayerCount = Tiles->size() - 1;
 
-    constexpr int TileScale{ 4 };
+    constexpr int TileScale{4};
 
     Context.MaxTileSize = TileSizeX * TileScale;
 
@@ -77,6 +77,12 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
                 BoxColliderComp->SetLayer(CollisionLayer::Tile);
             }
 
+            if (TileLayer.first == "Ceil")
+            {
+                auto Sprite = TileObject->AddComponent<SpriteComponent>(TileObject.get());
+                Sprite->SetDrawLayer(DrawLayer::Foreground);
+            }
+
             TileObjects.emplace_back(TileObject);
         }
 
@@ -90,16 +96,15 @@ std::shared_ptr<TileSheets> TileMapParser::BuildTileSheetData(xml_node<>* RootNo
 {
     TileSheets TileSheetsData;
 
-    for (xml_node<>* TileSheetLocation = RootNode->first_node("tileset"); TileSheetLocation; TileSheetLocation =
-         TileSheetLocation->next_sibling("tileset"))
+    for (xml_node<>* TileSheetLocation = RootNode->first_node("tileset"); TileSheetLocation;
+         TileSheetLocation = TileSheetLocation->next_sibling("tileset"))
     {
         TileSheetData TileSheetDataObj;
 
         const int FirstID = std::atoi(TileSheetLocation->first_attribute("firstgid")->value());
 
         std::string FileTileSheet = TileSheetLocation->first_attribute("source")->value();
-        FileTileSheet = FileTileSheet.substr(FileTileSheet.find_first_of("../") + 3);
-        FileTileSheet = Directory::GetInstance().GetResource(std::move(FileTileSheet));
+        FileTileSheet = Directory::GetInstance().GetTileSet(std::move(FileTileSheet));
 
         char* FileLocation = new char[FileTileSheet.size() + 1];
         strcpy_s(FileLocation, FileTileSheet.size() + 1, FileTileSheet.c_str());

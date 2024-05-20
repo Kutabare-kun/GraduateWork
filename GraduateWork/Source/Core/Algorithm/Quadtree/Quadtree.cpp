@@ -61,7 +61,7 @@ void Quadtree::Remove(std::shared_ptr<BoxColliderComponent> Object)
         for (int Index = 0; Index < Objects.size(); ++Index)
         {
             if (Objects.at(Index)->GetOwner()->GetInstanceID()->GetID() == Object->
-                GetOwner()->GetInstanceID()->GetID())
+                                                                           GetOwner()->GetInstanceID()->GetID())
             {
                 Objects.erase(Objects.begin() + Index);
                 break;
@@ -120,7 +120,7 @@ void Quadtree::DrawDebug()
         }
     }
 
-    //Debug::GetInstance().DrawRectangle(Bounds, DARKBLUE);
+    Debug::GetInstance().DrawRectangle(Bounds, DARKBLUE);
 }
 
 void Quadtree::Search(const Rectangle& Area, std::vector<std::shared_ptr<BoxColliderComponent>>& OverlappingObjects)
@@ -195,7 +195,9 @@ void Quadtree::Split()
                                                    Rectangle{Bounds.x, Bounds.y + ChildHeight, ChildWidth, ChildHeight},
                                                    this);
     Children[ChildSE] = std::make_shared<Quadtree>(MaxObjects, MaxLevels, Level + 1,
-                                                   Rectangle{Bounds.x + ChildWidth, Bounds.y + ChildHeight, ChildWidth,
-                                                             ChildHeight},
+                                                   Rectangle{
+                                                       Bounds.x + ChildWidth, Bounds.y + ChildHeight, ChildWidth,
+                                                       ChildHeight
+                                                   },
                                                    this);
 }

@@ -40,6 +40,10 @@ void Trader::Draw(const Camera2D& OwnerCamera)
     Actor::Draw(OwnerCamera);
 }
 
+void Trader::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
+{
+}
+
 void Trader::CreateAnimation()
 {
 }

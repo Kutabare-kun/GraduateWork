@@ -7,7 +7,8 @@ enum class Tag
 {
     Default,
     Player,
-    NPC
+    NPC,
+    Enemy,
 };
 
 class TagComponent

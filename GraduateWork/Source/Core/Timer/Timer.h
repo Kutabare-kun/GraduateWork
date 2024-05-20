@@ -18,7 +18,7 @@ public:
 
 private:
     bool bLoop;
-    
+
     float MaxTime;
     float CurrentTime;
 

@@ -18,11 +18,11 @@ SceneGame::SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>
     : WorkingDirectory(NewDirectory), TextureAllocator(NewTextureAllocator), FontAllocator(NewFontAllocator)
 {
     DrawableSys = std::make_unique<DrawableSystem>();
-    CollisionTree = std::make_unique<Quadtree>(5, 5, 0, Rectangle{0, 0, 16000, 16000}, nullptr);
+    CollisionTree = std::make_unique<Quadtree>(5, 5, 0, Rectangle{0, 0, 8'192, 8'192}, nullptr);
     ColliderSys = std::make_unique<ColliderSystem>(*CollisionTree);
     RaycastSys = std::make_unique<Raycast>(*CollisionTree);
     TimerManagerSys = std::make_unique<TimerManager>();
-    
+
     Objects = std::make_unique<ObjectCollection>(*DrawableSys, *ColliderSys);
     MapParser = std::make_unique<TileMapParser>(TextureAllocator, Context);
 }
@@ -36,7 +36,7 @@ void SceneGame::OnCreate()
     Context.RaycastSys = RaycastSys.get();
     Context.TimerManagerSys = TimerManagerSys.get();
     // ~Make SharedContext
-    
+
     Vector2 MapOffset = {384.0f, 128.0f};
     std::vector<std::shared_ptr<Object>> LevelTiles = MapParser->Parse(WorkingDirectory.GetMap("TestMap.tmx"),
                                                                        MapOffset);
@@ -47,15 +47,11 @@ void SceneGame::OnCreate()
     Camera = _Player->GetCamera();
     HUD = _Player->GetComponent<PlayerHUD>();
 
-    Objects->CreateObject<Trader>(&Context, Vector2{600.0f, 600.0f});
-
-    Objects->CreateObject<EyeEnemy>(&Context, Vector2 {700.0f, 700.0f});
+    // Objects->CreateObject<Trader>(&Context, Vector2{600.0f, 600.0f});
+    //
+    Objects->CreateObject<EyeEnemy>(&Context, Vector2{700.0f, 700.0f});
     Objects->CreateObject<GoblinEnemy>(&Context, Vector2{700.0f, 800.0f});
     Objects->CreateObject<SlimeEnemy>(&Context, Vector2{800.0f, 700.0f});
-
-    // for (int i = 0; i < 2; ++i)
-    //     for (int j = 0; j < 2; ++j)
-    //         Objects->CreateObject<Enemy>(&Context, Vector2{800.0f + i * 200.0f, 800.0f + j * 200.0f});
 }
 
 void SceneGame::OnDestroy()
@@ -89,7 +85,7 @@ void SceneGame::ProcessInput()
 void SceneGame::Update(float DeltaTime)
 {
     TimerManagerSys->Update(DeltaTime);
-    
+
     Objects->ProcessRemovals();
     Objects->ProcessNewObjects();
 

@@ -9,10 +9,10 @@
 #include "../../../Core/Component/Animation/AnimationComponent.h"
 #include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
+#include "../../../Core/StaticFunctions/Debug.h"
 #include "../../Components/Attribute/Player/PlayerAttribute.h"
 #include "../../UI/HUD/PlayerHUD.h"
-
-class InteractComponent;
+#include "../Enemy/Enemy.h"
 
 Player::Player(SharedContext* Context, const Vector2& Position)
     : Actor(Context, Position)
@@ -25,14 +25,14 @@ Player::Player(SharedContext* Context, const Vector2& Position)
     AddComponent<InteractComponent>(this);
 
     const auto Collider = AddComponent<BoxColliderComponent>(this);
-    Collider->SetSize(66.0f, 70.0f);
+    Collider->SetSize(85.0f, 100.0f);
     Collider->SetLayer(CollisionLayer::Player);
 
     AddComponent<PlayerHUD>(this);
-    AddComponent<PlayerAttribute>(this);
+    AttributeComp = AddComponent<PlayerAttribute>(this);
     MovementComp = AddComponent<MovementComponent>(this);
 
-    GetTransform()->SetScale(5.0f);
+    GetTransform()->SetScale(7.0f);
 }
 
 void Player::CreateAnimation()
@@ -51,8 +51,8 @@ void Player::CreateAnimation()
     constexpr float WalkAnimFrameTime = 0.15f;
     // ~Animation Frame Time
 
-    constexpr std::array<int, 4> KnightYFrame { 0, 16, 32, 48 };
-    constexpr std::array<int, 6> KnightXFrame { 2, 18, 34, 50, 66, 82 };
+    constexpr std::array<int, 4> KnightYFrame{0, 16, 32, 48};
+    constexpr std::array<int, 6> KnightXFrame{2, 18, 34, 50, 66, 82};
 
     std::shared_ptr<AnimationComponent> AnimComp = GetAnimation();
 
@@ -85,5 +85,37 @@ void Player::Awake()
 {
     Actor::Awake();
 
+    GetTag()->Set(Tag::Player);
     GetSprite()->SetDrawLayer(DrawLayer::Entities);
+}
+
+void Player::HandleDamage(std::shared_ptr<ColliderComponent> Other) const
+{
+    if (const Object* Instigator = Other->GetOwner();
+        Instigator->GetTag()->Compare(Tag::Enemy))
+    {
+        const Enemy* InstigatorEnemy = static_cast<const Enemy*>(Instigator);
+        if (!InstigatorEnemy || !InstigatorEnemy->GetAttributeComp()) return;
+
+        AttributeComp->ApplyHealthChange(InstigatorEnemy->GetAttributeComp());
+    }
+}
+
+void Player::OnCollisionBeginOverlap(std::shared_ptr<ColliderComponent> Other)
+{
+    Actor::OnCollisionBeginOverlap(Other);
+
+    HandleDamage(Other);
+}
+
+void Player::OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other)
+{
+    Actor::OnCollisionStayOverlap(Other);
+
+    HandleDamage(Other);
+}
+
+void Player::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
+{// 100 - (20 - 20 * (1 / 100))
+    Debug::GetInstance().Log(TextFormat("%s hit %s. Amount of Damage %f, Player Is Dead %s", Instigator->GetName().c_str(), GetName().c_str(), Delta, IsDead ? "True" : "False"));
 }

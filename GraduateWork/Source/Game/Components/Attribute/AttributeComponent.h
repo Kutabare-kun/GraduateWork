@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <map>
 #include <memory>
 
@@ -29,11 +30,17 @@ public:
 
     void LevelUp();
 
+    float ApplyHealthChange(std::shared_ptr<AttributeComponent> Instigator);
+
     float OnAttributeChange(MainAttribute Attribute, float Delta);
     float OnAttributeBuffChange(MainAttribute Attribute, float Percent);
 
-    std::shared_ptr<AttributeData> GetAttribute(MainAttribute Attribute) { return Attributes[Attribute]; }
+    std::shared_ptr<AttributeData> GetAttribute(MainAttribute Attribute = MainAttribute::Health) { return Attributes[Attribute]; }
 
 protected:
     std::map<MainAttribute, std::shared_ptr<AttributeData>> Attributes;
+
+    bool bIsEnableTakeDamage = true;
+
+    std::function<void(Object*, float, bool)> OnHealthChange;
 };

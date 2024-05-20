@@ -6,13 +6,19 @@
 #include "../../../../Core/Component/Animation/AnimationComponent.h"
 #include "../../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
 #include "../../../../Core/Directory/Directory.h"
+#include "../../../Components/Attribute/Enemy/Goblin/GoblinAttribute.h"
 
 GoblinEnemy::GoblinEnemy(SharedContext* Context, const Vector2& Position)
     : Enemy(Context, Position)
 {
+    SetName("Goblin_");
+
     const auto Collider = AddComponent<BoxColliderComponent>(this);
     Collider->SetSize(66.0f, 70.0f);
     Collider->SetLayer(CollisionLayer::Enemy);
+
+    AttributeComp = AddComponent<GoblinAttribute>(this);
+    AddComponent<MovementComponent>(this, 200.0f);
 
     GetTransform()->SetScale(5.0f);
 }
@@ -33,8 +39,8 @@ void GoblinEnemy::CreateAnimation()
     constexpr float WalkAnimFrameTime = 0.15f;
     // ~Animation Frame Time
 
-    constexpr std::array<int, 4> GoblinYFrame { 0, 16, 32, 48 };
-    constexpr std::array<int, 6> GoblinXFrame { 2, 18, 34, 50, 66, 82 };
+    constexpr std::array<int, 4> GoblinYFrame{0, 16, 32, 48};
+    constexpr std::array<int, 6> GoblinXFrame{2, 18, 34, 50, 66, 82};
 
     std::shared_ptr<AnimationComponent> AnimComp = GetAnimation();
 

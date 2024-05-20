@@ -90,9 +90,9 @@ public:
 
     virtual void Draw(const Camera2D& OwnerCamera);
 
-    void OnCollisionBeginOverlap(std::shared_ptr<ColliderComponent> Other);
-    void OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other);
-    void OnCollisionEndOverlap(std::shared_ptr<ColliderComponent> Other);
+    virtual void OnCollisionBeginOverlap(std::shared_ptr<ColliderComponent> Other);
+    virtual void OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other);
+    virtual void OnCollisionEndOverlap(std::shared_ptr<ColliderComponent> Other);
 
     bool IsQueuedForRemoval();
     void QueueForRemoval();

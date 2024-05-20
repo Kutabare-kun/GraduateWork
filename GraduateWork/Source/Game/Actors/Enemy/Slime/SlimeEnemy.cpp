@@ -6,15 +6,21 @@
 #include "../../../../Core/Component/Animation/AnimationComponent.h"
 #include "../../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
 #include "../../../../Core/Directory/Directory.h"
+#include "../../../Components/Attribute/Enemy/Slime/SlimeAttribute.h"
 
 class Animation;
 
 SlimeEnemy::SlimeEnemy(SharedContext* Context, const Vector2& Position)
     : Enemy(Context, Position)
 {
+    SetName("Slime_");
+
     const auto Collider = AddComponent<BoxColliderComponent>(this);
     Collider->SetSize(80.0f, 64.0f);
     Collider->SetLayer(CollisionLayer::Enemy);
+
+    AttributeComp = AddComponent<SlimeAttribute>(this);
+    AddComponent<MovementComponent>(this, 200.0f);
 
     GetTransform()->SetScale(5.0f);
 }
@@ -35,8 +41,8 @@ void SlimeEnemy::CreateAnimation()
     constexpr float WalkAnimFrameTime = 0.15f;
     // ~Animation Frame Time
 
-    constexpr std::array<int, 4> SlimeYFrame { 3, 19, 35, 51 };
-    constexpr std::array<int, 6> SlimeXFrame { 0, 16, 32, 48, 64, 80 };
+    constexpr std::array<int, 4> SlimeYFrame{3, 19, 35, 51};
+    constexpr std::array<int, 6> SlimeXFrame{0, 16, 32, 48, 64, 80};
 
     std::shared_ptr<AnimationComponent> AnimComp = GetAnimation();
 

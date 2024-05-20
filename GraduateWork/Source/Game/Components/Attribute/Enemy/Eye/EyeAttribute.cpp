@@ -1,29 +1,29 @@
-#include "PlayerAttribute.h"
+#include "EyeAttribute.h"
 
-PlayerAttribute::PlayerAttribute(Object* Owner)
+EyeAttribute::EyeAttribute(Object* Owner)
     : AttributeComponent(Owner)
 {
 }
 
-void PlayerAttribute::Awake()
+void EyeAttribute::Awake()
 {
     AttributeComponent::Awake();
 
     auto [MaxHealthIter, IsMaxHealthEmplaced] = Attributes.emplace(MainAttribute::MaxHealth,
-                                                                   std::make_shared<AttributeData>(5.0f, 100.0f));
+                                                                   std::make_shared<AttributeData>(5.0f, 20.0f));
     if (IsMaxHealthEmplaced) MaxHealthIter->second->Initialize(100.0f);
 
     auto [HealthIter, IsHealthEmplaced] = Attributes.emplace(MainAttribute::Health,
-                                                             std::make_shared<AttributeData>(5.0f, 100.0f));
+                                                             std::make_shared<AttributeData>(5.0f, 20.0f));
     if (IsHealthEmplaced) HealthIter->second->Initialize(1.0f, 1.0f);
     if (IsHealthEmplaced) HealthIter->second->SetParent(MaxHealthIter->second);
 
     auto [MoveSpeedIter, IsMoveSpeedEmplaced] = Attributes.emplace(MainAttribute::MoveSpeed,
-                                                                   std::make_shared<AttributeData>(5.0f, 800.0f));
+                                                                   std::make_shared<AttributeData>(5.0f, 480.0f));
     if (IsMoveSpeedEmplaced) MoveSpeedIter->second->Initialize(1.2f, 0.8f);
 
     auto [AttackIter, IsAttackEmplaced] = Attributes.emplace(MainAttribute::Attack,
-                                                             std::make_shared<AttributeData>(5.0f, 20.0f));
+                                                             std::make_shared<AttributeData>(5.0f, 5.0f));
     if (IsAttackEmplaced) AttackIter->second->Initialize(100.0f, 0.2f);
 
     auto [DefenseIter, IsDefenseEmplaced] = Attributes.emplace(MainAttribute::Defense,

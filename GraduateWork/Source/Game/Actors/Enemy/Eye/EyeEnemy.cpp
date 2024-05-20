@@ -6,14 +6,20 @@
 #include "../../../../Core/Component/Animation/AnimationComponent.h"
 #include "../../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
 #include "../../../../Core/Directory/Directory.h"
+#include "../../../Components/Attribute/Enemy/Eye/EyeAttribute.h"
 
 EyeEnemy::EyeEnemy(SharedContext* Context, const Vector2& Position)
     : Enemy(Context, Position)
 {
+    SetName("Eye_");
+
     const auto Collider = AddComponent<BoxColliderComponent>(this);
     Collider->SetSize(66.0f, 58.0f);
     Collider->SetOffset(0.0f, 0.0f);
     Collider->SetLayer(CollisionLayer::Enemy);
+
+    AttributeComp = AddComponent<EyeAttribute>(this);
+    AddComponent<MovementComponent>(this, 200.0f);
 
     GetTransform()->SetScale(5.0f);
 }
@@ -34,8 +40,8 @@ void EyeEnemy::CreateAnimation()
     constexpr float WalkAnimFrameTime = 0.15f;
     // ~Animation Frame Time
 
-    constexpr std::array<int, 2> EyeYFrame { 3, 19 };
-    constexpr std::array<int, 4> EyeXFrame { 3, 18, 35, 50 };
+    constexpr std::array<int, 2> EyeYFrame{3, 19};
+    constexpr std::array<int, 4> EyeXFrame{3, 18, 35, 50};
 
     std::shared_ptr<AnimationComponent> AnimComp = GetAnimation();
 

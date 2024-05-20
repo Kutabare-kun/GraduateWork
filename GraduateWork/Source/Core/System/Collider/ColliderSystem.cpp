@@ -24,6 +24,7 @@ ColliderSystem::ColliderSystem(Quadtree& CollisionTree)
     Bitmask EnemyCollision;
     EnemyCollision.SetBit((int)CollisionLayer::Enemy);
     EnemyCollision.SetBit((int)CollisionLayer::Tile);
+    EnemyCollision.SetBit((int)CollisionLayer::Player);
     CollisionLayers.insert(std::make_pair(CollisionLayer::Enemy, EnemyCollision));
     // ~Enemy collision layer
 
@@ -77,7 +78,7 @@ void ColliderSystem::ProcessRemovals()
 void ColliderSystem::Update()
 {
     ProcessCollidingObjects();
-    
+
     CollisionTree.Clear();
     for (auto [Layer, Colliders] : Collidables)
     {
@@ -126,16 +127,16 @@ void ColliderSystem::Resolve()
                 if (LayersCollide)
                 {
                     Manifold CollisionInfo = ColliderComp->Intersects(Collision);
-                    
+
                     if (CollisionInfo.bColliding)
                     {
                         auto CollisionPair = ObjectsColliding.emplace(std::make_pair(ColliderComp, Collision));
                         if (CollisionPair.second)
                         {
-                            ColliderComp->OnCollisionBeginOverlap(Collision);
-                            Collision->OnCollisionBeginOverlap(ColliderComp);
+                            ColliderComp->GetOwner()->OnCollisionBeginOverlap(Collision);
+                            Collision->GetOwner()->OnCollisionBeginOverlap(ColliderComp);
                         }
-                        
+
                         if (Collision->GetOwner()->GetTransform()->IsStatic())
                         {
                             ColliderComp->ResolveCollision(CollisionInfo);

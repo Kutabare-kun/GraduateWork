@@ -54,7 +54,7 @@ void Game::LateUpdate()
 void Game::Draw()
 {
     BeginDrawing();
-    ClearBackground(RAYWHITE);
+    ClearBackground(DARKGRAY);
 
     StateMachine.Draw();
 

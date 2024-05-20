@@ -6,13 +6,13 @@ Timer::Timer(const TimerCallback& Callback, float MaxTime, bool bLoop)
 }
 
 void Timer::Update(float DeltaTime)
-{    
+{
     CurrentTime += DeltaTime;
 
     if (CurrentTime >= MaxTime && (!bElapsed || bLoop))
     {
         bElapsed = true;
-        
+
         Elapsed();
     }
 }

@@ -1,6 +1,5 @@
 #pragma once
 #include <raylib.h>
-#include <string>
 
 #include "../Object.h"
 
@@ -25,6 +24,8 @@ public:
     void LateUpdate(float DeltaTime) override;
 
     void Draw(const Camera2D& OwnerCamera) override;
+
+    virtual void OnHealthChange(Object* Instigator, float Delta, bool IsDead) = 0;
 
     // Return rectangle of actor
     Rectangle GetActorRectangle();

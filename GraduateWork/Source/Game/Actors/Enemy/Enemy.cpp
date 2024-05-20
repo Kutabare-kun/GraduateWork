@@ -9,7 +9,7 @@
 Enemy::Enemy(SharedContext* Context, const Vector2& Position)
     : Actor(Context, Position), BehaviorTreeComp(nullptr)
 {
-    AddComponent<MovementComponent>(this, 200.0f);
+    SetName("Enemy_");
 
     BehaviorTreeComp = AddComponent<BehaviorTreeSimple>(this);
 }
@@ -18,10 +18,16 @@ void Enemy::Awake()
 {
     Actor::Awake();
 
+    GetTag()->Set(Tag::Enemy);
     GetSprite()->SetDrawLayer(DrawLayer::Entities);
 
     auto BBS = std::dynamic_pointer_cast<BlackboardSimple>(BehaviorTreeComp->GetBlackboard());
     if (!BBS) return;
 
     BBS->Target = GetContext()->Objects->GetObject<Player>().get();
+}
+
+void Enemy::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
+{
+    if (IsDead) QueueForRemoval();
 }

@@ -15,6 +15,8 @@ public:
 
     void Draw(const Camera2D& OwnerCamera) override;
 
+    void OnHealthChange(Object* Instigator, float Delta, bool IsDead) override;
+
 protected:
     void CreateAnimation() override;
 };

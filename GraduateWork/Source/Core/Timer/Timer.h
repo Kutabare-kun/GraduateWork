@@ -12,6 +12,9 @@ public:
 
     void Elapsed();
 
+    void UpdateTimer(float NewMaxTime);
+    void UpdateTimer(bool bNewLoop);
+
     bool IsLoop() const { return bLoop; }
     bool IsElapsed() const { return bElapsed; }
     float RemainingTime() const { return MaxTime - CurrentTime; }

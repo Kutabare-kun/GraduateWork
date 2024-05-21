@@ -1,0 +1,30 @@
+{
+    "Slash" : [
+        {
+            "Level" : {
+                "Cooldown" : 5.0,
+                "Damage" : 5.0
+            }
+        },
+        {
+            "Level" : {
+                "Cooldown" : 4.8,
+                "Damage" : 5.2
+            }
+        }
+    ],
+    "Projectile" : [
+        {
+            "Level" : {
+                "Cooldown" : 5.0,
+                "Damage" :5.0
+            }
+        },
+        {
+            "Level" : {
+                "Cooldown" : 4.8,
+                "Damage" : 5.2
+            }
+        }
+    ]
+}

@@ -22,7 +22,7 @@ SceneSplashScreen::SceneSplashScreen(Directory& WorkingDir, SceneStateMachine& S
     Context.RaycastSys = nullptr;
     Context.TimerManagerSys = nullptr;
 
-    SplashScreenObject = std::make_unique<Object>(&Context);
+    SplashScreenObject = std::make_unique<Object>(&Context, nullptr);
     SplashScreenWidget = std::make_unique<WidgetSplashScreen>(SplashScreenObject.get(), Slot{
                                                                   Padding{0.0f},
                                                                   Rectangle{

@@ -1,13 +1,5 @@
 #include "Object.h"
 
-Object::Object(SharedContext* Context, const Vector2& Position)
-    : bQueuedForRemoval(false), Context(Context), Name("Object_")
-{
-    TransformComp = AddComponent<TransformComponent>(this, Position);
-    InstanceIDComp = AddComponent<InstanceIDComponent>(this);
-    TagComp = AddComponent<TagComponent>(this);
-}
-
 void Object::Awake()
 {
     for (auto& Component : Components)

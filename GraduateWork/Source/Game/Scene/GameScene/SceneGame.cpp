@@ -42,16 +42,16 @@ void SceneGame::OnCreate()
                                                                        MapOffset);
     Objects->AddObject(LevelTiles);
 
-    auto _Player = Objects->CreateObject<Player>(&Context, Vector2{400.0f, 400.0f});
+    auto _Player = Objects->CreateObject<Player>(&Context, nullptr, Vector2{400.0f, 400.0f});
     PlayerMovement = _Player->GetMovement();
     Camera = _Player->GetCamera();
     HUD = _Player->GetComponent<PlayerHUD>();
 
     // Objects->CreateObject<Trader>(&Context, Vector2{600.0f, 600.0f});
     //
-    Objects->CreateObject<EyeEnemy>(&Context, Vector2{700.0f, 700.0f});
-    Objects->CreateObject<GoblinEnemy>(&Context, Vector2{700.0f, 800.0f});
-    Objects->CreateObject<SlimeEnemy>(&Context, Vector2{800.0f, 700.0f});
+    Objects->CreateObject<EyeEnemy>(&Context, nullptr, Vector2{700.0f, 700.0f});
+    Objects->CreateObject<GoblinEnemy>(&Context, nullptr, Vector2{700.0f, 800.0f});
+    Objects->CreateObject<SlimeEnemy>(&Context, nullptr, Vector2{800.0f, 700.0f});
 }
 
 void SceneGame::OnDestroy()

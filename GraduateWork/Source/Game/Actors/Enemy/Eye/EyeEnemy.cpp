@@ -8,8 +8,8 @@
 #include "../../../../Core/Directory/Directory.h"
 #include "../../../Components/Attribute/Enemy/Eye/EyeAttribute.h"
 
-EyeEnemy::EyeEnemy(SharedContext* Context, const Vector2& Position)
-    : Enemy(Context, Position)
+EyeEnemy::EyeEnemy(SharedContext* Context, Object* Instigator, const Vector2& Position)
+    : Enemy(Context, Instigator, Position)
 {
     SetName("Eye_");
 

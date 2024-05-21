@@ -45,7 +45,7 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
         for (const auto& TileProperties : TileLayer.second->Tiles)
         {
             std::shared_ptr<TileInfo> TileInfoObj = TileProperties->Properties;
-            std::shared_ptr<Object> TileObject = std::make_shared<Object>(&Context);
+            std::shared_ptr<Object> TileObject = std::make_shared<Object>(&Context, nullptr);
 
             if (TileLayer.second->bIsVisible)
             {

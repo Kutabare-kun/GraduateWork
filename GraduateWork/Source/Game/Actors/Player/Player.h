@@ -9,7 +9,7 @@ class Player final
     : public Actor
 {
 public:
-    Player(SharedContext* Context, const Vector2& Position = {0.0f, 0.0f });
+    Player(SharedContext* Context, Object* Instigator, const Vector2& Position = {0.0f, 0.0f });
     ~Player() override = default;
 
     void Awake() override;

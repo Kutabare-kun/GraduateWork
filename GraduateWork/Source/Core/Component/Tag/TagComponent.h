@@ -9,20 +9,33 @@ enum class Tag
     Player,
     NPC,
     Enemy,
+    Ability
 };
 
+template <typename TypeTag = Tag>
 class TagComponent
     : public ActorComponent
 {
 public:
-    TagComponent(Object* Owner);
+    TagComponent(Object* Owner)
+        : ActorComponent(Owner)
+    {
+        TagValue = static_cast<TypeTag>(0);
+    }
 
-    Tag Get() const {return TagValue;}
-    void Set(Tag NewTag) {TagValue = NewTag;}
+    TypeTag Get() const { return TagValue; }
+    void Set(TypeTag NewTag) { TagValue = NewTag; }
 
-    bool Compare(std::shared_ptr<TagComponent> Other) const;
-    bool Compare(Tag Other) const;
+    bool Compare(std::shared_ptr<TagComponent<TypeTag>> Other) const
+    {
+        return Other->Get() == TagValue;
+    }
+
+    bool Compare(TypeTag Other) const
+    {
+        return Other == TagValue;
+    }
 
 private:
-    Tag TagValue;
+    TypeTag TagValue;
 };

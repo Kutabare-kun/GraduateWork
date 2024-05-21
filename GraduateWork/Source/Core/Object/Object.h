@@ -78,7 +78,13 @@ public:
     }
 
 public:
-    explicit Object(SharedContext* Context, const Vector2& Position = {0.0f, 0.0f});
+    explicit Object(SharedContext* Context, Object* Instigator, const Vector2& Position = {0.0f, 0.0f})
+        : bQueuedForRemoval(false), Context(Context), Instigator(Instigator), Name("Object_")
+    {
+        TransformComp = AddComponent<TransformComponent>(this, Position);
+        InstanceIDComp = AddComponent<InstanceIDComponent>(this);
+        TagComp = AddComponent<TagComponent<Tag>>(this);
+    }
 
     virtual ~Object() = default;
 
@@ -100,9 +106,10 @@ public:
     std::vector<std::shared_ptr<DrawableComponent>> GetDrawable() const { return DrawableComp; }
     std::shared_ptr<TransformComponent> GetTransform() const { return TransformComp; }
     std::shared_ptr<InstanceIDComponent> GetInstanceID() const { return InstanceIDComp; }
-    std::shared_ptr<TagComponent> GetTag() const { return TagComp; }
+    std::shared_ptr<TagComponent<Tag>> GetTag() const { return TagComp; }
 
     SharedContext* GetContext() const { return Context; }
+    Object* GetInstigator() const { return Instigator; }
     std::string GetName() const { return Name + std::to_string(InstanceIDComp->GetID()); }
 
     void SetName(const std::string& NewName) { Name = NewName; }
@@ -114,11 +121,13 @@ protected:
 
     std::shared_ptr<TransformComponent> TransformComp;
     std::shared_ptr<InstanceIDComponent> InstanceIDComp;
-    std::shared_ptr<TagComponent> TagComp;
+    std::shared_ptr<TagComponent<Tag>> TagComp;
 
     std::vector<std::shared_ptr<DrawableComponent>> DrawableComp;
     std::vector<std::shared_ptr<ActorComponent>> Components;
     std::vector<std::shared_ptr<ColliderComponent>> Collidables;
+
+    Object* Instigator;
 
     std::string Name;
 };

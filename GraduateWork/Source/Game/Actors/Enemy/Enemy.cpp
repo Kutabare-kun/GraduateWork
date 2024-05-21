@@ -6,8 +6,8 @@
 #include "../../../Core/Component/Sprite/SpriteComponent.h"
 #include "../Player/Player.h"
 
-Enemy::Enemy(SharedContext* Context, const Vector2& Position)
-    : Actor(Context, Position), BehaviorTreeComp(nullptr)
+Enemy::Enemy(SharedContext* Context, Object* Instigator, const Vector2& Position)
+    : Actor(Context, Instigator, Position), BehaviorTreeComp(nullptr)
 {
     SetName("Enemy_");
 

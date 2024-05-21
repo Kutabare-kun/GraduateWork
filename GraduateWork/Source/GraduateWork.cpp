@@ -8,7 +8,7 @@ int main(int Argc, char* Argv[])
         "Graduate Work"
     );
 
-    SetTargetFPS(144);
+    SetTargetFPS(3000);
 
     Game MyGame;
 

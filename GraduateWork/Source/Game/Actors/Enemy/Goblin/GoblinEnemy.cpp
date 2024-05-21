@@ -8,8 +8,8 @@
 #include "../../../../Core/Directory/Directory.h"
 #include "../../../Components/Attribute/Enemy/Goblin/GoblinAttribute.h"
 
-GoblinEnemy::GoblinEnemy(SharedContext* Context, const Vector2& Position)
-    : Enemy(Context, Position)
+GoblinEnemy::GoblinEnemy(SharedContext* Context, Object* Instigator, const Vector2& Position)
+    : Enemy(Context, Instigator, Position)
 {
     SetName("Goblin_");
 

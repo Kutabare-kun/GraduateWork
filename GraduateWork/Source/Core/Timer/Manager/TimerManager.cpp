@@ -19,21 +19,23 @@ void TimerManager::Update(float DeltaTime)
     }
 }
 
-void TimerManager::AddTimer(const TimerCallback& Callback, float MaxTime, bool bLoop)
+std::shared_ptr<Timer> TimerManager::AddTimer(const TimerCallback& Callback, float MaxTime, bool bLoop)
 {
-    std::unique_ptr<Timer> MyTimer = std::make_unique<Timer>(Callback, MaxTime, bLoop);
-    
+    std::shared_ptr<Timer> MyTimer = std::make_shared<Timer>(Callback, MaxTime, bLoop);
+
     auto Iter = std::ranges::lower_bound(Timers, MyTimer,
-        [this](const auto& A, const auto& B) -> bool
-    {
-        return this->Sort(A, B);
-    });
-    
+                                         [this](const auto& A, const auto& B) -> bool
+                                         {
+                                             return this->Sort(A, B);
+                                         });
+
     Timers.emplace(Iter, std::move(MyTimer));
     Timers.shrink_to_fit();
+
+    return MyTimer;
 }
 
-bool TimerManager::Sort(const std::unique_ptr<Timer>& A, const std::unique_ptr<Timer>& B) const
+bool TimerManager::Sort(const std::shared_ptr<Timer>& A, const std::shared_ptr<Timer>& B) const
 {
     return A->RemainingTime() < B->RemainingTime();
 }

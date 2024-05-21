@@ -5,7 +5,7 @@ class Trader
     : public Actor
 {
 public:
-    Trader(SharedContext* Context, const Vector2& Position = {0.0f, 0.0f });
+    Trader(SharedContext* Context, Object* Instigator, const Vector2& Position = {0.0f, 0.0f });
     ~Trader() override = default;
 
     void Awake() override;

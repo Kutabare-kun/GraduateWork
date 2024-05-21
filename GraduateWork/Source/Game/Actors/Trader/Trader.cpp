@@ -4,11 +4,11 @@
 #include "../../Components/WalkInLine/WalkInLineComponent.h"
 #include "../../../Core/Component/Velocity/VelocityComponent.h"
 
-Trader::Trader(SharedContext* Context, const Vector2& Position)
-    : Actor(Context, Position)
+Trader::Trader(SharedContext* Context, Object* Instigator, const Vector2& Position)
+    : Actor(Context, Instigator, Position)
 {
     SetName("Trader_");
-    
+
     AddComponent<InteractableComponent>(this);
 
     const auto Collider = AddComponent<BoxColliderComponent>(this);

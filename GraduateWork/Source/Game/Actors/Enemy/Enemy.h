@@ -8,7 +8,7 @@ class Enemy
     : public Actor
 {
 public:
-    Enemy(SharedContext* Context, const Vector2& Position);
+    Enemy(SharedContext* Context, Object* Instigator, const Vector2& Position);
 
     ~Enemy() override = default;
 

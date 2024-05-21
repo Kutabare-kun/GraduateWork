@@ -39,7 +39,6 @@
     <ClCompile Include="Source\Core\Component\InstanceID\InstanceIDComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Movement\MovementComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Sprite\SpriteComponent.cpp" />
-    <ClCompile Include="Source\Core\Component\Tag\TagComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Transform\TransformComponent.cpp" />
     <ClCompile Include="Source\Core\Component\Velocity\VelocityComponent.cpp" />
     <ClCompile Include="Source\Core\Directory\Directory.cpp" />
@@ -67,6 +66,10 @@
     <ClCompile Include="Source\Game\Actors\Enemy\Slime\SlimeEnemy.cpp" />
     <ClCompile Include="Source\Game\Actors\Player\Player.cpp" />
     <ClCompile Include="Source\Game\Actors\Trader\Trader.cpp" />
+    <ClCompile Include="Source\Game\Components\Ability\AbilityComponent.cpp" />
+    <ClCompile Include="Source\Game\Components\Ability\AbilityContext\AbilityContext.cpp" />
+    <ClCompile Include="Source\Game\Components\Ability\Ability\Ability.cpp" />
+    <ClCompile Include="Source\Game\Components\Ability\Ability\Shuriken\ShurikenAbility.cpp" />
     <ClCompile Include="Source\Game\Components\Attribute\AttributeComponent.cpp" />
     <ClCompile Include="Source\Game\Components\Attribute\Data\AttributeData.cpp" />
     <ClCompile Include="Source\Game\Components\Attribute\Enemy\Eye\EyeAttribute.cpp" />
@@ -150,6 +153,10 @@
     <ClInclude Include="Source\Game\Actors\Enemy\Slime\SlimeEnemy.h" />
     <ClInclude Include="Source\Game\Actors\Player\Player.h" />
     <ClInclude Include="Source\Game\Actors\Trader\Trader.h" />
+    <ClInclude Include="Source\Game\Components\Ability\AbilityComponent.h" />
+    <ClInclude Include="Source\Game\Components\Ability\AbilityContext\AbilityContext.h" />
+    <ClInclude Include="Source\Game\Components\Ability\Ability\Ability.h" />
+    <ClInclude Include="Source\Game\Components\Ability\Ability\Shuriken\ShurikenAbility.h" />
     <ClInclude Include="Source\Game\Components\Attribute\AttributeComponent.h" />
     <ClInclude Include="Source\Game\Components\Attribute\Data\AttributeData.h" />
     <ClInclude Include="Source\Game\Components\Attribute\Enemy\Eye\EyeAttribute.h" />

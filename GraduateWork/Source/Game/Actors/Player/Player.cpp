@@ -10,12 +10,13 @@
 #include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
 #include "../../../Core/StaticFunctions/Debug.h"
+#include "../../Components/Ability/AbilityComponent.h"
 #include "../../Components/Attribute/Player/PlayerAttribute.h"
 #include "../../UI/HUD/PlayerHUD.h"
 #include "../Enemy/Enemy.h"
 
-Player::Player(SharedContext* Context, const Vector2& Position)
-    : Actor(Context, Position)
+Player::Player(SharedContext* Context, Object* Instigator, const Vector2& Position)
+    : Actor(Context, Instigator, Position)
 {
     SetName("Player_");
 
@@ -31,6 +32,8 @@ Player::Player(SharedContext* Context, const Vector2& Position)
     AddComponent<PlayerHUD>(this);
     AttributeComp = AddComponent<PlayerAttribute>(this);
     MovementComp = AddComponent<MovementComponent>(this);
+
+    AddComponent<AbilityComponent>(this);
 
     GetTransform()->SetScale(7.0f);
 }

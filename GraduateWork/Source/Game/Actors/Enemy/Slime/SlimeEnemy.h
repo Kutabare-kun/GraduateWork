@@ -5,7 +5,7 @@ class SlimeEnemy
     : public Enemy
 {
 public:
-    SlimeEnemy(SharedContext* Context, const Vector2& Position);
+    SlimeEnemy(SharedContext* Context, Object* Instigator, const Vector2& Position);
 
 protected:
     void CreateAnimation() override;

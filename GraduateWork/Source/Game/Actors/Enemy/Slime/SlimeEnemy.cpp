@@ -10,8 +10,8 @@
 
 class Animation;
 
-SlimeEnemy::SlimeEnemy(SharedContext* Context, const Vector2& Position)
-    : Enemy(Context, Position)
+SlimeEnemy::SlimeEnemy(SharedContext* Context, Object* Instigator, const Vector2& Position)
+    : Enemy(Context, Instigator, Position)
 {
     SetName("Slime_");
 

@@ -2,8 +2,8 @@
 #include "../../Component/Sprite/SpriteComponent.h"
 #include "../../Component/Animation/AnimationComponent.h"
 
-Actor::Actor(SharedContext* Context, const Vector2& Position)
-    : Object(Context, Position)
+Actor::Actor(SharedContext* Context, Object* Instigator, const Vector2& Position)
+    : Object(Context, Instigator, Position)
 {
     SpriteComp = AddComponent<SpriteComponent>(this, WHITE);
     AnimationComp = AddComponent<AnimationComponent>(this);
@@ -29,6 +29,10 @@ void Actor::LateUpdate(float DeltaTime)
 void Actor::Draw(const Camera2D& OwnerCamera)
 {
     Object::Draw(OwnerCamera);
+}
+
+void Actor::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
+{
 }
 
 Rectangle Actor::GetActorRectangle()

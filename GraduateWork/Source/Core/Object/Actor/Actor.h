@@ -11,7 +11,7 @@ class Actor
 {
 public:
     // Constructor
-    Actor(SharedContext* Context, const Vector2& Position);
+    Actor(SharedContext* Context, Object* Instigator, const Vector2& Position);
 
     // Destructor
     ~Actor() override = default;
@@ -25,7 +25,7 @@ public:
 
     void Draw(const Camera2D& OwnerCamera) override;
 
-    virtual void OnHealthChange(Object* Instigator, float Delta, bool IsDead) = 0;
+    virtual void OnHealthChange(Object* Instigator, float Delta, bool IsDead);
 
     // Return rectangle of actor
     Rectangle GetActorRectangle();

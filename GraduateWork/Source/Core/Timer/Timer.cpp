@@ -23,6 +23,7 @@ void Timer::Elapsed()
 
     if (!bLoop) return;
     CurrentTime = 0.0f;
+    bElapsed = false;
 }
 
 void Timer::UpdateTimer(float NewMaxTime)

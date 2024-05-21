@@ -75,3 +75,40 @@ float AttributeComponent::ApplyHealthChange(std::shared_ptr<AttributeComponent> 
 
     return TakeDamage;
 }
+
+float AttributeComponent::ApplyHealthChange(std::shared_ptr<AttributeComponent> Instigator, float Delta)
+{
+    if (!bIsEnableTakeDamage) return 0.0f;
+
+    const std::shared_ptr<AttributeData> TargetHealth = GetAttribute(MainAttribute::Health);
+    if (TargetHealth->GetCurrentValue() <= FLT_EPSILON) return 0.0f;
+
+    bIsEnableTakeDamage = false;
+
+    const SharedContext* Context = GetOwner()->GetContext();
+    Context->TimerManagerSys->AddTimer([&]()
+    {
+        bIsEnableTakeDamage = true;
+    }, 2.0f);
+
+    const std::shared_ptr<AttributeData> CriticalChange = Instigator->GetAttribute(MainAttribute::CriticalChance);
+    const std::shared_ptr<AttributeData> CriticalDamage = Instigator->GetAttribute(MainAttribute::CriticalDamage);
+
+    std::random_device RandomDevice;
+    std::mt19937 Generator(RandomDevice());
+    std::uniform_real_distribution<float> Distribution(0.0f, 1.0f);
+
+    const float ChanceToCritical = CriticalChange->GetCurrentValue() / 100.0f;
+    const bool IsCritical = Distribution(Generator) <= ChanceToCritical;
+    float Damage = Delta * (IsCritical ? CriticalDamage->GetCurrentValue() : 1.0f);
+
+    const std::shared_ptr<AttributeData> TargetDefense = GetAttribute(MainAttribute::Defense);
+
+    Damage -= Damage * (TargetDefense->GetCurrentValue() / 100.0f);
+
+    const float TakeDamage = TargetHealth->ApplyChangingValue(-Damage);
+
+    OnHealthChange(Instigator->GetOwner(), TakeDamage, TargetHealth->GetCurrentValue() <= 0.0f);
+
+    return TakeDamage;
+}

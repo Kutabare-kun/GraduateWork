@@ -31,6 +31,7 @@ public:
     void LevelUp();
 
     float ApplyHealthChange(std::shared_ptr<AttributeComponent> Instigator);
+    float ApplyHealthChange(std::shared_ptr<AttributeComponent> Instigator, float Delta);
 
     float OnAttributeChange(MainAttribute Attribute, float Delta);
     float OnAttributeBuffChange(MainAttribute Attribute, float Percent);

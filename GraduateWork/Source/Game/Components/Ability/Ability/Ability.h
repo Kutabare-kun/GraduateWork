@@ -14,8 +14,6 @@ public:
     void OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other) override;
 
 protected:
-    void CreateAnimation() override;
-
     virtual void OnBeginHit(class Enemy* Target);
     virtual void OnEveryHit(class Enemy* Target);
 

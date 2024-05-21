@@ -3,25 +3,29 @@
 #include <fstream>
 
 #include "../../../../Core/Directory/Directory.h"
+#include "../../../../Core/StaticFunctions/Debug.h"
 #include "../../../../Core/Timer/Timer.h"
 
 using Json = nlohmann::json;
 
-AbilityContext::AbilityContext(const std::string&& AbilityName, AbilityTag Tag, unsigned MaxLevel)
-    : ClampLevel(MaxLevel), Name(AbilityName), Tag(Tag)
+AbilityContext::AbilityContext(const std::string&& AbilityName, AbilityTag Tag)
+    : Name(AbilityName), Tag(Tag)
 {
     Json AbilityInfoJson;
     std::ifstream AbilityInfoFile(Directory::GetInstance().GetData("Ability.json"));
     AbilityInfoFile >> AbilityInfoJson;
 
-    std::vector<AbilityInfo> Info = AbilityInfoJson[Name];
-    for (size_t Index = 0; Index < Info.size(); ++Index)
-        InfoByLevel.emplace(Index + 1, Info[Index]);
-}
+    unsigned Count{};
 
-AbilityContext::~AbilityContext()
-{
-    AbilityTimer->UpdateTimer(false);
+    auto Info = AbilityInfoJson[Name];
+    for (const auto& BasicJsons : Info)
+    {
+        AbilityInfo ThisInfo = BasicJsons["Level"].get<AbilityInfo>();
+        InfoByLevel.emplace(Count + 1, ThisInfo);
+        ++Count;
+    }
+
+    ClampLevel = Count;
 }
 
 void AbilityContext::LevelUp()

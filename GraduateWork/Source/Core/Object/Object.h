@@ -104,7 +104,7 @@ public:
     void QueueForRemoval();
 
     std::vector<std::shared_ptr<DrawableComponent>> GetDrawable() const { return DrawableComp; }
-    std::shared_ptr<TransformComponent> GetTransform() const { return TransformComp; }
+    std::shared_ptr<TransformComponent> GetTransform() const { return TransformComp ? TransformComp : nullptr; }
     std::shared_ptr<InstanceIDComponent> GetInstanceID() const { return InstanceIDComp; }
     std::shared_ptr<TagComponent<Tag>> GetTag() const { return TagComp; }
 

@@ -20,7 +20,7 @@ public:
     void AddZoom(float NewZoom);
     void AddRotation(float NewRotation);
 
-    Camera2D GetCamera() const { return Camera; }
+    Camera2D& GetCamera() { return Camera; }
     
 protected:
     Camera2D Camera;

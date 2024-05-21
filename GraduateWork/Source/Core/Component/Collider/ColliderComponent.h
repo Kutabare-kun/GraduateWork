@@ -11,6 +11,7 @@ enum class CollisionLayer
     Tile    = 3,    // Bitmask 0011
     Enemy   = 4,    // Bitmask 0100
     NPC     = 5,    // Bitmask 0101
+    Ability = 6,    // Bitmask 0110
 };
 
 struct Manifold

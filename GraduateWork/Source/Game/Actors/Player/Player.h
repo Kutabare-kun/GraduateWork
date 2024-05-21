@@ -1,6 +1,7 @@
 #pragma once
 #include "../../../Core/Object/Actor/Actor.h"
 
+class AbilityComponent;
 class AttributeComponent;
 class CameraComponent;
 class MovementComponent;
@@ -27,6 +28,7 @@ protected:
     std::shared_ptr<MovementComponent> MovementComp;
     std::shared_ptr<CameraComponent> CameraComp;
     std::shared_ptr<AttributeComponent> AttributeComp;
+    std::shared_ptr<AbilityComponent> AbilityComp;
 
 private:
     void CreateAnimation() override;

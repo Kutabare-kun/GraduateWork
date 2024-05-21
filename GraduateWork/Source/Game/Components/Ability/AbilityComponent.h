@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <memory>
+#include <string>
 
 #include "../../../Core/Component/ActorComponent.h"
 
@@ -18,9 +19,11 @@ class AbilityComponent
 public:
     AbilityComponent(Object* Owner);
 
-    void Awake() override;
-
     void AddAbility(std::shared_ptr<AbilityContext> NewAbility);
+    void AddAbility(const std::string& AbilityName, AbilityTag Tag);
+
+protected:
+    void SpawnAbility(std::shared_ptr<AbilityContext>& AbilityInfo);
 
 private:
     std::map<AbilityTag, std::shared_ptr<AbilityContext>> Abilities;

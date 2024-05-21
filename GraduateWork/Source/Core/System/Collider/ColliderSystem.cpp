@@ -25,33 +25,35 @@ ColliderSystem::ColliderSystem(Quadtree& CollisionTree)
     EnemyCollision.SetBit((int)CollisionLayer::Enemy);
     EnemyCollision.SetBit((int)CollisionLayer::Tile);
     EnemyCollision.SetBit((int)CollisionLayer::Player);
+    EnemyCollision.SetBit((int)CollisionLayer::Ability);
     CollisionLayers.insert(std::make_pair(CollisionLayer::Enemy, EnemyCollision));
+
+    Bitmask AbilityCollision;
+    AbilityCollision.SetBit((int)CollisionLayer::Enemy);
+    CollisionLayers.insert(std::make_pair(CollisionLayer::Ability, AbilityCollision));
     // ~Enemy collision layer
 
     const Vector2& ScreenSize = Window::GetInstance().GetScreenSize();
 }
 
-void ColliderSystem::Add(std::vector<std::shared_ptr<Object>>& Objects)
+void ColliderSystem::Add(std::shared_ptr<Object>& ThisObject)
 {
-    for (auto Element : Objects)
+    auto ColliderComp = ThisObject->GetComponent<BoxColliderComponent>();
+    if (ColliderComp)
     {
-        auto ColliderComp = Element->GetComponent<BoxColliderComponent>();
-        if (ColliderComp)
+        CollisionLayer Layer = ColliderComp->GetLayer();
+
+        auto Iter = Collidables.find(Layer);
+        if (Iter != Collidables.end())
         {
-            CollisionLayer Layer = ColliderComp->GetLayer();
+            Collidables[Layer].push_back(ColliderComp);
+        }
+        else
+        {
+            std::vector<std::shared_ptr<BoxColliderComponent>> Objs;
+            Objs.push_back(ColliderComp);
 
-            auto Iter = Collidables.find(Layer);
-            if (Iter != Collidables.end())
-            {
-                Collidables[Layer].push_back(ColliderComp);
-            }
-            else
-            {
-                std::vector<std::shared_ptr<BoxColliderComponent>> Objs;
-                Objs.push_back(ColliderComp);
-
-                Collidables.insert(std::make_pair(Layer, Objs));
-            }
+            Collidables.insert(std::make_pair(Layer, Objs));
         }
     }
 }
@@ -65,6 +67,7 @@ void ColliderSystem::ProcessRemovals()
         {
             if ((*Iter)->GetOwner()->IsQueuedForRemoval())
             {
+                CollisionTree.Remove(*Iter);
                 Iter = Layer.second.erase(Iter);
             }
             else
@@ -111,6 +114,11 @@ void ColliderSystem::Resolve()
                 continue;
             }
 
+            if (ColliderComp->GetOwner()->IsQueuedForRemoval())
+            {
+                continue;
+            }
+
             std::vector<std::shared_ptr<BoxColliderComponent>> Collisions
                 = CollisionTree.Search(ColliderComp->GetCollidable());
 
@@ -121,6 +129,8 @@ void ColliderSystem::Resolve()
                 {
                     continue;
                 }
+
+                if (Collision->GetOwner()->IsQueuedForRemoval()) continue;
 
                 bool LayersCollide = CollisionLayers[ColliderComp->GetLayer()].GetBit((int)Collision->GetLayer());
 
@@ -143,7 +153,6 @@ void ColliderSystem::Resolve()
                         }
                         else
                         {
-                            // TODO: Implement collision resolution for dynamic objects
                             ColliderComp->ResolveCollision(CollisionInfo);
                         }
                     }

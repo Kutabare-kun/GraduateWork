@@ -4,6 +4,8 @@
 #include "../../../Core/Component/Velocity/VelocityComponent.h"
 #include "../../Components/BehaviorTree/Simple/BehaviorTreeSimple.h"
 #include "../../../Core/Component/Sprite/SpriteComponent.h"
+#include "../../../Core/StaticFunctions/Debug.h"
+#include "../../../Core/Timer/Manager/TimerManager.h"
 #include "../Player/Player.h"
 
 Enemy::Enemy(SharedContext* Context, Object* Instigator, const Vector2& Position)
@@ -29,5 +31,15 @@ void Enemy::Awake()
 
 void Enemy::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
 {
-    if (IsDead) QueueForRemoval();
+    Debug::GetInstance().Log(TextFormat("%s hit %s. Amount of Damage %f, Player Is Dead %s",
+                                    Instigator->GetName().c_str(), GetName().c_str(), Delta,
+                                    IsDead ? "True" : "False"));
+    
+    if (IsDead)
+    {
+        GetContext()->TimerManagerSys->AddTimer([&]()
+        {
+            QueueForRemoval();
+        }, 0.0f);
+    }
 }

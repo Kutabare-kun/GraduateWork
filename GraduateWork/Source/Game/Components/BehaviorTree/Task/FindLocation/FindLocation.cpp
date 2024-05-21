@@ -59,9 +59,10 @@ bool FindLocation::Run()
 
     SharedContext* Context = BBS->GetOwner()->GetContext();
 
+    std::vector<CollisionLayer> Layers {CollisionLayer::Enemy, CollisionLayer::Ability};
     RaycastResult HitResult = Context->RaycastSys->Cast(OwnerTransformComp->GetPosition(),
                                                         TargetTransformComp->GetPosition(),
-                                                        CollisionLayer::Enemy
+                                                        Layers
     );
 
     if (HitResult.Collision == BBS->Target)

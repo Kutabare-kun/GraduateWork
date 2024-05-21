@@ -9,14 +9,13 @@ struct AbilityInfo
     float Cooldown;
     float Damage;
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(AbilityInfo, Cooldown, Damage);
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(AbilityInfo, Cooldown, Damage)
 };
 
 class AbilityContext
 {
 public:
-    AbilityContext(const std::string&& AbilityName, AbilityTag Tag, unsigned MaxLevel);
-    ~AbilityContext();
+    AbilityContext(const std::string&& AbilityName, AbilityTag Tag);
 
     void LevelUp();
 

@@ -6,7 +6,8 @@
 
 BoxColliderComponent::BoxColliderComponent(Object* Owner)
     : ColliderComponent(Owner), Offset({0.0f, 0.0f})
-{}
+{
+}
 
 Manifold BoxColliderComponent::Intersects(std::shared_ptr<ColliderComponent> Other)
 {
@@ -115,6 +116,8 @@ const Rectangle& BoxColliderComponent::GetCollidable()
 
 void BoxColliderComponent::SetPosition()
 {
+    if (!GetOwner() || !GetOwner()->GetTransform()) return;
+
     const Vector2 OwnerPosition = GetOwner()->GetTransform()->GetPosition();
 
     AABB.x = OwnerPosition.x - (AABB.width / 2.0f) + Offset.x;

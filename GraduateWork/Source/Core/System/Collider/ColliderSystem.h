@@ -16,7 +16,7 @@ class ColliderSystem
 public:
     ColliderSystem(Quadtree& CollisionTree);
 
-    void Add(std::vector<std::shared_ptr<Object>>& Objects);
+    void Add(std::shared_ptr<Object>& ThisObject);
     void ProcessRemovals();
     void Update();
 

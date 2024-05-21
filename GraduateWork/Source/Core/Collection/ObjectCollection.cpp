@@ -1,10 +1,10 @@
 #include "ObjectCollection.h"
 
 #include "../Object/Object.h"
+#include "../StaticFunctions/Debug.h"
 
 ObjectCollection::ObjectCollection(DrawableSystem& Drawables, ColliderSystem& Collidables)
-    : Drawables(Drawables)
-    , Collidables(Collidables)
+    : Drawables(Drawables), Collidables(Collidables)
 {
 }
 
@@ -50,40 +50,35 @@ void ObjectCollection::ProcessNewObjects()
         Element->Awake();
     }
 
-    for (const auto& Element : NewObjects)
+    for (auto& Element : NewObjects)
     {
         Element->Start();
+
+        Drawables.Add(Element);
+        Collidables.Add(Element);
     }
 
-    Objects.assign(NewObjects.begin(), NewObjects.end());
-    
-    Drawables.Add(Objects);
-    Collidables.Add(Objects);
-    
+    Objects.insert(Objects.end(), NewObjects.begin(), NewObjects.end());
+
     NewObjects.clear();
+    Objects.shrink_to_fit();
 }
 
 void ObjectCollection::ProcessRemovals()
 {
-    bool bRemoved = false;
-    
+    Drawables.ProcessRemovals();
+    Collidables.ProcessRemovals();
+
     auto Iter = Objects.begin();
     while (Iter != Objects.end())
     {
         if (auto Obj = *Iter->get(); Obj.IsQueuedForRemoval())
         {
             Iter = Objects.erase(Iter);
-            bRemoved = true;
         }
         else
         {
             ++Iter;
         }
     }
-
-    if (bRemoved)
-    {
-        Drawables.ProcessRemovals();
-        Collidables.ProcessRemovals();
-    }    
 }

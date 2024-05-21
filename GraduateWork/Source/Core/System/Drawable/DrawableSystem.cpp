@@ -4,14 +4,6 @@
 
 #include "../../Object/Object.h"
 
-void DrawableSystem::Add(std::vector<std::shared_ptr<Object>>& NewObjects)
-{
-    for (auto& Element : NewObjects)
-    {
-        Add(Element);
-    }
-}
-
 void DrawableSystem::ProcessRemovals()
 {
     for (auto& [Layer, Objects] : Drawables)
@@ -19,7 +11,7 @@ void DrawableSystem::ProcessRemovals()
         auto Iter = Objects.begin();
         while (Iter != Objects.end())
         {
-            if ((*Iter)->ContinueToDraw())
+            if (!(*Iter)->ContinueToDraw())
             {
                 Iter = Objects.erase(Iter);
             }

@@ -94,7 +94,7 @@ RaycastResult Raycast::Cast(const Vector2& From, const Vector2& To, int Exclusio
             {
                 continue;
             }
-            
+
             if (const Rectangle& EntityRect = Entity->GetCollidable(); CheckCollisionPointRec(Point, EntityRect))
             {
                 Result.Collision = Entity->GetOwner();
@@ -133,7 +133,54 @@ RaycastResult Raycast::Cast(const Vector2& From, const Vector2& To, CollisionLay
             {
                 continue;
             }
-            
+
+            if (const Rectangle& EntityRect = Entity->GetCollidable(); CheckCollisionPointRec(Point, EntityRect))
+            {
+                Result.Collision = Entity->GetOwner();
+                return Result;
+            }
+        }
+    }
+
+    return Result;
+}
+
+RaycastResult Raycast::Cast(const Vector2& From, const Vector2& To, const std::vector<CollisionLayer>& Layers)
+{
+    RaycastResult Result;
+
+    if (Vector2Equals(From, To))
+    {
+        return Result;
+    }
+
+    Rectangle CollisionArea = BuildRectangle(From, To);
+    // Debug::GetInstance().DrawRectangle(CollisionArea, RED);
+
+    std::vector<std::shared_ptr<BoxColliderComponent>> Entities = Quadtree.Search(CollisionArea);
+    if (Entities.empty())
+    {
+        return Result;
+    }
+
+    for (const std::vector<Vector2> LinePoints = BuildLinePoints(From, To); auto& Point : LinePoints)
+    {
+        // Debug::GetInstance().DrawPixel(Point, BLUE);
+        for (auto& Entity : Entities)
+        {
+            bool bFound = false;
+
+            for (const auto& Layer : Layers)
+            {
+                if (Entity->GetLayer() == Layer)
+                {
+                    bFound = true;
+                    break;
+                }
+            }
+
+            if (bFound) continue;
+
             if (const Rectangle& EntityRect = Entity->GetCollidable(); CheckCollisionPointRec(Point, EntityRect))
             {
                 Result.Collision = Entity->GetOwner();

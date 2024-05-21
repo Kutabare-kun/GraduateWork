@@ -44,10 +44,6 @@ void Ability::OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other)
     OnEveryHit(Target);
 }
 
-void Ability::CreateAnimation()
-{
-}
-
 void Ability::OnBeginHit(Enemy* Target)
 {
 }

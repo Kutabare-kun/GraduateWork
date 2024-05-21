@@ -47,8 +47,10 @@ void SceneGame::OnCreate()
     Camera = _Player->GetCamera();
     HUD = _Player->GetComponent<PlayerHUD>();
 
+    Context.Camera = &Camera->GetCamera();
+
     // Objects->CreateObject<Trader>(&Context, Vector2{600.0f, 600.0f});
-    //
+
     Objects->CreateObject<EyeEnemy>(&Context, nullptr, Vector2{700.0f, 700.0f});
     Objects->CreateObject<GoblinEnemy>(&Context, nullptr, Vector2{700.0f, 800.0f});
     Objects->CreateObject<SlimeEnemy>(&Context, nullptr, Vector2{800.0f, 700.0f});
@@ -84,10 +86,10 @@ void SceneGame::ProcessInput()
 
 void SceneGame::Update(float DeltaTime)
 {
-    TimerManagerSys->Update(DeltaTime);
-
     Objects->ProcessRemovals();
     Objects->ProcessNewObjects();
+
+    TimerManagerSys->Update(DeltaTime);
 
     Objects->Update(DeltaTime);
 }

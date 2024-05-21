@@ -14,14 +14,14 @@ public:
     std::shared_ptr<Type> CreateObject(Arguments&&... Args)
     {
         static_assert(std::is_base_of_v<Object, Type>, "Type must derive from Object");
-        
+
         auto Obj = std::make_shared<Type>(std::forward<Arguments>(Args)...);
         AddObject(Obj);
-        
+
         return Obj;
     }
 
-    template<typename Type>
+    template <typename Type>
     std::shared_ptr<Type> GetObject()
     {
         static_assert(std::is_base_of_v<Object, Type>, "Type must derive from Object");

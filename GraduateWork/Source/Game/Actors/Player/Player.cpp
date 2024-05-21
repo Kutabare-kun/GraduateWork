@@ -11,6 +11,7 @@
 #include "../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
 #include "../../../Core/StaticFunctions/Debug.h"
 #include "../../Components/Ability/AbilityComponent.h"
+#include "../../Components/Ability/AbilityContext/AbilityContext.h"
 #include "../../Components/Attribute/Player/PlayerAttribute.h"
 #include "../../UI/HUD/PlayerHUD.h"
 #include "../Enemy/Enemy.h"
@@ -33,7 +34,7 @@ Player::Player(SharedContext* Context, Object* Instigator, const Vector2& Positi
     AttributeComp = AddComponent<PlayerAttribute>(this);
     MovementComp = AddComponent<MovementComponent>(this);
 
-    AddComponent<AbilityComponent>(this);
+    AbilityComp = AddComponent<AbilityComponent>(this);
 
     GetTransform()->SetScale(7.0f);
 }
@@ -90,6 +91,8 @@ void Player::Awake()
 
     GetTag()->Set(Tag::Player);
     GetSprite()->SetDrawLayer(DrawLayer::Entities);
+
+    AbilityComp->AddAbility("Shuriken", AbilityTag::Shuriken);
 }
 
 void Player::HandleDamage(std::shared_ptr<ColliderComponent> Other) const
@@ -119,6 +122,8 @@ void Player::OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other)
 }
 
 void Player::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
-{// 100 - (20 - 20 * (1 / 100))
-    Debug::GetInstance().Log(TextFormat("%s hit %s. Amount of Damage %f, Player Is Dead %s", Instigator->GetName().c_str(), GetName().c_str(), Delta, IsDead ? "True" : "False"));
+{
+    Debug::GetInstance().Log(TextFormat("%s hit %s. Amount of Damage %f, Player Is Dead %s",
+                                        Instigator->GetName().c_str(), GetName().c_str(), Delta,
+                                        IsDead ? "True" : "False"));
 }

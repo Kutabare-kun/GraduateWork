@@ -24,10 +24,6 @@ class UIText
 public:
     UIText(Object* Owner, const Slot& LayoutSlot, UIBase* Parent, const TextSettings& TextAppearance);
 
-    void Awake() override;
-
-    void Update(float DeltaTime) override;
-
     void Draw() override;
 
 private:

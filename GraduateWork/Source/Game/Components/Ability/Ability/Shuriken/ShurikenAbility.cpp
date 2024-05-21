@@ -42,8 +42,6 @@ void ShurikenAbility::Awake()
     const Vector2 NormalizedDirection = Vector2Normalize(Direction);
 
     VelocityComp->SetVelocity(Vector2Scale(NormalizedDirection, Speed));
-
-    Debug::GetInstance().Log(TextFormat("Direction: %f, %f", NormalizedDirection.x, NormalizedDirection.y));
 }
 
 void ShurikenAbility::OnEveryHit(Enemy* Target)

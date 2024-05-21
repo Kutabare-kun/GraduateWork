@@ -11,17 +11,6 @@ UIImage::UIImage(Object* Owner, const Slot& LayoutSlot, UIBase* Parent, const st
     const int IDImage = TextureAllocator->Add(DirectorySys.GetTexture(std::move(ImageName)));
     ImageTexture = TextureAllocator->Get(IDImage);
 }
-
-void UIImage::Awake()
-{
-    UIBase::Awake();
-}
-
-void UIImage::Update(float DeltaTime)
-{
-    UIBase::Update(DeltaTime);
-}
-
 void UIImage::Draw()
 {
     UIBase::Draw();

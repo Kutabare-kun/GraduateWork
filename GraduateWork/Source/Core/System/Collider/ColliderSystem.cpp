@@ -89,13 +89,13 @@ void ColliderSystem::Update()
         {
             CollisionTree.Insert(ColliderComp);
 
-            Debug::GetInstance().DrawRectangle(ColliderComp->GetCollidable(), RED);
+            //Debug::GetInstance().DrawRectangle(ColliderComp->GetCollidable(), RED);
         }
     }
 
     Resolve();
 
-    CollisionTree.DrawDebug();
+    //CollisionTree.DrawDebug();
 }
 
 void ColliderSystem::Resolve()
@@ -134,27 +134,28 @@ void ColliderSystem::Resolve()
 
                 bool LayersCollide = CollisionLayers[ColliderComp->GetLayer()].GetBit((int)Collision->GetLayer());
 
-                if (LayersCollide)
+                if (!LayersCollide) continue;
+                Manifold CollisionInfo = ColliderComp->Intersects(Collision);
+
+                if (!CollisionInfo.bColliding) continue;
+
+                if (auto CollisionPair = ObjectsColliding.emplace(std::make_pair(ColliderComp, Collision));
+                    CollisionPair.second)
                 {
-                    Manifold CollisionInfo = ColliderComp->Intersects(Collision);
+                    ColliderComp->GetOwner()->OnCollisionBeginOverlap(Collision);
+                    Collision->GetOwner()->OnCollisionBeginOverlap(ColliderComp);
+                }
 
-                    if (CollisionInfo.bColliding)
+                if (Collision->GetOwner()->GetTransform()->IsStatic())
+                {
+                    ColliderComp->ResolveCollision(CollisionInfo);
+                }
+                else
+                {
+                    if (!(ColliderComp->GetOwner()->GetTag()->Compare(Tag::Ability) || Collision->GetOwner()->
+                        GetTag()->Compare(Tag::Ability)))
                     {
-                        auto CollisionPair = ObjectsColliding.emplace(std::make_pair(ColliderComp, Collision));
-                        if (CollisionPair.second)
-                        {
-                            ColliderComp->GetOwner()->OnCollisionBeginOverlap(Collision);
-                            Collision->GetOwner()->OnCollisionBeginOverlap(ColliderComp);
-                        }
-
-                        if (Collision->GetOwner()->GetTransform()->IsStatic())
-                        {
-                            ColliderComp->ResolveCollision(CollisionInfo);
-                        }
-                        else
-                        {
-                            ColliderComp->ResolveCollision(CollisionInfo);
-                        }
+                        ColliderComp->ResolveCollision(CollisionInfo);
                     }
                 }
             }

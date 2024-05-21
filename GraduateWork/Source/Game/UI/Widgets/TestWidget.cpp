@@ -48,13 +48,3 @@ void TestWidget::Awake()
 
     UIPanel::Awake();
 }
-
-void TestWidget::Update(float DeltaTime)
-{
-    UIPanel::Update(DeltaTime);
-}
-
-void TestWidget::Draw()
-{
-    UIPanel::Draw();
-}

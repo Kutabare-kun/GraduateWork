@@ -3,6 +3,8 @@
 
 #include "../UIBase/UIBase.h"
 
+#include "../Text/UIText.h"
+
 enum class ButtonState
 {
     Normal,
@@ -26,7 +28,7 @@ class UIButton
 {
 public:
     UIButton(Object* Owner, const Slot& LayoutSlot, UIBase* Parent, ButtonStateTexture& ButtonStateTextures);
-    
+
     void Awake() override;
 
     void Update(float DeltaTime) override;
@@ -37,6 +39,8 @@ public:
 
 private:
     std::map<ButtonState, std::shared_ptr<TextureResource>> ButtonTextures;
+
+    std::shared_ptr<UIText> ButtonText;
 
     ButtonState CurrentState = ButtonState::Normal;
 

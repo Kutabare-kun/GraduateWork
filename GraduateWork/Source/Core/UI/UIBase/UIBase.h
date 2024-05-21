@@ -5,11 +5,17 @@
 struct Padding
 {
     Padding() = default;
+
     explicit Padding(float InPadding)
         : Left(InPadding), Right(InPadding), Top(InPadding), Bottom(InPadding)
     {
     }
-    
+
+    Padding(float InLeft, float InRight, float InTop, float InBottom)
+        : Left(InLeft), Right(InRight), Top(InTop), Bottom(InBottom)
+    {
+    }
+
     float Left;
     float Right;
     float Top;
@@ -19,28 +25,43 @@ struct Padding
 struct Slot
 {
     Slot() = default;
+
     Slot(const Padding& InPadding, const Rectangle& InSlotRect)
         : ObjectPadding(InPadding), SlotRect(InSlotRect)
-    {}
+    {
+    }
 
     Padding ObjectPadding;
     Rectangle SlotRect;
 };
 
 class UIButton;
+class UIText;
 
 class UIBase
 {
 public:
-    template<typename Type>
+    template <typename Type>
     void AddChild(const std::shared_ptr<Type>& Child)
     {
         std::shared_ptr<UIBase> ChildBase = std::dynamic_pointer_cast<UIBase>(Child);
         if (!ChildBase) return;
-        
+
         AddChild(ChildBase);
     }
-    
+
+    template <typename Type>
+    std::shared_ptr<Type> GetChild()
+    {
+        for (auto ChildUI : Children)
+        {
+            auto ExistingUI = std::dynamic_pointer_cast<Type>(ChildUI);
+            if (ExistingUI) return ExistingUI;
+        }
+
+        return nullptr;
+    }
+
 public:
     UIBase(Object* Owner, const Slot& LayoutSlot, UIBase* Parent = nullptr);
     virtual ~UIBase() = default;
@@ -66,7 +87,7 @@ public:
     bool DetachFromParent();
 
     const Rectangle& GetBounds() const;
-    
+
     const Slot& GetLayoutSlot() const { return LayoutSlot; }
     void SetLayoutSlot(const Slot& NewSlot) { LayoutSlot = NewSlot; }
 

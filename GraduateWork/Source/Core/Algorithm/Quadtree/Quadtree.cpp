@@ -120,7 +120,7 @@ void Quadtree::DrawDebug()
         }
     }
 
-    Debug::GetInstance().DrawRectangle(Bounds, DARKBLUE);
+    //Debug::GetInstance().DrawRectangle(Bounds, DARKBLUE);
 }
 
 void Quadtree::Search(const Rectangle& Area, std::vector<std::shared_ptr<BoxColliderComponent>>& OverlappingObjects)

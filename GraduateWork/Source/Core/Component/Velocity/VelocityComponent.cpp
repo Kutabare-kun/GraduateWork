@@ -21,8 +21,6 @@ void VelocityComponent::SetVelocity(const Vector2& NewVelocity)
 {
     Velocity = NewVelocity;
     ClampVelocity();
-
-    Debug::GetInstance().Log(TextFormat("%s, Velocity: %f, %f", GetOwner()->GetName().c_str(), Velocity.x, Velocity.y));
 }
 
 void VelocityComponent::SetVelocity(float X, float Y)

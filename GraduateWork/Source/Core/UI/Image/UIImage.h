@@ -7,10 +7,6 @@ class UIImage
 public:
     UIImage(Object* Owner, const Slot& LayoutSlot, UIBase* Parent, const std::string& ImageName);
 
-    void Awake() override;
-
-    void Update(float DeltaTime) override;
-
     void Draw() override;
 
 private:

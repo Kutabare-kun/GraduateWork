@@ -11,19 +11,24 @@ UIButton::UIButton(Object* Owner, const Slot& LayoutSlot, UIBase* Parent, Button
     const int ButtonNormal = TextureAllocator->Add(DirectorySys.GetTexture(std::move(ButtonStateTextures.NormalFile)));
     ButtonTextures.emplace(ButtonState::Normal, TextureAllocator->Get(ButtonNormal));
 
-    const int ButtonClicked = TextureAllocator->Add(DirectorySys.GetTexture(std::move(ButtonStateTextures.PressedFile)));
+    const int ButtonClicked = TextureAllocator->
+        Add(DirectorySys.GetTexture(std::move(ButtonStateTextures.PressedFile)));
     ButtonTextures.emplace(ButtonState::Pressed, TextureAllocator->Get(ButtonClicked));
 
-    const int ButtonHovered = TextureAllocator->Add(DirectorySys.GetTexture(std::move(ButtonStateTextures.HoveredFile)));
+    const int ButtonHovered = TextureAllocator->
+        Add(DirectorySys.GetTexture(std::move(ButtonStateTextures.HoveredFile)));
     ButtonTextures.emplace(ButtonState::Hovered, TextureAllocator->Get(ButtonHovered));
 
-    const int ButtonDisabled = TextureAllocator->Add(DirectorySys.GetTexture(std::move(ButtonStateTextures.DisabledFile)));
+    const int ButtonDisabled = TextureAllocator->Add(
+        DirectorySys.GetTexture(std::move(ButtonStateTextures.DisabledFile)));
     ButtonTextures.emplace(ButtonState::Disabled, TextureAllocator->Get(ButtonDisabled));
 }
 
 void UIButton::Awake()
 {
     UIBase::Awake();
+
+    ButtonText = GetChild<UIText>();
 }
 
 void UIButton::Update(float DeltaTime)
@@ -41,11 +46,33 @@ void UIButton::Update(float DeltaTime)
         CheckCollisionPointRec(MousePosition, GetBounds()))
     {
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) CurrentState = ButtonState::Pressed;
-        else CurrentState = ButtonState::Hovered;
+        else
+        {
+            CurrentState = ButtonState::Hovered;
+
+            const Slot& ThisSlot = ButtonText->GetLayoutSlot();
+            ButtonText->SetLayoutSlot(Slot{
+                    Padding{
+                        ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
+                        5.0f, ThisSlot.ObjectPadding.Bottom
+                    },
+                    ThisSlot.SlotRect
+                }
+            );
+        }
     }
     else
     {
         CurrentState = ButtonState::Normal;
+        const Slot& ThisSlot = ButtonText->GetLayoutSlot();
+        ButtonText->SetLayoutSlot(Slot{
+                Padding{
+                    ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
+                    0.0f, ThisSlot.ObjectPadding.Bottom
+                },
+                ThisSlot.SlotRect
+            }
+        );
     }
 }
 

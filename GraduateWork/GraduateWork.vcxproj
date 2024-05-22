@@ -73,10 +73,6 @@
     <ClCompile Include="Source\Game\Components\Ability\Ability\Shuriken\ShurikenAbility.cpp" />
     <ClCompile Include="Source\Game\Components\Attribute\AttributeComponent.cpp" />
     <ClCompile Include="Source\Game\Components\Attribute\Data\AttributeData.cpp" />
-    <ClCompile Include="Source\Game\Components\Attribute\Enemy\Eye\EyeAttribute.cpp" />
-    <ClCompile Include="Source\Game\Components\Attribute\Enemy\Goblin\GoblinAttribute.cpp" />
-    <ClCompile Include="Source\Game\Components\Attribute\Enemy\Slime\SlimeAttribute.cpp" />
-    <ClCompile Include="Source\Game\Components\Attribute\Player\PlayerAttribute.cpp" />
     <ClCompile Include="Source\Game\Components\BehaviorTree\Simple\BehaviorTreeSimple.cpp" />
     <ClCompile Include="Source\Game\Components\BehaviorTree\Task\FindLocation\FindLocation.cpp" />
     <ClCompile Include="Source\Game\Components\BehaviorTree\Task\Move\Location\MoveToLocation.cpp" />
@@ -167,10 +163,6 @@
     <ClInclude Include="Source\Game\Components\Ability\Ability\Shuriken\ShurikenAbility.h" />
     <ClInclude Include="Source\Game\Components\Attribute\AttributeComponent.h" />
     <ClInclude Include="Source\Game\Components\Attribute\Data\AttributeData.h" />
-    <ClInclude Include="Source\Game\Components\Attribute\Enemy\Eye\EyeAttribute.h" />
-    <ClInclude Include="Source\Game\Components\Attribute\Enemy\Goblin\GoblinAttribute.h" />
-    <ClInclude Include="Source\Game\Components\Attribute\Enemy\Slime\SlimeAttribute.h" />
-    <ClInclude Include="Source\Game\Components\Attribute\Player\PlayerAttribute.h" />
     <ClInclude Include="Source\Game\Components\BehaviorTree\Simple\BehaviorTreeSimple.h" />
     <ClInclude Include="Source\Game\Components\BehaviorTree\Task\FindLocation\FindLocation.h" />
     <ClInclude Include="Source\Game\Components\BehaviorTree\Task\Move\Location\MoveToLocation.h" />

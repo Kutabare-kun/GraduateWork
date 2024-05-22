@@ -1,10 +1,17 @@
 #include "AttributeComponent.h"
 
+#include <fstream>
 #include <random>
 #include <ranges>
 
+#include "../../../Core/Directory/Directory.h"
 #include "../../../Core/Object/Actor/Actor.h"
 #include "../../../Core/Timer/Manager/TimerManager.h"
+#include "../../../Core/UI/Bar/UIBar.h"
+#include "../../UI/HUD/PlayerHUD.h"
+#include "../../UI/Widgets/GameUI/GameUI.h"
+
+using Json = nlohmann::json;
 
 AttributeComponent::AttributeComponent(Object* Owner)
     : ActorComponent(Owner)
@@ -18,6 +25,81 @@ void AttributeComponent::Awake()
     Actor* ActorOwner = static_cast<Actor*>(GetOwner());
     OnHealthChange = std::bind(&Actor::OnHealthChange, ActorOwner, std::placeholders::_1, std::placeholders::_2,
                                std::placeholders::_3);
+
+    std::string Name = GetOwner()->GetName();
+    Name.erase(Name.find('_'));
+
+    Json WaveInfoJson;
+    std::ifstream WaveInfoFile(Directory::GetInstance().GetData("Attribute.json"));
+    WaveInfoFile >> WaveInfoJson;
+
+    auto AttributeInfo = WaveInfoJson[Name];
+    auto Info = AttributeInfo["Attribute"];
+
+    auto ThisValue = Info["MaxHealth"].get<Attribute>();
+
+    auto [MaxHealthIter, IsMaxHealthEmplaced] = Attributes.emplace(MainAttribute::MaxHealth,
+                                                                   std::make_shared<AttributeData>(
+                                                                       ThisValue.Increase, ThisValue.Base));
+    if (IsMaxHealthEmplaced) MaxHealthIter->second->Initialize(ThisValue.MaxPercent, ThisValue.MinPercent);
+
+    ThisValue = Info["Health"].get<Attribute>();
+
+    auto [HealthIter, IsHealthEmplaced] = Attributes.emplace(MainAttribute::Health,
+                                                             std::make_shared<AttributeData>(
+                                                                 ThisValue.Increase, ThisValue.Base));
+    if (IsHealthEmplaced) HealthIter->second->Initialize(ThisValue.MaxPercent, ThisValue.MinPercent);
+    if (IsHealthEmplaced) HealthIter->second->SetParent(MaxHealthIter->second);
+
+    ThisValue = Info["MoveSpeed"].get<Attribute>();
+
+    auto [MoveSpeedIter, IsMoveSpeedEmplaced] = Attributes.emplace(MainAttribute::MoveSpeed,
+                                                                   std::make_shared<AttributeData>(
+                                                                       ThisValue.Increase, ThisValue.Base));
+    if (IsMoveSpeedEmplaced) MoveSpeedIter->second->Initialize(ThisValue.MaxPercent, ThisValue.MinPercent);
+
+    ThisValue = Info["Attack"].get<Attribute>();
+
+    auto [AttackIter, IsAttackEmplaced] = Attributes.emplace(MainAttribute::Attack,
+                                                             std::make_shared<AttributeData>(
+                                                                 ThisValue.Increase, ThisValue.Base));
+    if (IsAttackEmplaced) AttackIter->second->Initialize(ThisValue.MaxPercent, ThisValue.MinPercent);
+
+    ThisValue = Info["Defence"].get<Attribute>();
+
+    auto [DefenseIter, IsDefenseEmplaced] = Attributes.emplace(MainAttribute::Defense,
+                                                               std::make_shared<AttributeData>(
+                                                                   ThisValue.Increase, ThisValue.Base));
+    if (IsDefenseEmplaced) DefenseIter->second->Initialize(ThisValue.MaxPercent, ThisValue.MinPercent);
+
+    ThisValue = Info["CriticalChance"].get<Attribute>();
+
+    auto [CriticalChanceIter, IsCriticalChanceEmplaced] = Attributes.emplace(MainAttribute::CriticalChance,
+                                                                             std::make_shared<
+                                                                                 AttributeData>(
+                                                                                 ThisValue.Increase, ThisValue.Base));
+    if (IsCriticalChanceEmplaced) CriticalChanceIter->second->Initialize(ThisValue.MaxPercent, ThisValue.MinPercent);
+
+    ThisValue = Info["CriticalDamage"].get<Attribute>();
+
+    auto [CriticalDamageIter, IsCriticalDamageEmplaced] = Attributes.emplace(MainAttribute::CriticalDamage,
+                                                                             std::make_shared<
+                                                                                 AttributeData>(
+                                                                                 ThisValue.Increase, ThisValue.Base));
+    if (IsCriticalDamageEmplaced) CriticalDamageIter->second->Initialize(ThisValue.MaxPercent, ThisValue.MinPercent);
+
+    if (!GetOwner()->GetTag()->Compare(Tag::Player)) return;
+
+    // UI
+    GetOwner()->GetContext()->TimerManagerSys->AddTimer([&]()
+    {
+        std::shared_ptr<PlayerHUD> HUD = GetOwner()->GetComponent<PlayerHUD>();
+        std::shared_ptr<GameUI> GameUI = HUD->GetGameUIWidget();
+        std::shared_ptr<UIBar> HealthBar = GameUI->GetHealthBar();
+
+        OnHealthChangeUI = std::bind(&UIBar::UpdatePercentage, HealthBar, std::placeholders::_1);
+    }, 1.0f);
+    // ~UI
 }
 
 float AttributeComponent::OnAttributeChange(MainAttribute Attribute, float Delta)

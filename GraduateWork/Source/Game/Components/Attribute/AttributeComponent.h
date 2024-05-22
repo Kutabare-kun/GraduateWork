@@ -2,6 +2,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <nlohmann/json.hpp>
 
 #include "../../../Core/Component/ActorComponent.h"
 #include "Data/AttributeData.h"
@@ -18,6 +19,16 @@ enum class MainAttribute
 
     CriticalChance,
     CriticalDamage
+};
+
+struct Attribute
+{
+    float Increase;
+    float Base;
+    float MaxPercent;
+    float MinPercent;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Attribute, Increase, Base, MaxPercent, MinPercent);
 };
 
 class AttributeComponent

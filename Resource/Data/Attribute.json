@@ -1,50 +1,186 @@
 {
-    "Player" : [
-        {
-            "Attribute" : {
-                "MaxHealth" : {
-                    "Increase" : 5.0,
-                    "Base" : 100.0,
-                    "MaxPercent" : 100.0,
-                    "MinPercent" : 1.0
-                },
-                "Health" : {
-                    "Increase" : 5.0,
-                    "Base" : 100.0,
-                    "MaxPercent" : 1.0,
-                    "MinPercent" : 1.0
-                },
-                "MoveSpeed" : {
-                    "Increase" : 5.0,
-                    "Base" : 800.0,
-                    "MaxPercent" : 1.2,
-                    "MinPercent" : 0.8
-                },
-                "Attack" : {
-                    "Increase" : 5.0,
-                    "Base" : 20.0,
-                    "MaxPercent" : 100.0,
-                    "MinPercent" : 0.2
-                },
-                "Defence" : {
-                    "Increase" : 0.1,
-                    "Base" : 1.0,
-                    "MaxPercent" : 2.0,
-                    "MinPercent" : 0.5
-                },
-                "CriticalChance" : {
-                    "Increase" : 0.1,
-                    "Base" : 1.0,
-                    "MaxPercent" : 1.0,
-                    "MinPercent" : 0.8
-                },
-                "CriticalDamage" : {
-                    "Increase" : 0.1,
-                    "Base" : 2.0,
-                    "MaxPercent" : 1.0,
-                    "MinPercent" : 0.8
-                }
-            }
-        }
-    ]
+  "Player": {
+    "Attribute": {
+      "MaxHealth": {
+        "Increase": 5.0,
+        "Base": 100.0,
+        "MaxPercent": 100.0,
+        "MinPercent": 1.0
+      },
+      "Health": {
+        "Increase": 5.0,
+        "Base": 100.0,
+        "MaxPercent": 1.0,
+        "MinPercent": 1.0
+      },
+      "MoveSpeed": {
+        "Increase": 5.0,
+        "Base": 800.0,
+        "MaxPercent": 1.2,
+        "MinPercent": 0.8
+      },
+      "Attack": {
+        "Increase": 5.0,
+        "Base": 20.0,
+        "MaxPercent": 100.0,
+        "MinPercent": 0.2
+      },
+      "Defence": {
+        "Increase": 0.1,
+        "Base": 1.0,
+        "MaxPercent": 2.0,
+        "MinPercent": 0.5
+      },
+      "CriticalChance": {
+        "Increase": 0.1,
+        "Base": 1.0,
+        "MaxPercent": 1.0,
+        "MinPercent": 0.8
+      },
+      "CriticalDamage": {
+        "Increase": 0.1,
+        "Base": 2.0,
+        "MaxPercent": 1.0,
+        "MinPercent": 0.8
+      }
+    }
+  },
+  "Slime": {
+    "Attribute": {
+      "MaxHealth": {
+        "Increase": 5.0,
+        "Base": 50.0,
+        "MaxPercent": 100.0,
+        "MinPercent": 1.0
+      },
+      "Health": {
+        "Increase": 5.0,
+        "Base": 50.0,
+        "MaxPercent": 1.0,
+        "MinPercent": 1.0
+      },
+      "MoveSpeed": {
+        "Increase": 5.0,
+        "Base": 150.0,
+        "MaxPercent": 1.2,
+        "MinPercent": 0.8
+      },
+      "Attack": {
+        "Increase": 5.0,
+        "Base": 15.0,
+        "MaxPercent": 100.0,
+        "MinPercent": 0.2
+      },
+      "Defence": {
+        "Increase": 0.1,
+        "Base": 1.0,
+        "MaxPercent": 2.0,
+        "MinPercent": 0.5
+      },
+      "CriticalChance": {
+        "Increase": 0.1,
+        "Base": 1.0,
+        "MaxPercent": 1.0,
+        "MinPercent": 0.8
+      },
+      "CriticalDamage": {
+        "Increase": 0.1,
+        "Base": 2.0,
+        "MaxPercent": 1.0,
+        "MinPercent": 0.8
+      }
+    }
+  },
+  "Goblin": {
+    "Attribute": {
+      "MaxHealth": {
+        "Increase": 5.0,
+        "Base": 20.0,
+        "MaxPercent": 100.0,
+        "MinPercent": 1.0
+      },
+      "Health": {
+        "Increase": 5.0,
+        "Base": 20.0,
+        "MaxPercent": 1.0,
+        "MinPercent": 1.0
+      },
+      "MoveSpeed": {
+        "Increase": 5.0,
+        "Base": 350.0,
+        "MaxPercent": 1.2,
+        "MinPercent": 0.8
+      },
+      "Attack": {
+        "Increase": 5.0,
+        "Base": 25.0,
+        "MaxPercent": 100.0,
+        "MinPercent": 0.2
+      },
+      "Defence": {
+        "Increase": 0.1,
+        "Base": 1.0,
+        "MaxPercent": 2.0,
+        "MinPercent": 0.5
+      },
+      "CriticalChance": {
+        "Increase": 0.1,
+        "Base": 1.0,
+        "MaxPercent": 1.0,
+        "MinPercent": 0.8
+      },
+      "CriticalDamage": {
+        "Increase": 0.1,
+        "Base": 2.0,
+        "MaxPercent": 1.0,
+        "MinPercent": 0.8
+      }
+    }
+  },
+  "Eye": {
+    "Attribute": {
+      "MaxHealth": {
+        "Increase": 5.0,
+        "Base": 20.0,
+        "MaxPercent": 100.0,
+        "MinPercent": 1.0
+      },
+      "Health": {
+        "Increase": 5.0,
+        "Base": 20.0,
+        "MaxPercent": 1.0,
+        "MinPercent": 1.0
+      },
+      "MoveSpeed": {
+        "Increase": 5.0,
+        "Base": 480.0,
+        "MaxPercent": 1.2,
+        "MinPercent": 0.8
+      },
+      "Attack": {
+        "Increase": 5.0,
+        "Base": 5.0,
+        "MaxPercent": 100.0,
+        "MinPercent": 0.2
+      },
+      "Defence": {
+        "Increase": 0.1,
+        "Base": 1.0,
+        "MaxPercent": 2.0,
+        "MinPercent": 0.5
+      },
+      "CriticalChance": {
+        "Increase": 0.1,
+        "Base": 1.0,
+        "MaxPercent": 1.0,
+        "MinPercent": 0.8
+      },
+      "CriticalDamage": {
+        "Increase": 0.1,
+        "Base": 2.0,
+        "MaxPercent": 1.0,
+        "MinPercent": 0.8
+      }
+    }
+  }
 }

@@ -10,8 +10,8 @@
 #include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
 #include "../../Components/Ability/AbilityComponent.h"
+#include "../../Components/Attribute/AttributeComponent.h"
 #include "../../Components/Ability/AbilityContext/AbilityContext.h"
-#include "../../Components/Attribute/Player/PlayerAttribute.h"
 #include "../../UI/HUD/PlayerHUD.h"
 #include "../Enemy/Enemy.h"
 
@@ -29,7 +29,7 @@ Player::Player(SharedContext* Context, Object* Instigator, const Vector2& Positi
     Collider->SetSize(85.0f, 100.0f);
     Collider->SetLayer(CollisionLayer::Player);
 
-    AttributeComp = AddComponent<PlayerAttribute>(this);
+    AttributeComp = AddComponent<AttributeComponent>(this);
     MovementComp = AddComponent<MovementComponent>(this);
 
     AbilityComp = AddComponent<AbilityComponent>(this);
@@ -87,10 +87,10 @@ void Player::CreateAnimation()
 
 void Player::Awake()
 {
-    Actor::Awake();
-
     GetTag()->Set(Tag::Player);
     GetSprite()->SetDrawLayer(DrawLayer::Entities);
+
+    Actor::Awake();
 
     AbilityComp->AddAbility("Shuriken", AbilityTag::Shuriken);
 }

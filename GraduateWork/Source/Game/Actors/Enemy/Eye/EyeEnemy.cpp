@@ -5,8 +5,8 @@
 #include "../../../../Core/Animation/Animation.h"
 #include "../../../../Core/Component/Animation/AnimationComponent.h"
 #include "../../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
+#include "../../../Components/Attribute/AttributeComponent.h"
 #include "../../../../Core/Directory/Directory.h"
-#include "../../../Components/Attribute/Enemy/Eye/EyeAttribute.h"
 
 EyeEnemy::EyeEnemy(SharedContext* Context, Object* Instigator, const Vector2& Position)
     : Enemy(Context, Instigator, Position)
@@ -18,7 +18,7 @@ EyeEnemy::EyeEnemy(SharedContext* Context, Object* Instigator, const Vector2& Po
     Collider->SetOffset(0.0f, 0.0f);
     Collider->SetLayer(CollisionLayer::Enemy);
 
-    AttributeComp = AddComponent<EyeAttribute>(this);
+    AttributeComp = AddComponent<AttributeComponent>(this);
     AddComponent<MovementComponent>(this, 200.0f);
 
     GetTransform()->SetScale(5.0f);

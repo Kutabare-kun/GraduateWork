@@ -25,6 +25,7 @@ SceneSplashScreen::SceneSplashScreen(Directory& WorkingDir, SceneStateMachine& S
     SplashScreenObject = std::make_unique<Object>(&Context, nullptr);
     SplashScreenWidget = std::make_unique<WidgetSplashScreen>(SplashScreenObject.get(), Slot{
                                                                   Padding{0.0f},
+                                                                  Crop{0.0f},
                                                                   Rectangle{
                                                                       0.0f, 0.0f, static_cast<float>(GetScreenWidth()),
                                                                       static_cast<float>(GetScreenHeight())
@@ -57,7 +58,7 @@ void SceneSplashScreen::SetSwitchToScene(unsigned Id)
 void SceneSplashScreen::Update(float DeltaTime)
 {
     SplashScreenWidget->Update(DeltaTime);
-    
+
     Timer += DeltaTime;
 
     if (Timer >= TimerLimit)

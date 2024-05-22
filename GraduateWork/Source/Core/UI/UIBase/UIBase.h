@@ -22,16 +22,39 @@ struct Padding
     float Bottom;
 };
 
+struct Crop
+{
+    Crop() = default;
+
+    explicit Crop(float InCrop)
+        : CropRect({InCrop, InCrop, InCrop, InCrop})
+    {
+    }
+
+    explicit Crop(const Rectangle& InCropRect)
+        : CropRect(InCropRect)
+    {
+    }
+
+    Crop(float InX, float InY, float InWidth, float InHeight)
+        : CropRect({InX, InY, InWidth, InHeight})
+    {
+    }
+
+    Rectangle CropRect;
+};
+
 struct Slot
 {
     Slot() = default;
 
-    Slot(const Padding& InPadding, const Rectangle& InSlotRect)
-        : ObjectPadding(InPadding), SlotRect(InSlotRect)
+    Slot(const Padding& InPadding, const Crop& InCrop, const Rectangle& InSlotRect)
+        : ObjectPadding(InPadding), ObjectCrop(InCrop), SlotRect(InSlotRect)
     {
     }
 
     Padding ObjectPadding;
+    Crop ObjectCrop;
     Rectangle SlotRect;
 };
 
@@ -91,6 +114,9 @@ public:
     const Slot& GetLayoutSlot() const { return LayoutSlot; }
     void SetLayoutSlot(const Slot& NewSlot) { LayoutSlot = NewSlot; }
 
+    void SetVisible(bool bVisible) { bIsVisible = bVisible; }
+    bool IsVisible() const { return bIsVisible; }
+
     Object* GetOwner() const;
     UIBase* GetParent() const;
 
@@ -98,6 +124,8 @@ protected:
     Vector2 GetScaleWindow(const Vector2& WindowResolution = Window::GetInstance().GetScreenSize()) const;
 
 private:
+    bool bIsVisible = true;
+
     Object* Owner;
     UIBase* Parent;
 

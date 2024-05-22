@@ -53,6 +53,7 @@
     <ClCompile Include="Source\Core\System\Drawable\DrawableSystem.cpp" />
     <ClCompile Include="Source\Core\Timer\Manager\TimerManager.cpp" />
     <ClCompile Include="Source\Core\Timer\Timer.cpp" />
+    <ClCompile Include="Source\Core\UI\Bar\UIBar.cpp" />
     <ClCompile Include="Source\Core\UI\Button\UIButton.cpp" />
     <ClCompile Include="Source\Core\UI\HUD\BaseHUD.cpp" />
     <ClCompile Include="Source\Core\UI\Image\UIImage.cpp" />
@@ -87,6 +88,7 @@
     <ClCompile Include="Source\Game\Scene\GameScene\SceneGame.cpp" />
     <ClCompile Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.cpp" />
     <ClCompile Include="Source\Game\UI\HUD\PlayerHUD.cpp" />
+    <ClCompile Include="Source\Game\UI\Widgets\GameUI\GameUI.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\TestWidget.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\WidgetSplashScreen.cpp" />
     <ClCompile Include="Source\GraduateWork.cpp" />
@@ -139,6 +141,7 @@
     <ClInclude Include="Source\Core\System\Drawable\DrawableSystem.h" />
     <ClInclude Include="Source\Core\Timer\Manager\TimerManager.h" />
     <ClInclude Include="Source\Core\Timer\Timer.h" />
+    <ClInclude Include="Source\Core\UI\Bar\UIBar.h" />
     <ClInclude Include="Source\Core\UI\Button\UIButton.h" />
     <ClInclude Include="Source\Core\UI\HUD\BaseHUD.h" />
     <ClInclude Include="Source\Core\UI\Image\UIImage.h" />
@@ -174,6 +177,7 @@
     <ClInclude Include="Source\Game\Scene\GameScene\SceneGame.h" />
     <ClInclude Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.h" />
     <ClInclude Include="Source\Game\UI\HUD\PlayerHUD.h" />
+    <ClInclude Include="Source\Game\UI\Widgets\GameUI\GameUI.h" />
     <ClInclude Include="Source\Game\UI\Widgets\TestWidget.h" />
     <ClInclude Include="Source\Game\UI\Widgets\WidgetSplashScreen.h" />
   </ItemGroup>

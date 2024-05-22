@@ -25,9 +25,12 @@ void UIBase::Update(float DeltaTime)
 
 void UIBase::Draw()
 {
-    for (auto& Child : Children)
+    if (IsVisible())
     {
-        Child->Draw();
+        for (auto& Child : Children)
+        {
+            Child->Draw();
+        }
     }
 }
 
@@ -57,8 +60,10 @@ const Rectangle& UIBase::GetBounds() const
 {
     const Vector2& Scale = GetScaleWindow();
 
-    return {LayoutSlot.SlotRect.x * Scale.x, LayoutSlot.SlotRect.y * Scale.y,
-        LayoutSlot.SlotRect.width * Scale.x, LayoutSlot.SlotRect.height * Scale.y };
+    return {
+        LayoutSlot.SlotRect.x * Scale.x, LayoutSlot.SlotRect.y * Scale.y,
+        LayoutSlot.SlotRect.width * Scale.x, LayoutSlot.SlotRect.height * Scale.y
+    };
 }
 
 Object* UIBase::GetOwner() const
@@ -73,7 +78,7 @@ UIBase* UIBase::GetParent() const
 
 Vector2 UIBase::GetScaleWindow(const Vector2& WindowResolution) const
 {
-    constexpr static Vector2 BaseResolution = { 1200.0f, 720.0f };
-    
+    constexpr static Vector2 BaseResolution = {1200.0f, 720.0f};
+
     return Vector2Divide(WindowResolution, BaseResolution);
 }

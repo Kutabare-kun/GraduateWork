@@ -9,6 +9,8 @@ public:
 
     void Draw() override;
 
+    Rectangle GetTextureBounds() const;
+
 private:
     std::shared_ptr<TextureResource> ImageTexture;
 };

@@ -35,6 +35,8 @@ void UIButton::Update(float DeltaTime)
 {
     UIBase::Update(DeltaTime);
 
+    if (!IsVisible()) return;
+
     if (CurrentState == ButtonState::Disabled) return;
 
     if (CurrentState == ButtonState::Pressed && !IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
@@ -56,6 +58,7 @@ void UIButton::Update(float DeltaTime)
                         ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
                         5.0f, ThisSlot.ObjectPadding.Bottom
                     },
+                    ThisSlot.ObjectCrop,
                     ThisSlot.SlotRect
                 }
             );
@@ -70,6 +73,7 @@ void UIButton::Update(float DeltaTime)
                     ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
                     0.0f, ThisSlot.ObjectPadding.Bottom
                 },
+                ThisSlot.ObjectCrop,
                 ThisSlot.SlotRect
             }
         );
@@ -78,6 +82,8 @@ void UIButton::Update(float DeltaTime)
 
 void UIButton::Draw()
 {
+    if (!IsVisible()) return;
+
     DrawTexturePro(ButtonTextures[CurrentState]->Get_Impl(),
                    {
                        0, 0,

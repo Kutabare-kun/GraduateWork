@@ -9,6 +9,8 @@ void UIText::Draw()
 {
     UIBase::Draw();
 
+    if (!IsVisible()) return;
+
     const Slot& TextLayout = GetLayoutSlot();
     Rectangle Rect = GetBounds();
     Vector2 Position = {Rect.x + Rect.width / 2.0f, Rect.y + Rect.height / 2.0f};

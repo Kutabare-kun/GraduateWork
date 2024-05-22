@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "../../../Core/Directory/Directory.h"
+#include "../../../Core/UI/Bar/UIBar.h"
 #include "../../../Core/UI/Button/UIButton.h"
 #include "../../../Core/UI/Text/UIText.h"
 
@@ -22,7 +23,7 @@ void TestWidget::Awake()
     };
 
     std::shared_ptr<UIButton> ActionButton = std::make_shared<UIButton>(
-        GetOwner(), Slot{Padding{0.0f}, Rectangle{0.0f, 0.0f, 200.0f, 80.0f}}, this, ButtonTextures);
+        GetOwner(), Slot{Padding{0.0f}, Crop{0.0f}, Rectangle{0.0f, 0.0f, 200.0f, 80.0f}}, this, ButtonTextures);
     AddChild(ActionButton);
     ActionButton->SetAction([]() { std::cout << "Button pressed" << std::endl; });
 
@@ -41,10 +42,16 @@ void TestWidget::Awake()
     };
 
     std::shared_ptr<UIText> ButtonText = std::make_shared<UIText>(
-        GetOwner(), Slot{Padding{0.0f}, Rectangle{0.0f, 0.0f, 200.0f, 80.0f}},
+        GetOwner(), Slot{Padding{0.0f}, Crop{0.0f}, Rectangle{0.0f, 0.0f, 200.0f, 80.0f}},
         ActionButton.get(), ButtonTextSettings);
 
     ActionButton->AddChild(ButtonText);
+
+    const Vector2 WindowResolution = Window::GetInstance().GetScreenSize();
+    
+    std::shared_ptr<UIBar> Slider = std::make_shared<UIBar>(GetOwner(), Slot{Padding{0.0f}, Crop{0.0f},
+        Rectangle{20.0f, WindowResolution.y - 45.0f, 210.0f, 25.0f}}, this, "HealthBarEmpty.png", "HealthBarFill.png");
+    AddChild(Slider);
 
     UIPanel::Awake();
 }

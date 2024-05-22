@@ -5,6 +5,7 @@
 #include "../System/Collider/ColliderSystem.h"
 #include "../System/Drawable/DrawableSystem.h"
 
+class GameModeBase;
 class Object;
 
 class ObjectCollection
@@ -46,7 +47,7 @@ public:
     }
 
 public:
-    ObjectCollection(DrawableSystem& Drawables, ColliderSystem& Collidables);
+    ObjectCollection(DrawableSystem& Drawables, ColliderSystem& Collidables, GameModeBase& GameMode);
 
     void AddObject(std::shared_ptr<Object> NewObject);
     void AddObject(std::vector<std::shared_ptr<Object>>& Objects);
@@ -64,4 +65,5 @@ private:
 
     DrawableSystem& Drawables;
     ColliderSystem& Collidables;
+    GameModeBase& GameMode;
 };

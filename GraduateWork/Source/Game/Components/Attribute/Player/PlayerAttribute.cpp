@@ -1,5 +1,10 @@
 #include "PlayerAttribute.h"
 
+#include "../../../../Core/Object/Object.h"
+#include "../../../../Core/UI/Bar/UIBar.h"
+#include "../../../UI/HUD/PlayerHUD.h"
+#include "../../../UI/Widgets/GameUI/GameUI.h"
+
 PlayerAttribute::PlayerAttribute(Object* Owner)
     : AttributeComponent(Owner)
 {
@@ -39,4 +44,12 @@ void PlayerAttribute::Awake()
                                                                              std::make_shared<
                                                                                  AttributeData>(0.1f, 2.0f));
     if (IsCriticalDamageEmplaced) CriticalDamageIter->second->Initialize(1.0f, 0.8f);
+
+    // UI
+    std::shared_ptr<PlayerHUD> HUD = GetOwner()->GetComponent<PlayerHUD>();
+    std::shared_ptr<GameUI> GameUI = HUD->GetGameUIWidget();
+    std::shared_ptr<UIBar> HealthBar = GameUI->GetHealthBar();
+
+    OnHealthChangeUI = std::bind(&UIBar::UpdatePercentage, HealthBar, std::placeholders::_1);
+    // ~UI
 }

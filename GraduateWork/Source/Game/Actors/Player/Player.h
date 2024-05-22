@@ -23,6 +23,8 @@ public:
 
     std::shared_ptr<MovementComponent> GetMovement() const { return MovementComp; }
     std::shared_ptr<CameraComponent> GetCamera() const { return CameraComp; }
+    std::shared_ptr<AttributeComponent> GetAttributeComp() const { return AttributeComp; }
+    std::shared_ptr<AbilityComponent> GetAbility() const { return AbilityComp; }
 
 protected:
     std::shared_ptr<MovementComponent> MovementComp;

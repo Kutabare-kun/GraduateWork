@@ -5,7 +5,7 @@ void Window::Init(const Vector2& ScreenSize, const std::string& Title)
 {
     this->Title = Title;
 
-    InitWindow(ScreenSize.x, ScreenSize.y, Title.c_str());
+    InitWindow(static_cast<int>(ScreenSize.x), static_cast<int>(ScreenSize.y), Title.c_str());
     SetWindowState(FLAG_WINDOW_RESIZABLE);
 }
 

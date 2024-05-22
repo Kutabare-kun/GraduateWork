@@ -29,7 +29,7 @@ std::shared_ptr<Timer> TimerManager::AddTimer(const TimerCallback& Callback, flo
                                              return this->Sort(A, B);
                                          });
 
-    Timers.emplace(Iter, std::move(MyTimer));
+    Timers.emplace(Iter, MyTimer);
     Timers.shrink_to_fit();
 
     return MyTimer;

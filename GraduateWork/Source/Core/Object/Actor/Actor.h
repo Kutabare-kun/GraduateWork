@@ -19,12 +19,6 @@ public:
     // Calling after constructor
     void Awake() override;
 
-    void Update(float DeltaTime) override;
-
-    void LateUpdate(float DeltaTime) override;
-
-    void Draw(const Camera2D& OwnerCamera) override;
-
     virtual void OnHealthChange(Object* Instigator, float Delta, bool IsDead);
 
     // Return rectangle of actor

@@ -6,6 +6,7 @@
 #include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Parser/TileMapParser/TileMapParser.h"
 #include "../../../Core/Timer/Manager/TimerManager.h"
+#include "../../GameMode/GameModeBase.h"
 
 class PlayerHUD;
 class MovementComponent;
@@ -16,11 +17,12 @@ class SceneGame
     : public Scene
 {
 public:
-    SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>& NewTextureAllocator, ResourceAllocator<FontResource>& NewFontAllocator);
-    
+    SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>& NewTextureAllocator,
+              ResourceAllocator<FontResource>& NewFontAllocator);
+
     void OnCreate() override;
     void OnDestroy() override;
-    
+
     void ProcessInput() override;
     void Update(float DeltaTime) override;
     void LateUpdate(float DeltaTime) override;
@@ -32,7 +34,7 @@ private:
     ResourceAllocator<FontResource>& FontAllocator;
 
     std::unique_ptr<TileMapParser> MapParser;
-    
+
     std::unique_ptr<ObjectCollection> Objects;
     std::shared_ptr<MovementComponent> PlayerMovement;
     std::shared_ptr<CameraComponent> Camera;
@@ -43,6 +45,7 @@ private:
     std::unique_ptr<Quadtree> CollisionTree;
     std::unique_ptr<Raycast> RaycastSys;
     std::unique_ptr<TimerManager> TimerManagerSys;
+    std::unique_ptr<GameModeBase> GameMode;
 
     std::shared_ptr<PlayerHUD> HUD;
 };

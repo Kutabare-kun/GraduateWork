@@ -109,7 +109,7 @@ public:
     // Detach this object from a parent.
     bool DetachFromParent();
 
-    const Rectangle& GetBounds() const;
+    Rectangle GetBounds() const;
 
     const Slot& GetLayoutSlot() const { return LayoutSlot; }
     void SetLayoutSlot(const Slot& NewSlot) { LayoutSlot = NewSlot; }
@@ -132,4 +132,6 @@ private:
     Slot LayoutSlot;
 
     std::vector<std::shared_ptr<UIBase>> Children;
+
+    const Vector2 BaseResolution;
 };

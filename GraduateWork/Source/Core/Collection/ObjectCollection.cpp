@@ -1,10 +1,11 @@
 #include "ObjectCollection.h"
 
+#include "../../Game/GameMode/GameModeBase.h"
 #include "../Object/Object.h"
 #include "../StaticFunctions/Debug.h"
 
-ObjectCollection::ObjectCollection(DrawableSystem& Drawables, ColliderSystem& Collidables)
-    : Drawables(Drawables), Collidables(Collidables)
+ObjectCollection::ObjectCollection(DrawableSystem& Drawables, ColliderSystem& Collidables, GameModeBase& GameMode)
+    : Drawables(Drawables), Collidables(Collidables), GameMode(GameMode)
 {
 }
 
@@ -74,6 +75,7 @@ void ObjectCollection::ProcessRemovals()
     {
         if (auto Obj = *Iter->get(); Obj.IsQueuedForRemoval())
         {
+            GameMode.Remove(*Iter);
             Iter = Objects.erase(Iter);
         }
         else

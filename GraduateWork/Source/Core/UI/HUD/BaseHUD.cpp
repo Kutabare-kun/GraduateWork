@@ -38,3 +38,8 @@ bool BaseHUD::ContinueToDraw() const
 {
     return !GetOwner()->IsQueuedForRemoval();
 }
+
+void BaseHUD::AddUIElement(std::shared_ptr<UIBase> Element)
+{
+    UIElements.push_back(Element);
+}

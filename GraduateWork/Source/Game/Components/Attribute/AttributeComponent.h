@@ -32,6 +32,7 @@ public:
 
     float ApplyHealthChange(std::shared_ptr<AttributeComponent> Instigator);
     float ApplyHealthChange(std::shared_ptr<AttributeComponent> Instigator, float Delta);
+    float ApplyHeal(float Delta, float Percent = 0.0f);
 
     float OnAttributeChange(MainAttribute Attribute, float Delta);
     float OnAttributeBuffChange(MainAttribute Attribute, float Percent);
@@ -43,5 +44,8 @@ protected:
 
     bool bIsEnableTakeDamage = true;
 
+    float TimeHealthChange = 0.2f;
+
     std::function<void(Object*, float, bool)> OnHealthChange;
+    std::function<void(float)> OnHealthChangeUI;
 };

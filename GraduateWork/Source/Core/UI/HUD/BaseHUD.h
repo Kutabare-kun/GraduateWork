@@ -18,5 +18,8 @@ public:
     bool ContinueToDraw() const override;
 
 protected:
+    void AddUIElement(std::shared_ptr<UIBase> Element);
+
+private:
     std::vector<std::shared_ptr<UIBase>> UIElements;
 };

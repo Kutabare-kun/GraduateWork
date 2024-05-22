@@ -3,7 +3,7 @@
 #include <raymath.h>
 
 UIBase::UIBase(Object* Owner, const Slot& LayoutSlot, UIBase* Parent)
-    : Owner(Owner), Parent(Parent), LayoutSlot(LayoutSlot)
+    : Owner(Owner), Parent(Parent), LayoutSlot(LayoutSlot), BaseResolution(Window::GetInstance().GetScreenSize())
 {
 }
 
@@ -56,7 +56,7 @@ bool UIBase::DetachFromParent()
     return true;
 }
 
-const Rectangle& UIBase::GetBounds() const
+Rectangle UIBase::GetBounds() const
 {
     const Vector2& Scale = GetScaleWindow();
 
@@ -78,7 +78,5 @@ UIBase* UIBase::GetParent() const
 
 Vector2 UIBase::GetScaleWindow(const Vector2& WindowResolution) const
 {
-    constexpr static Vector2 BaseResolution = {1200.0f, 720.0f};
-
     return Vector2Divide(WindowResolution, BaseResolution);
 }

@@ -9,7 +9,8 @@ enum class Tag
     Player,
     NPC,
     Enemy,
-    Ability
+    Ability,
+    PowerUp,
 };
 
 template <typename TypeTag = Tag>

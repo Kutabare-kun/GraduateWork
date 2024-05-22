@@ -19,7 +19,7 @@ public:
 
     void LevelUp();
 
-    void SetAbilityTimer(std::shared_ptr<Timer> NewTimer) { AbilityTimer = NewTimer; }
+    void SetAbilityTimer(std::shared_ptr<Timer>& NewTimer) { AbilityTimer = NewTimer; }
 
     const AbilityInfo& GetInfo() { return InfoByLevel[Level]; }
     const std::string& GetName() { return Name; }

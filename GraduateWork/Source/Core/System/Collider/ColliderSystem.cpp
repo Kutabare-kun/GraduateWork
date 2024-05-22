@@ -33,6 +33,11 @@ ColliderSystem::ColliderSystem(Quadtree& CollisionTree)
     CollisionLayers.insert(std::make_pair(CollisionLayer::Ability, AbilityCollision));
     // ~Enemy collision layer
 
+    Bitmask PowerUpCollision;
+    PowerUpCollision.SetBit((int)CollisionLayer::Player);
+    PowerUpCollision.SetBit((int)CollisionLayer::Tile);
+    CollisionLayers.insert(std::make_pair(CollisionLayer::PowerUp, PowerUpCollision));
+
     const Vector2& ScreenSize = Window::GetInstance().GetScreenSize();
 }
 

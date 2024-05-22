@@ -1,0 +1,25 @@
+{
+    "Easy" : [
+        {
+            "Wave" : {
+                "Slime" : 0,
+                "Goblin" : 0,
+                "Eye" : 1
+            }
+        },
+        {
+            "Wave" : {
+                "Slime" : 0,
+                "Goblin" : 0,
+                "Eye" : 0
+            }
+        },
+        {
+            "Wave" : {
+                "Slime" : 0,
+                "Goblin" : 0,
+                "Eye" : 0
+            }
+        }
+    ]
+}

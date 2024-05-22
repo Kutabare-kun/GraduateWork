@@ -85,6 +85,10 @@
     <ClCompile Include="Source\Game\Components\Interact\InteractComponent.cpp" />
     <ClCompile Include="Source\Game\Components\WalkInLine\WalkInLineComponent.cpp" />
     <ClCompile Include="Source\Game\Game.cpp" />
+    <ClCompile Include="Source\Game\GameMode\GameModeBase.cpp" />
+    <ClCompile Include="Source\Game\PowerUp\AbilityUpgrade\AbilityUpgradePowerUp.cpp" />
+    <ClCompile Include="Source\Game\PowerUp\Health\HealthPowerUp.cpp" />
+    <ClCompile Include="Source\Game\PowerUp\PowerUpBase.cpp" />
     <ClCompile Include="Source\Game\Scene\GameScene\SceneGame.cpp" />
     <ClCompile Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.cpp" />
     <ClCompile Include="Source\Game\UI\HUD\PlayerHUD.cpp" />
@@ -174,6 +178,10 @@
     <ClInclude Include="Source\Game\Components\Interact\InteractComponent.h" />
     <ClInclude Include="Source\Game\Components\WalkInLine\WalkInLineComponent.h" />
     <ClInclude Include="Source\Game\Game.h" />
+    <ClInclude Include="Source\Game\GameMode\GameModeBase.h" />
+    <ClInclude Include="Source\Game\PowerUp\AbilityUpgrade\AbilityUpgradePowerUp.h" />
+    <ClInclude Include="Source\Game\PowerUp\Health\HealthPowerUp.h" />
+    <ClInclude Include="Source\Game\PowerUp\PowerUpBase.h" />
     <ClInclude Include="Source\Game\Scene\GameScene\SceneGame.h" />
     <ClInclude Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.h" />
     <ClInclude Include="Source\Game\UI\HUD\PlayerHUD.h" />

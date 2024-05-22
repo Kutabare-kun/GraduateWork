@@ -29,10 +29,26 @@ void AbilityComponent::AddAbility(std::shared_ptr<AbilityContext> NewAbility)
     NewAbility->SetAbilityTimer(AbilityTimer);
 }
 
+std::vector<AbilityTag> AbilityComponent::GetAbilities() const
+{
+    std::vector<AbilityTag> AbilityTags;
+    for (auto& Key : Abilities | std::views::keys)
+    {
+        AbilityTags.emplace_back(Key);
+    }
+
+    return AbilityTags;
+}
+
 void AbilityComponent::AddAbility(const std::string& AbilityName, AbilityTag Tag)
 {
     std::shared_ptr<AbilityContext> ThisAbilityContext = std::make_shared<AbilityContext>(std::move(AbilityName), Tag);
     AddAbility(ThisAbilityContext);
+}
+
+void AbilityComponent::LevelUpAbility(AbilityTag Tag)
+{
+    Abilities[Tag]->LevelUp();
 }
 
 void AbilityComponent::SpawnAbility(std::shared_ptr<AbilityContext>& AbilityInfo)

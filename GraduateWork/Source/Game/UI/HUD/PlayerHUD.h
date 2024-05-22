@@ -2,7 +2,8 @@
 #include <memory>
 
 #include "../../../Core/UI/HUD/BaseHUD.h"
-#include "../Widgets/TestWidget.h"
+
+class GameUI;
 
 class PlayerHUD
     : public BaseHUD
@@ -16,6 +17,8 @@ public:
 
     void Draw(const Camera2D& OwnerCamera) override;
 
+    std::shared_ptr<GameUI> GetGameUIWidget() const { return GameUIWidget; }
+
 private:
-    std::shared_ptr<TestWidget> UITestWidget;
+    std::shared_ptr<GameUI> GameUIWidget;
 };

@@ -6,6 +6,7 @@ enum class DrawLayer
 {
     Default,
     Background,
+    PowerUp,
     Entities,
     Foreground,
     UI,

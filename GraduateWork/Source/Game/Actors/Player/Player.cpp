@@ -123,7 +123,5 @@ void Player::OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other)
 
 void Player::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
 {
-    Debug::GetInstance().Log(TextFormat("%s hit %s. Amount of Damage %f, Player Is Dead %s",
-                                        Instigator->GetName().c_str(), GetName().c_str(), Delta,
-                                        IsDead ? "True" : "False"));
+    if (IsDead) Debug::GetInstance().Log(TextFormat("Player DEAD!"));
 }

@@ -2,6 +2,7 @@
 #include "../../Allocator/ResourceAllocator.h"
 #include "../../Resource/Font/FontResource.h"
 
+class GameModeBase;
 class TimerManager;
 class Raycast;
 class ObjectCollection;
@@ -16,6 +17,7 @@ public:
     TimerManager* TimerManagerSys;
     Camera2D* Camera;
     std::vector<std::vector<bool>> CollisionMap;
+    GameModeBase* GameMode;
 
     int MaxTileSize;
 };

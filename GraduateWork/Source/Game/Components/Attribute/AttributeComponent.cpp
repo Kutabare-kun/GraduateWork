@@ -51,7 +51,7 @@ float AttributeComponent::ApplyHealthChange(std::shared_ptr<AttributeComponent> 
     Context->TimerManagerSys->AddTimer([&]()
     {
         bIsEnableTakeDamage = true;
-    }, 2.0f);
+    }, TimeHealthChange);
 
     const std::shared_ptr<AttributeData> InstigatorDamage = Instigator->GetAttribute(MainAttribute::Attack);
     const std::shared_ptr<AttributeData> CriticalChange = Instigator->GetAttribute(MainAttribute::CriticalChance);
@@ -72,7 +72,11 @@ float AttributeComponent::ApplyHealthChange(std::shared_ptr<AttributeComponent> 
     const float TakeDamage = TargetHealth->ApplyChangingValue(-Damage);
 
     OnHealthChange(Instigator->GetOwner(), TakeDamage, TargetHealth->GetCurrentValue() <= 0.0f);
-
+    if (GetOwner()->GetTag()->Compare(Tag::Player))
+    {
+        const std::shared_ptr<AttributeData> TargetMaxHealth = GetAttribute(MainAttribute::MaxHealth);
+        OnHealthChangeUI(TargetHealth->GetCurrentValue() / TargetMaxHealth->GetCurrentValue());
+    }
     return TakeDamage;
 }
 
@@ -89,7 +93,7 @@ float AttributeComponent::ApplyHealthChange(std::shared_ptr<AttributeComponent> 
     Context->TimerManagerSys->AddTimer([&]()
     {
         bIsEnableTakeDamage = true;
-    }, 2.0f);
+    }, TimeHealthChange);
 
     const std::shared_ptr<AttributeData> CriticalChange = Instigator->GetAttribute(MainAttribute::CriticalChance);
     const std::shared_ptr<AttributeData> CriticalDamage = Instigator->GetAttribute(MainAttribute::CriticalDamage);
@@ -109,6 +113,27 @@ float AttributeComponent::ApplyHealthChange(std::shared_ptr<AttributeComponent> 
     const float TakeDamage = TargetHealth->ApplyChangingValue(-Damage);
 
     OnHealthChange(Instigator->GetOwner(), TakeDamage, TargetHealth->GetCurrentValue() <= 0.0f);
-
+    if (GetOwner()->GetTag()->Compare(Tag::Player))
+    {
+        const std::shared_ptr<AttributeData> TargetMaxHealth = GetAttribute(MainAttribute::MaxHealth);
+        OnHealthChangeUI(TargetHealth->GetCurrentValue() / TargetMaxHealth->GetCurrentValue());
+    }
     return TakeDamage;
+}
+
+float AttributeComponent::ApplyHeal(float Delta, float Percent)
+{
+    const std::shared_ptr<AttributeData> TargetHealth = GetAttribute(MainAttribute::Health);
+    if (TargetHealth->GetCurrentValue() <= FLT_EPSILON) return 0.0f;
+
+    const std::shared_ptr<AttributeData> TargetMaxHealth = GetAttribute(MainAttribute::MaxHealth);
+    const float Heal = TargetHealth->ApplyChangingValue(Delta + TargetMaxHealth->GetCurrentValue() * Percent);
+
+    OnHealthChange(nullptr, Heal, TargetHealth->GetCurrentValue() <= 0.0f);
+    if (GetOwner()->GetTag()->Compare(Tag::Player))
+    {
+        const std::shared_ptr<AttributeData> TargetMaxHealth = GetAttribute(MainAttribute::MaxHealth);
+        OnHealthChangeUI(TargetHealth->GetCurrentValue() / TargetMaxHealth->GetCurrentValue());
+    }
+    return Heal;
 }

@@ -16,21 +16,6 @@ void Actor::Awake()
     CreateAnimation();
 }
 
-void Actor::Update(float DeltaTime)
-{
-    Object::Update(DeltaTime);
-}
-
-void Actor::LateUpdate(float DeltaTime)
-{
-    Object::LateUpdate(DeltaTime);
-}
-
-void Actor::Draw(const Camera2D& OwnerCamera)
-{
-    Object::Draw(OwnerCamera);
-}
-
 void Actor::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
 {
 }

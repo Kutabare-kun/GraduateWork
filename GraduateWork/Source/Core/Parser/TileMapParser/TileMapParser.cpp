@@ -33,8 +33,8 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
 
     std::vector<std::shared_ptr<Object>> TileObjects;
 
-    constexpr int TextureID = 1;
-    int LayerCount = Tiles->size() - 1;
+    constexpr int TextureID{ 1 };
+    int LayerCount = static_cast<int>(Tiles->size()) - 1;
 
     constexpr int TileScale{4};
 
@@ -184,8 +184,8 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
         if (!Utilities::IsInteger(Substr))
         {
             // We remove special characters from the int before parsing
-            Substr.erase(std::remove(Substr.begin(), Substr.end(), '\r'), Substr.end());
-            Substr.erase(std::remove(Substr.begin(), Substr.end(), '\n'), Substr.end());
+            std::erase(Substr, '\r');
+            std::erase(Substr, '\n');
 
             //TODO: add additional check to 
             //confirm that the character removals have worked:

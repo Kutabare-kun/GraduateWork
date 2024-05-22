@@ -22,8 +22,62 @@
         },
         {
             "Level" : {
-                "Cooldown" : 2.2,
+                "Cooldown" : 2.4,
                 "Damage" : 12.5
+            }
+        },
+        {
+            "Level" : {
+                "Cooldown" : 2.3,
+                "Damage" : 15.0
+            }
+        },
+        {
+            "Level" : {
+                "Cooldown" : 2.2,
+                "Damage" : 17.5
+            }
+        },
+        {
+            "Level" : {
+                "Cooldown" : 2.1,
+                "Damage" : 20.0
+            }
+        },
+        {
+            "Level" : {
+                "Cooldown" : 2.0,
+                "Damage" : 25.0
+            }
+        },
+        {
+            "Level" : {
+                "Cooldown" : 2.0,
+                "Damage" : 30.0
+            }
+        },
+        {
+            "Level" : {
+                "Cooldown" : 2.0,
+                "Damage" : 35.0
+            }
+        },
+        {
+            "Level" : {
+                "Cooldown" : 2.0,
+                "Damage" : 40.0
+            }
+        },
+        {
+            "Level" : {
+                "Cooldown" : 2.0,
+                "Damage" : 45.0
+            }
+        },
+        {
+            "Level" : {
+                "Cooldown" : 2.0,
+                "Damage" : 50.0
             }
         }
     ]

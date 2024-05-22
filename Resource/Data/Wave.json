@@ -4,21 +4,42 @@
             "Wave" : {
                 "Slime" : 0,
                 "Goblin" : 0,
-                "Eye" : 1
+                "Eye" : 5
             }
         },
         {
             "Wave" : {
-                "Slime" : 0,
-                "Goblin" : 0,
-                "Eye" : 0
+                "Slime" : 25,
+                "Goblin" : 25,
+                "Eye" : 100
             }
         },
         {
             "Wave" : {
-                "Slime" : 0,
-                "Goblin" : 0,
-                "Eye" : 0
+                "Slime" : 50,
+                "Goblin" : 50,
+                "Eye" : 50
+            }
+        },
+        {
+            "Wave" : {
+                "Slime" : 50,
+                "Goblin" : 50,
+                "Eye" : 100
+            }
+        },
+        {
+            "Wave" : {
+                "Slime" : 50,
+                "Goblin" : 50,
+                "Eye" : 150
+            }
+        },
+        {
+            "Wave" : {
+                "Slime" : 50,
+                "Goblin" : 50,
+                "Eye" : 200
             }
         }
     ]

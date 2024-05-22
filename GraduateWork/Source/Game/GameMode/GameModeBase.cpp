@@ -137,7 +137,7 @@ void GameModeBase::RemoveEnemy(std::shared_ptr<Object> Enemy)
     }
 }
 
-Vector2 GameModeBase::RandomLocation(const Vector2 PlayerPosition)
+Vector2 GameModeBase::RandomLocation(const Vector2 PlayerPosition) const
 {
     std::random_device RandomDevice;
     std::mt19937 Generator(RandomDevice());

@@ -3,6 +3,7 @@
 UIText::UIText(Object* Owner, const Slot& LayoutSlot, UIBase* Parent, const TextSettings& TextAppearance)
     : UIBase(Owner, LayoutSlot, Parent), TextAppearance(TextAppearance)
 {
+    SetName(TextFormat("Text %s", TextAppearance.InfoText.c_str()));
 }
 
 void UIText::Draw()

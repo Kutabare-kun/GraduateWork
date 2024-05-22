@@ -8,7 +8,6 @@
 #include "../../../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
 #include "../../../../../Core/Component/Velocity/VelocityComponent.h"
 #include "../../../../../Core/Directory/Directory.h"
-#include "../../../../../Core/StaticFunctions/Debug.h"
 #include "../../../../../Core/Timer/Manager/TimerManager.h"
 #include "../../../../Actors/Enemy/Enemy.h"
 #include "../../../Attribute/AttributeComponent.h"

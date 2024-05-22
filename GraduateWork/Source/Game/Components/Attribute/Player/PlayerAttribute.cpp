@@ -1,6 +1,7 @@
 #include "PlayerAttribute.h"
 
 #include "../../../../Core/Object/Object.h"
+#include "../../../../Core/Timer/Manager/TimerManager.h"
 #include "../../../../Core/UI/Bar/UIBar.h"
 #include "../../../UI/HUD/PlayerHUD.h"
 #include "../../../UI/Widgets/GameUI/GameUI.h"
@@ -46,10 +47,13 @@ void PlayerAttribute::Awake()
     if (IsCriticalDamageEmplaced) CriticalDamageIter->second->Initialize(1.0f, 0.8f);
 
     // UI
-    std::shared_ptr<PlayerHUD> HUD = GetOwner()->GetComponent<PlayerHUD>();
-    std::shared_ptr<GameUI> GameUI = HUD->GetGameUIWidget();
-    std::shared_ptr<UIBar> HealthBar = GameUI->GetHealthBar();
+    GetOwner()->GetContext()->TimerManagerSys->AddTimer([&]()
+    {
+        std::shared_ptr<PlayerHUD> HUD = GetOwner()->GetComponent<PlayerHUD>();
+        std::shared_ptr<GameUI> GameUI = HUD->GetGameUIWidget();
+        std::shared_ptr<UIBar> HealthBar = GameUI->GetHealthBar();
 
-    OnHealthChangeUI = std::bind(&UIBar::UpdatePercentage, HealthBar, std::placeholders::_1);
+        OnHealthChangeUI = std::bind(&UIBar::UpdatePercentage, HealthBar, std::placeholders::_1);
+    }, 1.0f);
     // ~UI
 }

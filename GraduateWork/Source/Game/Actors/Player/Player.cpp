@@ -9,7 +9,6 @@
 #include "../../../Core/Component/Animation/AnimationComponent.h"
 #include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
-#include "../../../Core/StaticFunctions/Debug.h"
 #include "../../Components/Ability/AbilityComponent.h"
 #include "../../Components/Ability/AbilityContext/AbilityContext.h"
 #include "../../Components/Attribute/Player/PlayerAttribute.h"
@@ -22,7 +21,7 @@ Player::Player(SharedContext* Context, Object* Instigator, const Vector2& Positi
     SetName("Player_");
 
     CameraComp = AddComponent<CameraComponent>(this);
-    CameraComp->UpdateZoom(0.5f);
+    CameraComp->UpdateZoom(0.35f);
 
     AddComponent<InteractComponent>(this);
 
@@ -30,11 +29,12 @@ Player::Player(SharedContext* Context, Object* Instigator, const Vector2& Positi
     Collider->SetSize(85.0f, 100.0f);
     Collider->SetLayer(CollisionLayer::Player);
 
-    AddComponent<PlayerHUD>(this);
     AttributeComp = AddComponent<PlayerAttribute>(this);
     MovementComp = AddComponent<MovementComponent>(this);
 
     AbilityComp = AddComponent<AbilityComponent>(this);
+
+    AddComponent<PlayerHUD>(this);
 
     GetTransform()->SetScale(7.0f);
 }
@@ -123,5 +123,4 @@ void Player::OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other)
 
 void Player::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
 {
-    if (IsDead) Debug::GetInstance().Log(TextFormat("Player DEAD!"));
 }

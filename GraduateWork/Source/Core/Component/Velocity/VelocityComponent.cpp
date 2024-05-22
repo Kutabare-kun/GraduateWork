@@ -3,8 +3,6 @@
 
 #include <raymath.h>
 
-#include "../../StaticFunctions/Debug.h"
-
 VelocityComponent::VelocityComponent(Object* NewOwner)
     : ActorComponent(NewOwner), Velocity(), MaxVelocity(-500.0f, 500.0f)
 {

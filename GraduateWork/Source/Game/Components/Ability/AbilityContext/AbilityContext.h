@@ -29,11 +29,10 @@ private:
     unsigned Level = 1;
     unsigned ClampLevel;
 
-    std::shared_ptr<Timer> AbilityTimer; 
+    std::shared_ptr<Timer> AbilityTimer;
 
     std::map<unsigned, AbilityInfo> InfoByLevel;
 
-    AbilityTag Tag;
-
     std::string Name;
+    AbilityTag Tag;
 };

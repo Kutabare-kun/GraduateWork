@@ -93,6 +93,7 @@
     <ClCompile Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.cpp" />
     <ClCompile Include="Source\Game\UI\HUD\PlayerHUD.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\GameUI\GameUI.cpp" />
+    <ClCompile Include="Source\Game\UI\Widgets\PopUp\PopUpDamage.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\TestWidget.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\WidgetSplashScreen.cpp" />
     <ClCompile Include="Source\GraduateWork.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.h" />
     <ClInclude Include="Source\Game\UI\HUD\PlayerHUD.h" />
     <ClInclude Include="Source\Game\UI\Widgets\GameUI\GameUI.h" />
+    <ClInclude Include="Source\Game\UI\Widgets\PopUp\PopUpDamage.h" />
     <ClInclude Include="Source\Game\UI\Widgets\TestWidget.h" />
     <ClInclude Include="Source\Game\UI\Widgets\WidgetSplashScreen.h" />
   </ItemGroup>

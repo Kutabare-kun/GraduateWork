@@ -4,6 +4,7 @@
 #include "../../../Core/Component/Movement/MovementComponent.h"
 #include "../../../Core/Resource/Texture/TextureResource.h"
 #include "../../../Core/Component/Sprite/SpriteComponent.h"
+#include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Directory/Directory.h"
 #include "../../../Core/StaticFunctions/Debug.h"
 #include "../../Actors/Player/Player.h"
@@ -44,10 +45,9 @@ void SceneGame::OnCreate()
 
     auto _Player = Objects->CreateObject<Player>(&Context, nullptr, Vector2{400.0f, 400.0f});
     PlayerMovement = _Player->GetMovement();
-    Camera = _Player->GetCamera();
     HUD = _Player->GetComponent<PlayerHUD>();
 
-    Context.Camera = &Camera->GetCamera();
+    Context.Camera = &_Player->GetCamera()->GetCamera();
 
     // Start First Wave
     GameMode->Awake();
@@ -68,11 +68,6 @@ void SceneGame::ProcessInput()
     if (IsKeyDown(KEY_W)) PlayerInput.y += -1.0f;
     if (IsKeyDown(KEY_S)) PlayerInput.y += 1.0f;
 
-    const float MouseWheel = GetMouseWheelMove();
-
-    if (MouseWheel > 0.0f) Camera->AddZoom(0.01f);
-    if (MouseWheel < 0.0f) Camera->AddZoom(-0.01f);
-
     // UD = Up Down, LR = Left Right
     constexpr Vector2 DirectionUD = {0.0f, 1.0f};
     constexpr Vector2 DirectionLR = {1.0f, 0.0f};
@@ -83,6 +78,9 @@ void SceneGame::ProcessInput()
 
 void SceneGame::Update(float DeltaTime)
 {
+    HUD->ProcessRemovals();
+    HUD->ProcessNewElements();
+
     Objects->ProcessRemovals();
     Objects->ProcessNewObjects();
 
@@ -98,7 +96,7 @@ void SceneGame::LateUpdate(float DeltaTime)
 
 void SceneGame::Draw()
 {
-    Objects->Draw(Camera->GetCamera());
+    Objects->Draw(*Context.Camera);
 
-    Debug::GetInstance().Draw(Camera->GetCamera());
+    Debug::GetInstance().Draw(*Context.Camera);
 }

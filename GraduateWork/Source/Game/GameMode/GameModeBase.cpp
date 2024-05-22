@@ -18,7 +18,7 @@
 using Json = nlohmann::json;
 
 GameModeBase::GameModeBase()
-    : CurrentWave(0)
+    : Context(nullptr), CurrentWave(0)
 {
 }
 
@@ -45,7 +45,7 @@ void GameModeBase::Awake()
     auto Info = WaveInfoJson["Easy"];
     for (const auto& BasicJsons : Info)
     {
-        EnemyInfo ThisWave = BasicJsons["Wave"].get<EnemyInfo>();
+        auto ThisWave = BasicJsons["Wave"].get<EnemyInfo>();
         GameWave.emplace(Count, ThisWave);
         ++Count;
     }
@@ -61,7 +61,7 @@ void GameModeBase::NextWave()
 {
     Debug::GetInstance().Log(TextFormat("Wave: %d", CurrentWave));
 
-    std::shared_ptr<Player> ThisPlayer = Context->Objects->GetObject<Player>();
+    const std::shared_ptr<Player> ThisPlayer = Context->Objects->GetObject<Player>();
     const Vector2 PlayerPosition = ThisPlayer->GetTransform()->GetPosition();
 
     const auto& CurrentWaveInfo = GameWave[CurrentWave];
@@ -137,7 +137,7 @@ void GameModeBase::RemoveEnemy(std::shared_ptr<Object> Enemy)
     }
 }
 
-Vector2 GameModeBase::RandomLocation(const Vector2 PlayerPosition) const
+Vector2 GameModeBase::RandomLocation(const Vector2& PlayerPosition) const
 {
     std::random_device RandomDevice;
     std::mt19937 Generator(RandomDevice());

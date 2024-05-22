@@ -4,8 +4,9 @@
 #include "../../../Core/Component/Velocity/VelocityComponent.h"
 #include "../../Components/BehaviorTree/Simple/BehaviorTreeSimple.h"
 #include "../../../Core/Component/Sprite/SpriteComponent.h"
-#include "../../../Core/StaticFunctions/Debug.h"
 #include "../../../Core/Timer/Manager/TimerManager.h"
+#include "../../UI/HUD/PlayerHUD.h"
+#include "../../UI/Widgets/PopUp/PopUpDamage.h"
 #include "../Player/Player.h"
 
 Enemy::Enemy(SharedContext* Context, Object* Instigator, const Vector2& Position)
@@ -31,10 +32,21 @@ void Enemy::Awake()
 
 void Enemy::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
 {
-    Debug::GetInstance().Log(TextFormat("%s hit %s. Amount of Damage %f, Player Is Dead %s",
-                                    Instigator->GetName().c_str(), GetName().c_str(), Delta,
-                                    IsDead ? "True" : "False"));
-    
+    std::shared_ptr<PlayerHUD> HUD = Instigator->GetComponent<PlayerHUD>();
+    if (HUD)
+    {
+        const Vector2 EnemyPos = GetTransform()->GetPosition();
+
+        Slot PopUpSlot{
+            Padding{0.0f},
+            Crop{0.0f},
+            Rectangle{EnemyPos.x, EnemyPos.y, 200.0f, 80.0f}
+        };
+
+        std::shared_ptr<PopUpDamage> UIDamage = std::make_shared<PopUpDamage>(Instigator, PopUpSlot, nullptr, Delta);
+        HUD->Add(UIDamage);
+    }
+
     if (IsDead)
     {
         GetContext()->TimerManagerSys->AddTimer([&]()

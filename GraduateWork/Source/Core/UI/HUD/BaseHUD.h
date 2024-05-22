@@ -17,9 +17,12 @@ public:
     void Draw(const Camera2D& OwnerCamera) override;
     bool ContinueToDraw() const override;
 
-protected:
-    void AddUIElement(std::shared_ptr<UIBase> Element);
+    void ProcessNewElements();
+    void ProcessRemovals();
+
+    void Add(std::shared_ptr<UIBase> Element);
 
 private:
     std::vector<std::shared_ptr<UIBase>> UIElements;
+    std::vector<std::shared_ptr<UIBase>> NewUIElements;
 };

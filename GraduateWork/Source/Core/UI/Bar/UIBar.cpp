@@ -5,19 +5,21 @@
 #include "../Image/UIImage.h"
 
 UIBar::UIBar(Object* Owner, const Slot& LayoutSlot, UIBase* Parent, const std::string& BackgroundImageName,
-                const std::string& ForegroundImageName)
+             const std::string& ForegroundImageName)
     : UIBase(Owner, LayoutSlot, Parent)
 {
+    SetName(TextFormat("UIBar %s", BackgroundImageName.c_str()));
+
     BackgroundImage = std::make_shared<UIImage>(GetOwner(), LayoutSlot, this, BackgroundImageName);
     ForegroundImage = std::make_shared<UIImage>(GetOwner(), LayoutSlot, this, ForegroundImageName);
 }
 
 void UIBar::Awake()
 {
-    UIBase::Awake();
-
     AddChild(BackgroundImage);
     AddChild(ForegroundImage);
+
+    UIBase::Awake();
 }
 
 void UIBar::Update(float DeltaTime)
@@ -41,7 +43,6 @@ void UIBar::UpdatePercentage(float NewPercentage)
     const float NewWidth = HealthBar.width * Percentage;
     const float DeltaWidth = HealthBar.width - NewWidth;
 
-    const Slot& ForegroundSlot = ForegroundImage->GetLayoutSlot();
     const Slot& BackgroundSlot = BackgroundImage->GetLayoutSlot();
 
     const float DeltaX = BackgroundSlot.SlotRect.width - BackgroundSlot.SlotRect.width * Percentage;

@@ -1,6 +1,7 @@
 #include "ColliderSystem.h"
 
-#include "../../StaticFunctions/Debug.h"
+#include <ranges>
+
 #include "../../Window/Window.h"
 
 ColliderSystem::ColliderSystem(Quadtree& CollisionTree)
@@ -44,13 +45,12 @@ ColliderSystem::ColliderSystem(Quadtree& CollisionTree)
 
 void ColliderSystem::Add(std::shared_ptr<Object>& ThisObject)
 {
-    auto ColliderComp = ThisObject->GetComponent<BoxColliderComponent>();
-    if (ColliderComp)
+    if (const auto ColliderComp = ThisObject->GetComponent<BoxColliderComponent>(); ColliderComp)
     {
         CollisionLayer Layer = ColliderComp->GetLayer();
 
-        auto Iter = Collidables.find(Layer);
-        if (Iter != Collidables.end())
+        if (auto Iter = Collidables.find(Layer);
+            Iter != Collidables.end())
         {
             Collidables[Layer].push_back(ColliderComp);
         }
@@ -66,15 +66,15 @@ void ColliderSystem::Add(std::shared_ptr<Object>& ThisObject)
 
 void ColliderSystem::ProcessRemovals()
 {
-    for (auto& Layer : Collidables)
+    for (auto& Layer : Collidables | std::views::values)
     {
-        auto Iter = Layer.second.begin();
-        while (Iter != Layer.second.end())
+        auto Iter = Layer.begin();
+        while (Iter != Layer.end())
         {
             if ((*Iter)->GetOwner()->IsQueuedForRemoval())
             {
                 CollisionTree.Remove(*Iter);
-                Iter = Layer.second.erase(Iter);
+                Iter = Layer.erase(Iter);
             }
             else
             {
@@ -89,19 +89,15 @@ void ColliderSystem::Update()
     ProcessCollidingObjects();
 
     CollisionTree.Clear();
-    for (auto [Layer, Colliders] : Collidables)
+    for (auto Colliders : Collidables | std::views::values)
     {
-        for (auto ColliderComp : Colliders)
+        for (const auto& ColliderComp : Colliders)
         {
             CollisionTree.Insert(ColliderComp);
-
-            //Debug::GetInstance().DrawRectangle(ColliderComp->GetCollidable(), RED);
         }
     }
 
     Resolve();
-
-    //CollisionTree.DrawDebug();
 }
 
 void ColliderSystem::Resolve()
@@ -113,7 +109,7 @@ void ColliderSystem::Resolve()
             continue;
         }
 
-        for (auto ColliderComp : Colliders)
+        for (const auto& ColliderComp : Colliders)
         {
             if (ColliderComp->GetOwner()->GetTransform()->IsStatic())
             {
@@ -125,10 +121,10 @@ void ColliderSystem::Resolve()
                 continue;
             }
 
-            std::vector<std::shared_ptr<BoxColliderComponent>> Collisions
+            const std::vector<std::shared_ptr<BoxColliderComponent>> Collisions
                 = CollisionTree.Search(ColliderComp->GetCollidable());
 
-            for (auto Collision : Collisions)
+            for (const auto& Collision : Collisions)
             {
                 if (Collision->GetOwner()->GetInstanceID()->GetID()
                     == ColliderComp->GetOwner()->GetInstanceID()->GetID())
@@ -138,15 +134,13 @@ void ColliderSystem::Resolve()
 
                 if (Collision->GetOwner()->IsQueuedForRemoval()) continue;
 
-                bool LayersCollide = CollisionLayers[ColliderComp->GetLayer()].GetBit((int)Collision->GetLayer());
-
-                if (!LayersCollide) continue;
+                if (!CollisionLayers[ColliderComp->GetLayer()].GetBit((int)Collision->GetLayer())) continue;
                 Manifold CollisionInfo = ColliderComp->Intersects(Collision);
 
                 if (!CollisionInfo.bColliding) continue;
 
-                if (auto CollisionPair = ObjectsColliding.emplace(std::make_pair(ColliderComp, Collision));
-                    CollisionPair.second)
+                if (const auto& [Iter, IsEmplaced] = ObjectsColliding.emplace(std::make_pair(ColliderComp, Collision));
+                    IsEmplaced)
                 {
                     ColliderComp->GetOwner()->OnCollisionBeginOverlap(Collision);
                     Collision->GetOwner()->OnCollisionBeginOverlap(ColliderComp);
@@ -174,10 +168,10 @@ void ColliderSystem::ProcessCollidingObjects()
     auto Iter = ObjectsColliding.begin();
     while (Iter != ObjectsColliding.end())
     {
-        auto Pair = *Iter;
+        const auto& [Left, Right] = *Iter;
 
-        std::shared_ptr<BoxColliderComponent> First = Pair.first;
-        std::shared_ptr<BoxColliderComponent> Second = Pair.second;
+        const std::shared_ptr<BoxColliderComponent> First = Left;
+        const std::shared_ptr<BoxColliderComponent> Second = Right;
 
         if (First->GetOwner()->IsQueuedForRemoval() || Second->GetOwner()->IsQueuedForRemoval())
         {
@@ -188,9 +182,7 @@ void ColliderSystem::ProcessCollidingObjects()
         }
         else
         {
-            Manifold CollisionInfo = First->Intersects(Second);
-
-            if (!CollisionInfo.bColliding)
+            if (const auto& [bColliding, Other] = First->Intersects(Second); !bColliding)
             {
                 First->GetOwner()->OnCollisionEndOverlap(Second);
                 Second->GetOwner()->OnCollisionEndOverlap(First);

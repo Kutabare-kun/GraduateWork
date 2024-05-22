@@ -22,4 +22,6 @@ public:
 protected:
     std::shared_ptr<BehaviorTree> BehaviorTreeComp;
     std::shared_ptr<AttributeComponent> AttributeComp;
+
+    
 };

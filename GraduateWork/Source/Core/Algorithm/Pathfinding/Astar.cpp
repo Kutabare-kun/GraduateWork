@@ -4,8 +4,6 @@
 #include <raymath.h>
 #include <set>
 
-#include "../../StaticFunctions/Debug.h"
-
 Vector2 Astar::GridToVec(const std::pair<int, int>& Position, const int CellSize) const
 {
     return Vector2{
@@ -111,20 +109,6 @@ std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vec
                     HNew = CalculateHValue(Neighbours[Index], End);
                     FNew = GNew + HNew;
 
-                    // {
-                    //     Vector2 RealPosition = GridToVec(Neighbours[Index], 256);
-                    //     RealPosition = Vector2Add(RealPosition, Vector2{128, 128});
-                    //     RealPosition.y += 20;
-                    //     Debug::GetInstance().DrawText(TextFormat("G: %f", GNew), RealPosition,
-                    //           32, BLACK);
-                    //     RealPosition.y += 20;
-                    //     Debug::GetInstance().DrawText(TextFormat("H: %f", HNew), RealPosition,
-                    //                                   32, BLACK);
-                    //     RealPosition.y += 20;
-                    //     Debug::GetInstance().DrawText(TextFormat("F: %f", FNew), RealPosition,
-                    //                                   32, BLACK);
-                    // }
-
                     if (CellDetails[Neighbours[Index].first][Neighbours[Index].second].F == FLT_MAX
                         || CellDetails[Neighbours[Index].first][Neighbours[Index].second].F > FNew)
                     {
@@ -191,11 +175,6 @@ bool Astar::IsValid(const std::pair<int, int>& Position, const std::pair<int, in
 
 bool Astar::IsUnblocked(const std::vector<std::vector<bool>>& Grid, const std::pair<int, int>& Position) const
 {
-    // Vector2 RealPosition = GridToVec(Position, 256);
-    // RealPosition = Vector2Add(RealPosition, Vector2{128, 128});
-    // RealPosition.y -= 60;
-    // Debug::GetInstance().DrawText(TextFormat("X: %d, Y: %d", Position.second, Position.first), RealPosition, 32, Grid[Position.second][Position.first] ? DARKGREEN : RED);
-
     return !Grid[Position.second][Position.first];
 }
 

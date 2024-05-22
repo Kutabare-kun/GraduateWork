@@ -1,11 +1,10 @@
 #include "BoxColliderComponent.h"
 
 #include "../../../Object/Object.h"
-#include "../../../StaticFunctions/Debug.h"
 #include "../../Transform/TransformComponent.h"
 
 BoxColliderComponent::BoxColliderComponent(Object* Owner)
-    : ColliderComponent(Owner), Offset({0.0f, 0.0f})
+    : ColliderComponent(Owner), AABB(), Offset({0.0f, 0.0f})
 {
 }
 
@@ -13,8 +12,7 @@ Manifold BoxColliderComponent::Intersects(std::shared_ptr<ColliderComponent> Oth
 {
     Manifold Result;
 
-    std::shared_ptr<BoxColliderComponent> BoxColliderComp = std::dynamic_pointer_cast<BoxColliderComponent>(Other);
-    if (BoxColliderComp)
+    if (const std::shared_ptr<BoxColliderComponent> BoxColliderComp = std::dynamic_pointer_cast<BoxColliderComponent>(Other))
     {
         const Rectangle& MyRect = GetCollidable();
         const Rectangle& OtherRect = BoxColliderComp->GetCollidable();
@@ -31,7 +29,7 @@ Manifold BoxColliderComponent::Intersects(std::shared_ptr<ColliderComponent> Oth
 
 void BoxColliderComponent::ResolveCollision(const Manifold& Collision)
 {
-    auto TransformComp = GetOwner()->GetTransform();
+    const auto TransformComp = GetOwner()->GetTransform();
 
     if (TransformComp->IsStatic()) return;
 
@@ -39,10 +37,10 @@ void BoxColliderComponent::ResolveCollision(const Manifold& Collision)
     const Rectangle& OtherRect = *Collision.Other;
 
     Vector2 Resolve{0.0f, 0.0f};
-    float XDiff = (MyRect.x + MyRect.width * 0.5f) - (OtherRect.x + OtherRect.width * 0.5f);
-    float YDiff = (MyRect.y + MyRect.height * 0.5f) - (OtherRect.y + OtherRect.height * 0.5f);
+    const float XDiff = (MyRect.x + MyRect.width * 0.5f) - (OtherRect.x + OtherRect.width * 0.5f);
+    const float YDiff = (MyRect.y + MyRect.height * 0.5f) - (OtherRect.y + OtherRect.height * 0.5f);
 
-    if (fabs(XDiff) > fabs(YDiff))
+    if (fabsf(XDiff) > fabsf(YDiff))
     {
         if (XDiff > 0)
         {

@@ -19,7 +19,7 @@ public:
 
 private:
     Rectangle BuildRectangle(const Vector2& LineStart, const Vector2& LineEnd);
-    std::vector<Vector2> BuildLinePoints(const Vector2& From, const Vector2& To);
+    std::vector<std::pair<Vector2, Vector2>> MakeLinesFromRectangle(const Rectangle& EntityRect);
 
     Quadtree& Quadtree;
 };

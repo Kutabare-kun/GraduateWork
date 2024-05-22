@@ -1,7 +1,5 @@
 #include "Object.h"
 
-#include "../StaticFunctions/Debug.h"
-
 void Object::Awake()
 {
     for (auto& Component : Components)

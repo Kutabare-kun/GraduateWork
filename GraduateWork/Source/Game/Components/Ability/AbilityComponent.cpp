@@ -1,7 +1,6 @@
 #include "AbilityComponent.h"
 
 #include "../../../Core/Collection/ObjectCollection.h"
-#include "../../../Core/StaticFunctions/Debug.h"
 #include "../../../Core/Timer/Manager/TimerManager.h"
 #include "Ability/Shuriken/ShurikenAbility.h"
 #include "AbilityContext/AbilityContext.h"
@@ -16,12 +15,9 @@ void AbilityComponent::AddAbility(std::shared_ptr<AbilityContext> NewAbility)
     auto Iter = Abilities.emplace(NewAbility->GetAbilityTag(), NewAbility);
     std::shared_ptr<AbilityContext>& ThisAbility = Iter.first->second;
 
-    SharedContext* Context = GetOwner()->GetContext();
-    TimerManager* TimerManagerSys = Context->TimerManagerSys;
-
     const float Cooldown = NewAbility->GetInfo().Cooldown;
 
-    std::shared_ptr<Timer> AbilityTimer = TimerManagerSys->AddTimer([&]()
+    std::shared_ptr<Timer> AbilityTimer = GetOwner()->GetContext()->TimerManagerSys->AddTimer([&]()
     {
         this->SpawnAbility(ThisAbility);
     }, Cooldown, true);

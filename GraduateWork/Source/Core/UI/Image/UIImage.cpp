@@ -5,6 +5,8 @@
 UIImage::UIImage(Object* Owner, const Slot& LayoutSlot, UIBase* Parent, const std::string& ImageName)
     : UIBase(Owner, LayoutSlot, Parent)
 {
+    SetName(TextFormat("Image %s", ImageName.c_str()));
+
     auto TextureAllocator = GetOwner()->GetContext()->TextureAllocator;
     const Directory& DirectorySys = Directory::GetInstance();
 

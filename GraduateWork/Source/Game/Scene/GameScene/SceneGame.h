@@ -3,7 +3,6 @@
 #include "../../../Core/Allocator/ResourceAllocator.h"
 #include "../../../Core/SceneManager/Scene/Scene.h"
 #include "../../../Core/Collection/ObjectCollection.h"
-#include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Parser/TileMapParser/TileMapParser.h"
 #include "../../../Core/Timer/Manager/TimerManager.h"
 #include "../../GameMode/GameModeBase.h"
@@ -37,7 +36,6 @@ private:
 
     std::unique_ptr<ObjectCollection> Objects;
     std::shared_ptr<MovementComponent> PlayerMovement;
-    std::shared_ptr<CameraComponent> Camera;
 
     SharedContext Context;
     std::unique_ptr<DrawableSystem> DrawableSys;

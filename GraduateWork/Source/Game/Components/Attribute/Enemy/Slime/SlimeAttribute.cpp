@@ -10,11 +10,11 @@ void SlimeAttribute::Awake()
     AttributeComponent::Awake();
 
     auto [MaxHealthIter, IsMaxHealthEmplaced] = Attributes.emplace(MainAttribute::MaxHealth,
-                                                                   std::make_shared<AttributeData>(5.0f, 20.0f));
+                                                                   std::make_shared<AttributeData>(5.0f, 50.0f));
     if (IsMaxHealthEmplaced) MaxHealthIter->second->Initialize(100.0f);
 
     auto [HealthIter, IsHealthEmplaced] = Attributes.emplace(MainAttribute::Health,
-                                                             std::make_shared<AttributeData>(5.0f, 20.0f));
+                                                             std::make_shared<AttributeData>(5.0f, 50.0f));
     if (IsHealthEmplaced) HealthIter->second->Initialize(1.0f, 1.0f);
     if (IsHealthEmplaced) HealthIter->second->SetParent(MaxHealthIter->second);
 

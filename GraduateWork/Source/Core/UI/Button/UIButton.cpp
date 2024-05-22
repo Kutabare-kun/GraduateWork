@@ -5,6 +5,8 @@
 UIButton::UIButton(Object* Owner, const Slot& LayoutSlot, UIBase* Parent, ButtonStateTexture& ButtonStateTextures)
     : UIBase(Owner, LayoutSlot, Parent)
 {
+    SetName(TextFormat("Button %s", ButtonStateTextures.NormalFile.c_str()));
+
     auto TextureAllocator = GetOwner()->GetContext()->TextureAllocator;
     const Directory& DirectorySys = Directory::GetInstance();
 

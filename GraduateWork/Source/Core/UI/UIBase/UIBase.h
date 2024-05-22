@@ -117,10 +117,17 @@ public:
     void SetVisible(bool bVisible) { bIsVisible = bVisible; }
     bool IsVisible() const { return bIsVisible; }
 
+    bool IsQueuedForRemoval() const { return bQueuedForRemoval; }
+    void QueueForRemoval() { bQueuedForRemoval = true; }
+
     Object* GetOwner() const;
     UIBase* GetParent() const;
 
+    std::string GetName() const { return Name; }
+
 protected:
+    void SetName(const std::string& InName) { Name = InName; }
+
     Vector2 GetScaleWindow(const Vector2& WindowResolution = Window::GetInstance().GetScreenSize()) const;
 
 private:
@@ -131,7 +138,11 @@ private:
 
     Slot LayoutSlot;
 
+    bool bQueuedForRemoval = false;
+
     std::vector<std::shared_ptr<UIBase>> Children;
 
     const Vector2 BaseResolution;
+
+    std::string Name;
 };

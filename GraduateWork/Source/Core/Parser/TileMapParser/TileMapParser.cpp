@@ -8,7 +8,6 @@
 #include "../../Component/Sprite/SpriteComponent.h"
 #include "../../Directory/Directory.h"
 #include "../../Object/Object.h"
-#include "../../StaticFunctions/Debug.h"
 #include "../../Utilities/Utilities.h"
 
 TileMapParser::TileMapParser(ResourceAllocator<TextureResource>& NewTextureAllocator, SharedContext& Context)

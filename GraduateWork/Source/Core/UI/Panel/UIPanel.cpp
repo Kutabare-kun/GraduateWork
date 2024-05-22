@@ -3,4 +3,5 @@
 UIPanel::UIPanel(Object* Owner, const Slot& LayoutSlot, UIBase* Parent)
     : UIBase(Owner, LayoutSlot, Parent)
 {
+    SetName("UIPanel");
 }

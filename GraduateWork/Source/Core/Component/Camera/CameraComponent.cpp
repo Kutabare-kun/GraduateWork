@@ -3,7 +3,6 @@
 #include <raymath.h>
 
 #include "../../Object/Actor/Actor.h"
-#include "../../StaticFunctions/Debug.h"
 #include "../../Window/Window.h"
 
 CameraComponent::CameraComponent(class Actor* NewOwner)

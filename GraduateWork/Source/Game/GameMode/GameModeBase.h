@@ -52,7 +52,7 @@ protected:
     void RemoveEnemy(std::shared_ptr<Object> Enemy);
 
 private:
-    Vector2 RandomLocation(const Vector2 PlayerPosition) const;
+    Vector2 RandomLocation(const Vector2& PlayerPosition) const;
 
     SharedContext* Context;
 
@@ -64,5 +64,5 @@ private:
     float StartFirstWaveTime = 5.0f;
     float StartNextWaveTime = 8.0f;
 
-    float ChanceToSpawnPowerUp = 1.00f;
+    float ChanceToSpawnPowerUp = 0.2f;
 };

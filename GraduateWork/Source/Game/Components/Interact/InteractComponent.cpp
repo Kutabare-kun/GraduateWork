@@ -4,7 +4,6 @@
 #include "../../../Core/Object/Object.h"
 #include "../../../Core/Component/Movement/MovementComponent.h"
 #include "../../../Core/Interface/Iteractable/IInteractable.h"
-#include "../../../Core/StaticFunctions/Debug.h"
 
 InteractComponent::InteractComponent(Object* Owner)
     : ActorComponent(Owner), InteractDistance(75.0f)

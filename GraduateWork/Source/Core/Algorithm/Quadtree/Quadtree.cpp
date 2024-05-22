@@ -1,7 +1,6 @@
 #include "Quadtree.h"
 
 #include "../../Object/Object.h"
-#include "../../StaticFunctions/Debug.h"
 
 Quadtree::Quadtree()
     : Quadtree(5, 5, 0, Rectangle{0, 0, 0, 0}, nullptr)
@@ -108,19 +107,6 @@ std::vector<std::shared_ptr<BoxColliderComponent>> Quadtree::Search(const Rectan
 const Rectangle& Quadtree::GetBounds() const
 {
     return Bounds;
-}
-
-void Quadtree::DrawDebug()
-{
-    if (Children[0] != nullptr)
-    {
-        for (int Index = 0; Index < 4; ++Index)
-        {
-            Children[Index]->DrawDebug();
-        }
-    }
-
-    //Debug::GetInstance().DrawRectangle(Bounds, DARKBLUE);
 }
 
 void Quadtree::Search(const Rectangle& Area, std::vector<std::shared_ptr<BoxColliderComponent>>& OverlappingObjects)

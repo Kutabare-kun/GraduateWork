@@ -70,6 +70,6 @@ void HealthPowerUp::OnTakePowerUp(Player* ThisPlayer)
 
     GetContext()->TimerManagerSys->AddTimer([&]()
     {
-        QueueForRemoval();
+        if (this) QueueForRemoval();
     }, 0.0f);
 }

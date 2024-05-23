@@ -30,6 +30,7 @@ public:
     UIButton(Object* Owner, const Slot& LayoutSlot, UIBase* Parent, ButtonStateTexture& ButtonStateTextures);
 
     void Awake() override;
+    void UpdateText();
 
     void Update(float DeltaTime) override;
 

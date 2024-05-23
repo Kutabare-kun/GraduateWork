@@ -33,11 +33,49 @@ void UIButton::Awake()
     ButtonText = GetChild<UIText>();
 }
 
+void UIButton::UpdateText()
+{
+    if (ButtonText)
+    {
+        switch (CurrentState)
+        {
+        case ButtonState::Normal:
+            {
+                const Slot& ThisSlot = ButtonText->GetLayoutSlot();
+                ButtonText->SetLayoutSlot(Slot{
+                        Padding{
+                            ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
+                            0.0f, ThisSlot.ObjectPadding.Bottom
+                        },
+                        ThisSlot.ObjectCrop,
+                        ThisSlot.SlotRect
+                    }
+                );
+            }
+            break;
+        case ButtonState::Hovered:
+            {
+                const Slot& ThisSlot = ButtonText->GetLayoutSlot();
+                ButtonText->SetLayoutSlot(Slot{
+                        Padding{
+                            ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
+                            5.0f, ThisSlot.ObjectPadding.Bottom
+                        },
+                        ThisSlot.ObjectCrop,
+                        ThisSlot.SlotRect
+                    }
+                );
+            }
+            break;
+        }
+    }
+}
+
 void UIButton::Update(float DeltaTime)
 {
     UIBase::Update(DeltaTime);
 
-    if (!IsVisible()) return;
+    if (!IsVisible() || !GetParent()->IsVisible()) return;
 
     if (CurrentState == ButtonState::Disabled) return;
 
@@ -53,32 +91,13 @@ void UIButton::Update(float DeltaTime)
         else
         {
             CurrentState = ButtonState::Hovered;
-
-            const Slot& ThisSlot = ButtonText->GetLayoutSlot();
-            ButtonText->SetLayoutSlot(Slot{
-                    Padding{
-                        ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
-                        5.0f, ThisSlot.ObjectPadding.Bottom
-                    },
-                    ThisSlot.ObjectCrop,
-                    ThisSlot.SlotRect
-                }
-            );
+            UpdateText();
         }
     }
     else
     {
         CurrentState = ButtonState::Normal;
-        const Slot& ThisSlot = ButtonText->GetLayoutSlot();
-        ButtonText->SetLayoutSlot(Slot{
-                Padding{
-                    ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
-                    0.0f, ThisSlot.ObjectPadding.Bottom
-                },
-                ThisSlot.ObjectCrop,
-                ThisSlot.SlotRect
-            }
-        );
+        UpdateText();
     }
 }
 

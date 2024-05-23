@@ -10,6 +10,18 @@ class SceneStateMachine
     : public Singleton<SceneStateMachine>
 {
 public:
+    template <typename Type>
+    int GetScene()
+    {
+        for (const auto& [Key, Value] : Scenes)
+        {
+            if (const auto Target = std::dynamic_pointer_cast<Type>(Value); Target) return Key;
+        }
+
+        return -1;
+    }
+
+public:
     // ProcessInput, Update, LateUpdate, and Draw will simply be 
     // pass through methods. They will call the correspondingly 
     // named methods of the active scene.

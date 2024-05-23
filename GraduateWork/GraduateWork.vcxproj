@@ -87,13 +87,14 @@
     <ClCompile Include="Source\Game\PowerUp\Health\HealthPowerUp.cpp" />
     <ClCompile Include="Source\Game\PowerUp\PowerUpBase.cpp" />
     <ClCompile Include="Source\Game\Scene\GameScene\SceneGame.cpp" />
+    <ClCompile Include="Source\Game\Scene\MainScene\MainScene.cpp" />
     <ClCompile Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.cpp" />
     <ClCompile Include="Source\Game\UI\HUD\PlayerHUD.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\GameUI\GameUI.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\LevelBorder\LevelBorder.cpp" />
+    <ClCompile Include="Source\Game\UI\Widgets\MainWidget\MainWidgetScreen.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\PopUp\LevelUp\PopUpLevelUp.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\PopUp\PopUpDamage.cpp" />
-    <ClCompile Include="Source\Game\UI\Widgets\TestWidget.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\WidgetSplashScreen.cpp" />
     <ClCompile Include="Source\GraduateWork.cpp" />
   </ItemGroup>
@@ -181,13 +182,14 @@
     <ClInclude Include="Source\Game\PowerUp\Health\HealthPowerUp.h" />
     <ClInclude Include="Source\Game\PowerUp\PowerUpBase.h" />
     <ClInclude Include="Source\Game\Scene\GameScene\SceneGame.h" />
+    <ClInclude Include="Source\Game\Scene\MainScene\MainScene.h" />
     <ClInclude Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.h" />
     <ClInclude Include="Source\Game\UI\HUD\PlayerHUD.h" />
     <ClInclude Include="Source\Game\UI\Widgets\GameUI\GameUI.h" />
     <ClInclude Include="Source\Game\UI\Widgets\LevelBorder\LevelBorder.h" />
+    <ClInclude Include="Source\Game\UI\Widgets\MainWidget\MainWidgetScreen.h" />
     <ClInclude Include="Source\Game\UI\Widgets\PopUp\LevelUp\PopUpLevelUp.h" />
     <ClInclude Include="Source\Game\UI\Widgets\PopUp\PopUpDamage.h" />
-    <ClInclude Include="Source\Game\UI\Widgets\TestWidget.h" />
     <ClInclude Include="Source\Game\UI\Widgets\WidgetSplashScreen.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

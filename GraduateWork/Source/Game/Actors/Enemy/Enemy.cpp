@@ -43,7 +43,7 @@ void Enemy::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
         Slot PopUpSlot{
             Padding{0.0f},
             Crop{0.0f},
-            Rectangle{EnemyPos.x, EnemyPos.y, 200.0f, 80.0f}
+            Rectangle{EnemyPos.x - 100.0f, EnemyPos.y - 20.0f, 200.0f, 80.0f}
         };
 
         std::shared_ptr<PopUpDamage> UIDamage = std::make_shared<PopUpDamage>(Instigator, PopUpSlot, nullptr, Delta);
@@ -52,7 +52,7 @@ void Enemy::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
 
     if (IsDead)
     {
-        Ilevel* LevelInterface = dynamic_cast<Ilevel*>(Instigator);
+        const Ilevel* LevelInterface = dynamic_cast<Ilevel*>(Instigator);
         LevelInterface->GetLevelComp()->ApplyExperience(GetLevel() * 100);
 
         GetContext()->TimerManagerSys->AddTimer([&]()

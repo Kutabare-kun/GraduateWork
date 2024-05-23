@@ -61,8 +61,6 @@ void GameModeBase::Remove(std::shared_ptr<Object> ThisObject)
 
 void GameModeBase::NextWave()
 {
-    Debug::GetInstance().Log(TextFormat("Wave: %d", CurrentWave));
-
     const std::shared_ptr<Player> ThisPlayer = Context->Objects->GetObject<Player>();
     const Vector2 PlayerPosition = ThisPlayer->GetTransform()->GetPosition();
 

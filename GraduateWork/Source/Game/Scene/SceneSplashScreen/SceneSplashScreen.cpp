@@ -5,12 +5,9 @@
 #include "../../../Core/SceneManager/SceneStateMachine.h"
 #include "../../../Core/Window/Window.h"
 
-SceneSplashScreen::SceneSplashScreen(Directory& WorkingDir, SceneStateMachine& StateMachine,
-                                     ResourceAllocator<TextureResource>& TextureAllocator,
+SceneSplashScreen::SceneSplashScreen(ResourceAllocator<TextureResource>& TextureAllocator,
                                      ResourceAllocator<FontResource>& FontAllocator)
-    : WorkingDir(WorkingDir),
-      StateMachine(StateMachine),
-      TextureAllocator(TextureAllocator),
+    : TextureAllocator(TextureAllocator),
       FontAllocator(FontAllocator)
 {
     Timer = 0.0f;
@@ -22,25 +19,17 @@ SceneSplashScreen::SceneSplashScreen(Directory& WorkingDir, SceneStateMachine& S
     Context.RaycastSys = nullptr;
     Context.TimerManagerSys = nullptr;
 
-    SplashScreenObject = std::make_unique<Object>(&Context, nullptr);
+    const auto& [ScreenX, ScreenY] = Window::GetInstance().GetScreenSize();
+
+    SplashScreenObject = std::make_unique<Object>(&Context);
     SplashScreenWidget = std::make_unique<WidgetSplashScreen>(SplashScreenObject.get(), Slot{
                                                                   Padding{0.0f},
                                                                   Crop{0.0f},
                                                                   Rectangle{
-                                                                      0.0f, 0.0f, static_cast<float>(GetScreenWidth()),
-                                                                      static_cast<float>(GetScreenHeight())
+                                                                      0.0f, 0.0f,
+                                                                      ScreenX, ScreenY
                                                                   }
                                                               }, nullptr);
-}
-
-void SceneSplashScreen::OnCreate()
-{
-    int Id = TextureAllocator.Add(WorkingDir.GetTexture("MetalPlate.png"));
-    if (Id >= 0) SplashTexture = TextureAllocator.Get(Id)->Get();
-}
-
-void SceneSplashScreen::OnDestroy()
-{
 }
 
 void SceneSplashScreen::OnActivate()
@@ -63,7 +52,7 @@ void SceneSplashScreen::Update(float DeltaTime)
 
     if (Timer >= TimerLimit)
     {
-        StateMachine.SwitchTo(SwitchToScene);
+        SceneStateMachine::GetInstance().SwitchTo(SwitchToScene);
     }
 }
 

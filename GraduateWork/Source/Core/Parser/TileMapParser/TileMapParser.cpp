@@ -32,7 +32,7 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& Fil
 
     std::vector<std::shared_ptr<Object>> TileObjects;
 
-    constexpr int TextureID{ 1 };
+    constexpr int TextureID{ 0 };
     int LayerCount = static_cast<int>(Tiles->size()) - 1;
 
     constexpr int TileScale{4};

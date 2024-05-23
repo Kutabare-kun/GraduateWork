@@ -35,39 +35,50 @@ void UIButton::Awake()
 
 void UIButton::UpdateText()
 {
-    if (ButtonText)
+    if (!ButtonText) return;
+
+    switch (CurrentState)
     {
-        switch (CurrentState)
+    case ButtonState::Normal:
         {
-        case ButtonState::Normal:
-            {
-                const Slot& ThisSlot = ButtonText->GetLayoutSlot();
-                ButtonText->SetLayoutSlot(Slot{
-                        Padding{
-                            ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
-                            0.0f, ThisSlot.ObjectPadding.Bottom
-                        },
-                        ThisSlot.ObjectCrop,
-                        ThisSlot.SlotRect
-                    }
-                );
-            }
-            break;
-        case ButtonState::Hovered:
-            {
-                const Slot& ThisSlot = ButtonText->GetLayoutSlot();
-                ButtonText->SetLayoutSlot(Slot{
-                        Padding{
-                            ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
-                            5.0f, ThisSlot.ObjectPadding.Bottom
-                        },
-                        ThisSlot.ObjectCrop,
-                        ThisSlot.SlotRect
-                    }
-                );
-            }
-            break;
+            const Slot& ThisSlot = ButtonText->GetLayoutSlot();
+            ButtonText->SetLayoutSlot(Slot{
+                    Padding{
+                        ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
+                        0.0f, ThisSlot.ObjectPadding.Bottom
+                    },
+                    ThisSlot.ObjectCrop,
+                    ThisSlot.SlotRect
+                }
+            );
         }
+        break;
+    case ButtonState::Hovered:
+        {
+            const Slot& ThisSlot = ButtonText->GetLayoutSlot();
+            ButtonText->SetLayoutSlot(Slot{
+                    Padding{
+                        ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
+                        5.0f, ThisSlot.ObjectPadding.Bottom
+                    },
+                    ThisSlot.ObjectCrop,
+                    ThisSlot.SlotRect
+                }
+            );
+        }
+        break;
+    default:
+        const Slot& ThisSlot = ButtonText->GetLayoutSlot();
+        ButtonText->SetLayoutSlot(Slot{
+                Padding{
+                    ThisSlot.ObjectPadding.Left, ThisSlot.ObjectPadding.Right,
+                    0.0f, ThisSlot.ObjectPadding.Bottom
+                },
+                ThisSlot.ObjectCrop,
+                ThisSlot.SlotRect
+            }
+        );
+        break;
     }
 }
 

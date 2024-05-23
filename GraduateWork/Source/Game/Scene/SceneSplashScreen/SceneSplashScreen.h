@@ -4,18 +4,12 @@
 #include "../../../Core/SceneManager/Scene/Scene.h"
 #include "../../UI/Widgets/WidgetSplashScreen.h"
 
-class SceneStateMachine;
-class Directory;
-
 class SceneSplashScreen
     : public Scene
 {
 public:
-    SceneSplashScreen(Directory& WorkingDir, SceneStateMachine& StateMachine,
-        ResourceAllocator<TextureResource>& TextureAllocator, ResourceAllocator<FontResource>& FontAllocator);
-
-    void OnCreate() override;
-    void OnDestroy() override;
+    SceneSplashScreen(ResourceAllocator<TextureResource>& TextureAllocator,
+                      ResourceAllocator<FontResource>& FontAllocator);
 
     void OnActivate() override;
 
@@ -25,13 +19,9 @@ public:
     void Draw() override;
 
 private:
-    Texture2D SplashTexture;
     float Timer;
     float TimerLimit;
     unsigned SwitchToScene;
-    
-    Directory& WorkingDir;
-    SceneStateMachine& StateMachine;
 
     ResourceAllocator<TextureResource>& TextureAllocator;
     ResourceAllocator<FontResource>& FontAllocator;

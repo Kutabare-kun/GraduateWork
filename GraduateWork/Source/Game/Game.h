@@ -16,11 +16,11 @@ public:
     void UpdateDeltaTime(float NewDeltaTime) { DeltaTime = NewDeltaTime; }
     void Draw();
 
+    static bool bIsExitGame;
+
 private:
     ResourceAllocator<TextureResource> TextureAllocator;
     ResourceAllocator<FontResource> FontAllocator;
-    SceneStateMachine& StateMachine;
-    Directory& WorkingDir;
 
     float DeltaTime;
 };

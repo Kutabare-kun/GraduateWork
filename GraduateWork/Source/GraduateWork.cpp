@@ -12,7 +12,7 @@ int main(int Argc, char* Argv[])
 
     Game MyGame;
 
-    while (!WindowShouldClose())
+    while (!WindowShouldClose() && !Game::bIsExitGame)
     {
         MyGame.CaptureInput();
         MyGame.Update();

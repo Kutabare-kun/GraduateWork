@@ -16,11 +16,10 @@ class SceneGame
     : public Scene
 {
 public:
-    SceneGame(Directory& NewDirectory, ResourceAllocator<TextureResource>& NewTextureAllocator,
+    SceneGame(ResourceAllocator<TextureResource>& NewTextureAllocator,
               ResourceAllocator<FontResource>& NewFontAllocator);
 
     void OnCreate() override;
-    void OnDestroy() override;
 
     void ProcessInput() override;
     void Update(float DeltaTime) override;
@@ -28,7 +27,6 @@ public:
     void Draw() override;
 
 private:
-    Directory& WorkingDirectory;
     ResourceAllocator<TextureResource>& TextureAllocator;
     ResourceAllocator<FontResource>& FontAllocator;
 

@@ -78,7 +78,7 @@ public:
     }
 
 public:
-    explicit Object(SharedContext* Context, Object* Instigator, const Vector2& Position = {0.0f, 0.0f})
+    explicit Object(SharedContext* Context, Object* Instigator = nullptr, const Vector2& Position = {0.0f, 0.0f})
         : bQueuedForRemoval(false), Context(Context), Instigator(Instigator), Name("Object_")
     {
         TransformComp = AddComponent<TransformComponent>(this, Position);

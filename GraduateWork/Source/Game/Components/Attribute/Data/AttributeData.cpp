@@ -1,6 +1,9 @@
 #include "AttributeData.h"
 
-#include <raymath.h>
+#include <algorithm>
+
+#include "../../../../Core/StaticFunctions/Debug.h"
+
 
 AttributeData::AttributeData(float IncreaseByLevel, float BaseValue, float BuffByPercent)
     : IncreaseByLevel(IncreaseByLevel), BaseValue(BaseValue), BuffByPercent(BuffByPercent)
@@ -11,7 +14,7 @@ AttributeData::AttributeData(float IncreaseByLevel, float BaseValue, float BuffB
 void AttributeData::Initialize(float ClampMaxPercent, float ClampMinPercent)
 {
     this->ClampMaxPercent = ClampMaxPercent;
-    this->ClampMinPercent = Clamp(ClampMinPercent, 0.0f, ClampMaxPercent);
+    this->ClampMinPercent = std::clamp<float>(ClampMinPercent, 0.0f, ClampMaxPercent);
 
     this->ClampMinValue = 0.0f;
 }
@@ -23,7 +26,7 @@ float AttributeData::ApplyChangingBuff(float Percent)
     const float OldBuff = BuffByPercent;
     const float NewBuff = BuffByPercent + Percent;
 
-    BuffByPercent = Clamp(NewBuff, ClampMinPercent, ClampMaxPercent);
+    BuffByPercent = std::clamp<float>(NewBuff, ClampMinPercent, ClampMaxPercent);
 
     return BuffByPercent - OldBuff;
 }
@@ -35,7 +38,7 @@ float AttributeData::ApplyChangingValue(float Delta)
     const float OldValue = CurrentValue;
     const float NewValue = CurrentValue + Delta;
 
-    CurrentValue = Clamp(NewValue, ClampMinValue, Parent ? Parent->GetCurrentValue() : BaseValue * BuffByPercent);
+    CurrentValue = std::clamp<float>(NewValue, ClampMinValue, Parent ? Parent->GetCurrentValue() : BaseValue * BuffByPercent);
 
     return CurrentValue - OldValue;
 }
@@ -43,4 +46,5 @@ float AttributeData::ApplyChangingValue(float Delta)
 void AttributeData::LevelUp()
 {
     BaseValue += IncreaseByLevel;
+    CurrentValue = std::clamp<float>(BaseValue * BuffByPercent, ClampMinValue, Parent ? Parent->GetCurrentValue() : BaseValue * BuffByPercent);
 }

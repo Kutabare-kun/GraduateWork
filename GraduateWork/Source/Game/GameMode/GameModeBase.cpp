@@ -12,8 +12,10 @@
 #include "../Actors/Enemy/Goblin/GoblinEnemy.h"
 #include "../Actors/Enemy/Slime/SlimeEnemy.h"
 #include "../Actors/Player/Player.h"
+#include "../Components/Level/LevelComponent.h"
 #include "../PowerUp/AbilityUpgrade/AbilityUpgradePowerUp.h"
 #include "../PowerUp/Health/HealthPowerUp.h"
+#include "../Interface/Level/Ilevel.h"
 
 using Json = nlohmann::json;
 
@@ -45,7 +47,7 @@ void GameModeBase::Awake()
     auto Info = WaveInfoJson["Easy"];
     for (const auto& BasicJsons : Info)
     {
-        auto ThisWave = BasicJsons["Wave"].get<EnemyInfo>();
+        auto ThisWave = BasicJsons["Wave"].get<EnemyWaveInfo>();
         GameWave.emplace(Count, ThisWave);
         ++Count;
     }
@@ -65,19 +67,19 @@ void GameModeBase::NextWave()
     const Vector2 PlayerPosition = ThisPlayer->GetTransform()->GetPosition();
 
     const auto& CurrentWaveInfo = GameWave[CurrentWave];
-    for (unsigned CountSlime = 0; CountSlime < CurrentWaveInfo.Slime; ++CountSlime)
+    for (unsigned CountSlime = 0; CountSlime < CurrentWaveInfo.Slime.Count; ++CountSlime)
     {
-        AddEnemy(Context->Objects->CreateObject<SlimeEnemy>(Context, nullptr, RandomLocation(PlayerPosition)));
+        ImproveEnemy(Context->Objects->CreateObject<SlimeEnemy>(Context, nullptr, RandomLocation(PlayerPosition)), CurrentWaveInfo.Slime);
     }
 
-    for (unsigned CountGoblin = 0; CountGoblin < CurrentWaveInfo.Goblin; ++CountGoblin)
+    for (unsigned CountGoblin = 0; CountGoblin < CurrentWaveInfo.Goblin.Count; ++CountGoblin)
     {
-        AddEnemy(Context->Objects->CreateObject<GoblinEnemy>(Context, nullptr, RandomLocation(PlayerPosition)));
+        ImproveEnemy(Context->Objects->CreateObject<GoblinEnemy>(Context, nullptr, RandomLocation(PlayerPosition)), CurrentWaveInfo.Goblin);
     }
 
-    for (unsigned CountGoblin = 0; CountGoblin < CurrentWaveInfo.Eye; ++CountGoblin)
+    for (unsigned CountEye = 0; CountEye < CurrentWaveInfo.Eye.Count; ++CountEye)
     {
-        AddEnemy(Context->Objects->CreateObject<EyeEnemy>(Context, nullptr, RandomLocation(PlayerPosition)));
+        ImproveEnemy(Context->Objects->CreateObject<EyeEnemy>(Context, nullptr, RandomLocation(PlayerPosition)), CurrentWaveInfo.Eye);
     }
 
     ++CurrentWave;
@@ -105,11 +107,13 @@ void GameModeBase::SpawnPowerUp()
     case PowerUpType::HealthPotion:
         {
             Context->Objects->CreateObject<HealthPowerUp>(Context, nullptr, RandomLocation(PlayerPosition));
-        }break;
+        }
+        break;
     case PowerUpType::UpgradeAbility:
         {
             Context->Objects->CreateObject<AbilityUpgradePowerUp>(Context, nullptr, RandomLocation(PlayerPosition));
-        }break;
+        }
+        break;
     }
 }
 
@@ -153,4 +157,14 @@ Vector2 GameModeBase::RandomLocation(const Vector2& PlayerPosition) const
     }
 
     return Astar::GetInstance().GridToVec(RandomLocation, Context->MaxTileSize);
+}
+
+void GameModeBase::ImproveEnemy(std::shared_ptr<Object> Enemy, const EnemyInfo& Info)
+{
+    if (const Ilevel* EnemyLevel = dynamic_cast<Ilevel*>(Enemy.get()); EnemyLevel)
+    {
+        EnemyLevel->GetLevelComp()->ApplyExperience(Info.Experience);
+    }
+
+    AddEnemy(Enemy);
 }

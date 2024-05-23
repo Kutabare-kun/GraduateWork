@@ -5,7 +5,6 @@
 #include "../../../../Core/Animation/Animation.h"
 #include "../../../../Core/Component/Animation/AnimationComponent.h"
 #include "../../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
-#include "../../../Components/Attribute/AttributeComponent.h"
 #include "../../../../Core/Directory/Directory.h"
 
 GoblinEnemy::GoblinEnemy(SharedContext* Context, Object* Instigator, const Vector2& Position)
@@ -17,7 +16,6 @@ GoblinEnemy::GoblinEnemy(SharedContext* Context, Object* Instigator, const Vecto
     Collider->SetSize(66.0f, 70.0f);
     Collider->SetLayer(CollisionLayer::Enemy);
 
-    AttributeComp = AddComponent<AttributeComponent>(this);
     AddComponent<MovementComponent>(this, 200.0f);
 
     GetTransform()->SetScale(5.0f);

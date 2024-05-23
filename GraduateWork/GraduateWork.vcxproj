@@ -79,6 +79,7 @@
     <ClCompile Include="Source\Game\Components\BehaviorTree\Task\Move\Target\MoveToTarget.cpp" />
     <ClCompile Include="Source\Game\Components\Interactable\InteractableComponent.cpp" />
     <ClCompile Include="Source\Game\Components\Interact\InteractComponent.cpp" />
+    <ClCompile Include="Source\Game\Components\Level\LevelComponent.cpp" />
     <ClCompile Include="Source\Game\Components\WalkInLine\WalkInLineComponent.cpp" />
     <ClCompile Include="Source\Game\Game.cpp" />
     <ClCompile Include="Source\Game\GameMode\GameModeBase.cpp" />
@@ -89,6 +90,8 @@
     <ClCompile Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.cpp" />
     <ClCompile Include="Source\Game\UI\HUD\PlayerHUD.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\GameUI\GameUI.cpp" />
+    <ClCompile Include="Source\Game\UI\Widgets\LevelBorder\LevelBorder.cpp" />
+    <ClCompile Include="Source\Game\UI\Widgets\PopUp\LevelUp\PopUpLevelUp.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\PopUp\PopUpDamage.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\TestWidget.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\WidgetSplashScreen.cpp" />
@@ -169,9 +172,11 @@
     <ClInclude Include="Source\Game\Components\BehaviorTree\Task\Move\Target\MoveToTarget.h" />
     <ClInclude Include="Source\Game\Components\Interactable\InteractableComponent.h" />
     <ClInclude Include="Source\Game\Components\Interact\InteractComponent.h" />
+    <ClInclude Include="Source\Game\Components\Level\LevelComponent.h" />
     <ClInclude Include="Source\Game\Components\WalkInLine\WalkInLineComponent.h" />
     <ClInclude Include="Source\Game\Game.h" />
     <ClInclude Include="Source\Game\GameMode\GameModeBase.h" />
+    <ClInclude Include="Source\Game\Interface\Level\Ilevel.h" />
     <ClInclude Include="Source\Game\PowerUp\AbilityUpgrade\AbilityUpgradePowerUp.h" />
     <ClInclude Include="Source\Game\PowerUp\Health\HealthPowerUp.h" />
     <ClInclude Include="Source\Game\PowerUp\PowerUpBase.h" />
@@ -179,6 +184,8 @@
     <ClInclude Include="Source\Game\Scene\SceneSplashScreen\SceneSplashScreen.h" />
     <ClInclude Include="Source\Game\UI\HUD\PlayerHUD.h" />
     <ClInclude Include="Source\Game\UI\Widgets\GameUI\GameUI.h" />
+    <ClInclude Include="Source\Game\UI\Widgets\LevelBorder\LevelBorder.h" />
+    <ClInclude Include="Source\Game\UI\Widgets\PopUp\LevelUp\PopUpLevelUp.h" />
     <ClInclude Include="Source\Game\UI\Widgets\PopUp\PopUpDamage.h" />
     <ClInclude Include="Source\Game\UI\Widgets\TestWidget.h" />
     <ClInclude Include="Source\Game\UI\Widgets\WidgetSplashScreen.h" />

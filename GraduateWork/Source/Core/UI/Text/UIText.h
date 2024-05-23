@@ -26,6 +26,8 @@ public:
 
     void Draw() override;
 
+    void UpdateText(const std::string& NewText);
+
 private:
     TextSettings TextAppearance;
 };

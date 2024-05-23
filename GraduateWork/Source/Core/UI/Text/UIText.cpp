@@ -27,3 +27,8 @@ void UIText::Draw()
     DrawTextPro(TextAppearance.TextFont, TextAppearance.InfoText.c_str(), Position, Vector2{0.0f, 0.0f},
                 TextAppearance.Rotation, TextAppearance.FontSize, TextAppearance.Spacing, TextAppearance.Tint);
 }
+
+void UIText::UpdateText(const std::string& NewText)
+{
+    TextAppearance.InfoText = NewText;
+}

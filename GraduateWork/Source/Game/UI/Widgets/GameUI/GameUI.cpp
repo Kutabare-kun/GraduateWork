@@ -1,6 +1,7 @@
 #include "GameUI.h"
 
 #include "../../../../Core/UI/Bar/UIBar.h"
+#include "../LevelBorder/LevelBorder.h"
 
 GameUI::GameUI(Object* Owner, const Slot& LayoutSlot, UIBase* Parent)
     : UIPanel(Owner, LayoutSlot, Parent)
@@ -21,6 +22,15 @@ void GameUI::Awake()
         }, this, "HealthBarEmpty.png", "HealthBarFill.png");
     AddChild(HealthBar);
     // ~Create a health bar
+
+    LevelBorderWidget = std::make_shared<LevelBorder>(
+        GetOwner(),
+        Slot{
+            Padding{0.0f},
+            Crop{0.0f},
+            Rectangle{20.0f, WindowResolution.y - 80.0f, 32.0f, 32.0f}
+        }, this);
+    AddChild(LevelBorderWidget);
 
     UIPanel::Awake();
 }

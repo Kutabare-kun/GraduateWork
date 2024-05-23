@@ -13,11 +13,19 @@ class ObjectCollection;
 
 struct EnemyInfo
 {
-    unsigned Slime;
-    unsigned Goblin;
-    unsigned Eye;
+    unsigned Experience;
+    unsigned Count;
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(EnemyInfo, Slime, Goblin, Eye);
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(EnemyInfo, Experience, Count);
+};
+
+struct EnemyWaveInfo
+{
+    EnemyInfo Slime;
+    EnemyInfo Goblin;
+    EnemyInfo Eye;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(EnemyWaveInfo, Slime, Goblin, Eye);
 };
 
 enum class PowerUpType
@@ -26,7 +34,7 @@ enum class PowerUpType
     UpgradeAbility
 };
 
-using WaveInfo = std::map<unsigned, EnemyInfo>;
+using WaveInfo = std::map<unsigned, EnemyWaveInfo>;
 
 class GameModeBase
 {
@@ -53,6 +61,7 @@ protected:
 
 private:
     Vector2 RandomLocation(const Vector2& PlayerPosition) const;
+    void ImproveEnemy(std::shared_ptr<Object> Enemy, const EnemyInfo& Info);
 
     SharedContext* Context;
 

@@ -12,6 +12,7 @@
 #include "../../Components/Ability/AbilityComponent.h"
 #include "../../Components/Attribute/AttributeComponent.h"
 #include "../../Components/Ability/AbilityContext/AbilityContext.h"
+#include "../../Components/Level/LevelComponent.h"
 #include "../../UI/HUD/PlayerHUD.h"
 #include "../Enemy/Enemy.h"
 
@@ -33,6 +34,8 @@ Player::Player(SharedContext* Context, Object* Instigator, const Vector2& Positi
     MovementComp = AddComponent<MovementComponent>(this);
 
     AbilityComp = AddComponent<AbilityComponent>(this);
+
+    LevelComp = AddComponent<LevelComponent>(this);
 
     AddComponent<PlayerHUD>(this);
 
@@ -105,6 +108,11 @@ void Player::HandleDamage(std::shared_ptr<ColliderComponent> Other) const
 
         AttributeComp->ApplyHealthChange(InstigatorEnemy->GetAttributeComp());
     }
+}
+
+unsigned Player::GetLevel() const
+{
+    return LevelComp->GetLevel();
 }
 
 void Player::OnCollisionBeginOverlap(std::shared_ptr<ColliderComponent> Other)

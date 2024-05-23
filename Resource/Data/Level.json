@@ -1,0 +1,64 @@
+{
+  "Player": [
+    {
+      "Level": {
+        "LevelID": 1,
+        "Experience": 200
+      }
+    },
+    {
+      "Level": {
+        "LevelID": 2,
+        "Experience": 400
+      }
+    }
+  ],
+  "Slime": [
+    {
+      "Level": {
+        "LevelID": 1,
+        "Experience": 200
+      }
+    }
+  ],
+  "Goblin": [
+    {
+      "Level": {
+        "LevelID": 1,
+        "Experience": 200
+      }
+    }
+  ],
+  "Eye": [
+    {
+      "Level": {
+        "LevelID": 1,
+        "Experience": 200
+      }
+    },
+    {
+      "Level": {
+        "LevelID": 2,
+        "Experience": 400
+      }
+    },
+    {
+      "Level": {
+        "LevelID": 3,
+        "Experience": 600
+      }
+    },
+    {
+      "Level": {
+        "LevelID": 4,
+        "Experience": 800
+      }
+    },
+    {
+      "Level": {
+        "LevelID": 5,
+        "Experience": 1000
+      }
+    }
+  ]
+}

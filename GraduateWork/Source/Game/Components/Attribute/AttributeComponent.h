@@ -50,6 +50,8 @@ public:
 
     std::shared_ptr<AttributeData> GetAttribute(MainAttribute Attribute = MainAttribute::Health) { return Attributes[Attribute]; }
 
+    bool IsAlive() { return GetAttribute()->GetCurrentValue() > FLT_EPSILON; }
+
 protected:
     std::map<MainAttribute, std::shared_ptr<AttributeData>> Attributes;
 

@@ -19,9 +19,7 @@ public:
     SceneGame(ResourceAllocator<TextureResource>& NewTextureAllocator,
               ResourceAllocator<FontResource>& NewFontAllocator);
 
-    void OnCreate() override;
     void OnActivate() override;
-    void OnDestroy() override;
 
     void ProcessInput() override;
     void Update(float DeltaTime) override;

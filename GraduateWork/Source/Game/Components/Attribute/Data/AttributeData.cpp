@@ -2,8 +2,6 @@
 
 #include <algorithm>
 
-#include "../../../../Core/StaticFunctions/Debug.h"
-
 
 AttributeData::AttributeData(float IncreaseByLevel, float BaseValue, float BuffByPercent)
     : IncreaseByLevel(IncreaseByLevel), BaseValue(BaseValue), BuffByPercent(BuffByPercent)

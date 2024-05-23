@@ -6,17 +6,12 @@
 #include "../../../Core/Component/Sprite/SpriteComponent.h"
 #include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Directory/Directory.h"
-#include "../../../Core/StaticFunctions/Debug.h"
 #include "../../Actors/Player/Player.h"
 #include "../../UI/HUD/PlayerHUD.h"
 
 SceneGame::SceneGame(ResourceAllocator<TextureResource>& NewTextureAllocator,
                      ResourceAllocator<FontResource>& NewFontAllocator)
     : TextureAllocator(NewTextureAllocator), FontAllocator(NewFontAllocator)
-{
-}
-
-void SceneGame::OnCreate()
 {
 }
 
@@ -60,11 +55,6 @@ void SceneGame::OnActivate()
     GameMode->Awake();
 }
 
-void SceneGame::OnDestroy()
-{
-    Scene::OnDestroy();
-}
-
 void SceneGame::ProcessInput()
 {
     if (!PlayerMovement || !PlayerMovement->IsEnabled()) return;
@@ -106,5 +96,5 @@ void SceneGame::Draw()
 {
     Objects->Draw(*Context.Camera);
 
-    Debug::GetInstance().Draw(*Context.Camera);
+    //Debug::GetInstance().Draw(*Context.Camera);
 }

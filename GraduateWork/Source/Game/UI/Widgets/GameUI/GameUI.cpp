@@ -1,6 +1,5 @@
 #include "GameUI.h"
 
-#include "../../../../Core/StaticFunctions/Debug.h"
 #include "../../../../Core/UI/Bar/UIBar.h"
 #include "../../../../Core/UI/Button/UIButton.h"
 #include "../../HUD/PlayerHUD.h"

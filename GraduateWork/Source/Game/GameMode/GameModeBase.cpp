@@ -6,7 +6,7 @@
 #include "../../Core/Algorithm/Pathfinding/Astar.h"
 #include "../../Core/Collection/ObjectCollection.h"
 #include "../../Core/Directory/Directory.h"
-#include "../../Core/StaticFunctions/Debug.h"
+#include "../../Core/SceneManager/SceneStateMachine.h"
 #include "../../Core/Timer/Manager/TimerManager.h"
 #include "../Actors/Enemy/Eye/EyeEnemy.h"
 #include "../Actors/Enemy/Goblin/GoblinEnemy.h"
@@ -16,6 +16,7 @@
 #include "../PowerUp/AbilityUpgrade/AbilityUpgradePowerUp.h"
 #include "../PowerUp/Health/HealthPowerUp.h"
 #include "../Interface/Level/Ilevel.h"
+#include "../Scene/GameWinScene/SceneGameWin.h"
 
 using Json = nlohmann::json;
 
@@ -135,7 +136,8 @@ void GameModeBase::RemoveEnemy(std::shared_ptr<Object> Enemy)
     }
     else if (Enemies.empty() && CurrentWave == GameWave.size())
     {
-        Debug::GetInstance().Log(TextFormat("Game is End!"));
+        const int SceneID = SceneStateMachine::GetInstance().GetScene<SceneGameWin>();
+        SceneStateMachine::GetInstance().SwitchTo(SceneID);
     }
 }
 

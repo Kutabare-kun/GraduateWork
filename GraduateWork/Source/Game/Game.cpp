@@ -2,7 +2,9 @@
 
 #include <raylib.h>
 
+#include "Scene/GameOverScene/SceneGameOver.h"
 #include "Scene/GameScene/SceneGame.h"
+#include "Scene/GameWinScene/SceneGameWin.h"
 #include "Scene/MainScene/MainScene.h"
 #include "Scene/SceneSplashScreen/SceneSplashScreen.h"
 
@@ -14,8 +16,13 @@ Game::Game()
         TextureAllocator, FontAllocator);
     std::shared_ptr<SceneGame> GameScene = std::make_shared<SceneGame>(TextureAllocator, FontAllocator);
     std::shared_ptr<MainScene> SceneMain = std::make_shared<MainScene>(TextureAllocator, FontAllocator);
+    std::shared_ptr<SceneGameOver> GameOverScene = std::make_shared<SceneGameOver>(TextureAllocator, FontAllocator);
+    std::shared_ptr<SceneGameWin> GameWinScene = std::make_shared<SceneGameWin>(TextureAllocator, FontAllocator);
 
-    unsigned SplashScreenID = SceneStateMachine::GetInstance().Add(SplashScreen);
+    SceneStateMachine::GetInstance().Add(SplashScreen);
+    SceneStateMachine::GetInstance().Add(GameOverScene);
+    SceneStateMachine::GetInstance().Add(GameWinScene);
+
     unsigned GameSceneID = SceneStateMachine::GetInstance().Add(GameScene);
     unsigned MainSceneID = SceneStateMachine::GetInstance().Add(SceneMain);
 

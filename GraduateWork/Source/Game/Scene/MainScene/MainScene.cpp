@@ -1,7 +1,5 @@
 #include "MainScene.h"
 
-
-
 MainScene::MainScene(ResourceAllocator<TextureResource>& TextureAllocator,
                      ResourceAllocator<FontResource>& FontAllocator)
     : TextureAllocator(TextureAllocator), FontAllocator(FontAllocator)

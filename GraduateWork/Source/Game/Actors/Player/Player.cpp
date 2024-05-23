@@ -9,10 +9,12 @@
 #include "../../../Core/Component/Animation/AnimationComponent.h"
 #include "../../../Core/Component/Camera/CameraComponent.h"
 #include "../../../Core/Component/Collider/BoxCollider/BoxColliderComponent.h"
+#include "../../../Core/SceneManager/SceneStateMachine.h"
 #include "../../Components/Ability/AbilityComponent.h"
 #include "../../Components/Attribute/AttributeComponent.h"
 #include "../../Components/Ability/AbilityContext/AbilityContext.h"
 #include "../../Components/Level/LevelComponent.h"
+#include "../../Scene/GameOverScene/SceneGameOver.h"
 #include "../../UI/HUD/PlayerHUD.h"
 #include "../Enemy/Enemy.h"
 
@@ -131,4 +133,10 @@ void Player::OnCollisionStayOverlap(std::shared_ptr<ColliderComponent> Other)
 
 void Player::OnHealthChange(Object* Instigator, float Delta, bool IsDead)
 {
+    if (!IsDead) return;
+
+    const int SceneID = SceneStateMachine::GetInstance().GetScene<SceneGameOver>();
+    if (SceneID == -1) return;
+
+    SceneStateMachine::GetInstance().SwitchTo(SceneID);
 }

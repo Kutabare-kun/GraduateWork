@@ -4,14 +4,14 @@
 #include "../../../Core/Object/Object.h"
 #include "../../../Core/Resource/Font/FontResource.h"
 #include "../../../Core/Resource/Texture/TextureResource.h"
-#include "../../UI/Widgets/MainWidget/MainWidgetScreen.h"
+#include "../../UI/Widgets/GameOverWidget/GameOverWidget.h"
 
-class MainScene
+class SceneGameOver
     : public Scene
 {
 public:
-    MainScene(ResourceAllocator<TextureResource>& TextureAllocator,
-              ResourceAllocator<FontResource>& FontAllocator);
+    SceneGameOver(ResourceAllocator<TextureResource>& TextureAllocator,
+                  ResourceAllocator<FontResource>& FontAllocator);
 
     void OnCreate() override;
 
@@ -23,7 +23,7 @@ private:
     ResourceAllocator<FontResource>& FontAllocator;
 
     std::unique_ptr<Object> MainObject;
-    std::unique_ptr<MainWidgetScreen> MainWidget;
+    std::unique_ptr<GameOverWidget> GameOver;
 
     SharedContext Context;
 };

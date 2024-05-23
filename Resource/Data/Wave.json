@@ -12,7 +12,7 @@
                 },
                 "Eye" : {
                     "Experience" : 2500,
-                    "Count" : 5
+                    "Count" : 1
                 }
             }
         },
@@ -20,15 +20,15 @@
             "Wave" : {
                 "Slime" : {
                     "Experience" : 0,
-                    "Count" : 25
+                    "Count" : 0
                 },
                 "Goblin" : {
                     "Experience" : 0,
-                    "Count" : 25
+                    "Count" : 0
                 },
                 "Eye" : {
                     "Experience" : 0,
-                    "Count" : 100
+                    "Count" : 1
                 }
             }
         },
@@ -36,15 +36,15 @@
             "Wave" : {
                 "Slime" : {
                     "Experience" : 0,
-                    "Count" : 50
+                    "Count" : 0
                 },
                 "Goblin" : {
                     "Experience" : 0,
-                    "Count" : 50
+                    "Count" : 0
                 },
                 "Eye" : {
                     "Experience" : 0,
-                    "Count" : 50
+                    "Count" : 1
                 }
             }
         },
@@ -52,15 +52,15 @@
             "Wave" : {
                 "Slime" : {
                     "Experience" : 0,
-                    "Count" : 50
+                    "Count" : 0
                 },
                 "Goblin" : {
                     "Experience" : 0,
-                    "Count" : 50
+                    "Count" : 0
                 },
                 "Eye" : {
                     "Experience" : 0,
-                    "Count" : 100
+                    "Count" : 1
                 }
             }
         },
@@ -68,15 +68,15 @@
             "Wave" : {
                 "Slime" : {
                     "Experience" : 0,
-                    "Count" : 50
+                    "Count" : 0
                 },
                 "Goblin" : {
                     "Experience" : 0,
-                    "Count" : 50
+                    "Count" : 0
                 },
                 "Eye" : {
                     "Experience" : 0,
-                    "Count" : 150
+                    "Count" : 1
                 }
             }
         },
@@ -84,15 +84,15 @@
             "Wave" : {
                 "Slime" : {
                     "Experience" : 0,
-                    "Count" : 50
+                    "Count" : 0
                 },
                 "Goblin" : {
                     "Experience" : 0,
-                    "Count" : 50
+                    "Count" : 0
                 },
                 "Eye" : {
                     "Experience" : 0,
-                    "Count" : 200
+                    "Count" : 1
                 }
             }
         }

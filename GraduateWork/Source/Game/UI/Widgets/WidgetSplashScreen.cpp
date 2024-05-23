@@ -19,13 +19,3 @@ void WidgetSplashScreen::Awake()
 
     UIPanel::Awake();
 }
-
-void WidgetSplashScreen::Update(float DeltaTime)
-{
-    UIPanel::Update(DeltaTime);
-}
-
-void WidgetSplashScreen::Draw()
-{
-    UIPanel::Draw();
-}

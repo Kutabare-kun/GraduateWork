@@ -13,7 +13,7 @@ public:
     MainScene(ResourceAllocator<TextureResource>& TextureAllocator,
               ResourceAllocator<FontResource>& FontAllocator);
     
-    void OnActivate() override;
+    void OnCreate() override;
 
     void Update(float DeltaTime) override;
     void Draw() override;

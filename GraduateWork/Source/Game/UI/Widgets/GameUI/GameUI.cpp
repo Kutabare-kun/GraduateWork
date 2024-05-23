@@ -3,7 +3,9 @@
 #include "../../../../Core/StaticFunctions/Debug.h"
 #include "../../../../Core/UI/Bar/UIBar.h"
 #include "../../../../Core/UI/Button/UIButton.h"
+#include "../../HUD/PlayerHUD.h"
 #include "../LevelBorder/LevelBorder.h"
+#include "../PauseWidget/PauseWidget.h"
 
 GameUI::GameUI(Object* Owner, const Slot& LayoutSlot, UIBase* Parent)
     : UIPanel(Owner, LayoutSlot, Parent)
@@ -54,9 +56,18 @@ void GameUI::Awake()
     ActionButton->SetAction([&]()
     {
         SetVisible(false);
-        Debug::GetInstance().Log(TextFormat("Pause"));
 
-        // TODO: CreateWidget PauseMenu
+        std::shared_ptr<PlayerHUD> HUD = GetOwner()->GetComponent<PlayerHUD>();
+        std::shared_ptr<PauseWidget> ThisPauseWidget = std::make_shared<PauseWidget>(
+            GetOwner(),
+            Slot{
+                Padding{0.0f},
+                Crop{0.0f},
+                Rectangle{0.0f, 0.0f, WindowResolution.x, WindowResolution.y}
+            },
+            nullptr);
+
+        HUD->Add(ThisPauseWidget);
     });
 
     UIPanel::Awake();

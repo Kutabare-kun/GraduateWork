@@ -1,18 +1,21 @@
-#include "MainWidgetScreen.h"
+#include "PauseWidget.h"
 
-#include "../../../Game.h"
 #include "../../../../Core/Directory/Directory.h"
 #include "../../../../Core/SceneManager/SceneStateMachine.h"
 #include "../../../../Core/UI/Button/UIButton.h"
-#include "../../../Scene/SceneSplashScreen/SceneSplashScreen.h"
+#include "../../../Scene/MainScene/MainScene.h"
+#include "../../HUD/PlayerHUD.h"
+#include "../GameUI/GameUI.h"
 
-MainWidgetScreen::MainWidgetScreen(Object* Owner, const Slot& LayoutSlot, UIBase* Parent)
+PauseWidget::PauseWidget(Object* Owner, const Slot& LayoutSlot, UIBase* Parent)
     : UIBase(Owner, LayoutSlot, Parent)
 {
 }
 
-void MainWidgetScreen::Awake()
+void PauseWidget::Awake()
 {
+    UIBase::Awake();
+
     const Vector2 WindowResolution = Window::GetInstance().GetScreenSize();
 
     ButtonStateTexture ButtonTextures
@@ -32,12 +35,13 @@ void MainWidgetScreen::Awake()
         }, this, ButtonTextures);
     AddChild(PlayButton);
 
-    PlayButton->SetAction([]()
+    PlayButton->SetAction([&]()
     {
-        const int SceneID = SceneStateMachine::GetInstance().GetScene<SceneSplashScreen>();
-        if (SceneID == -1) return;
+        QueueForRemoval();
 
-        SceneStateMachine::GetInstance().SwitchTo(SceneID);
+        const std::shared_ptr<PlayerHUD> HUD = GetOwner()->GetComponent<PlayerHUD>();
+        const std::shared_ptr<GameUI> ThisGameUI = HUD->GetGameUIWidget();
+        ThisGameUI->SetVisible(true);
     });
 
     ResourceAllocator<FontResource>* FontAllocator = GetOwner()->GetContext()->FontAllocator;
@@ -46,7 +50,7 @@ void MainWidgetScreen::Awake()
     TextSettings PlayTextSetting
     {
         GetOwner()->GetContext()->FontAllocator->Get(RobotoRegularID)->Get_Impl(),
-        "PLAY",
+        "RESUME",
         Vector2{0.0f, 0.0f},
         0.0f,
         32.0f,
@@ -74,9 +78,14 @@ void MainWidgetScreen::Awake()
         }, this, ButtonTextures);
     AddChild(ExitButton);
 
-    ExitButton->SetAction([]()
+    ExitButton->SetAction([&]()
     {
-        Game::bIsExitGame = true;
+        QueueForRemoval();
+
+        const int MainSceneID = SceneStateMachine::GetInstance().GetScene<MainScene>();
+        if (MainSceneID == -1) return;
+
+        SceneStateMachine::GetInstance().SwitchTo(MainSceneID);
     });
 
     TextSettings ExitTextSetting
@@ -100,6 +109,4 @@ void MainWidgetScreen::Awake()
             ExitButtonLayout.SlotRect
         }, ExitButton.get(), ExitTextSetting);
     ExitButton->AddChild(ExitText);
-
-    UIBase::Awake();
 }

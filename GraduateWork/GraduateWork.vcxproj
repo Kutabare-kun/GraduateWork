@@ -93,6 +93,7 @@
     <ClCompile Include="Source\Game\UI\Widgets\GameUI\GameUI.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\LevelBorder\LevelBorder.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\MainWidget\MainWidgetScreen.cpp" />
+    <ClCompile Include="Source\Game\UI\Widgets\PauseWidget\PauseWidget.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\PopUp\LevelUp\PopUpLevelUp.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\PopUp\PopUpDamage.cpp" />
     <ClCompile Include="Source\Game\UI\Widgets\WidgetSplashScreen.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Source\Game\UI\Widgets\GameUI\GameUI.h" />
     <ClInclude Include="Source\Game\UI\Widgets\LevelBorder\LevelBorder.h" />
     <ClInclude Include="Source\Game\UI\Widgets\MainWidget\MainWidgetScreen.h" />
+    <ClInclude Include="Source\Game\UI\Widgets\PauseWidget\PauseWidget.h" />
     <ClInclude Include="Source\Game\UI\Widgets\PopUp\LevelUp\PopUpLevelUp.h" />
     <ClInclude Include="Source\Game\UI\Widgets\PopUp\PopUpDamage.h" />
     <ClInclude Include="Source\Game\UI\Widgets\WidgetSplashScreen.h" />

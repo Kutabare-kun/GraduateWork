@@ -14,6 +14,16 @@ SceneGame::SceneGame(ResourceAllocator<TextureResource>& NewTextureAllocator,
                      ResourceAllocator<FontResource>& NewFontAllocator)
     : TextureAllocator(NewTextureAllocator), FontAllocator(NewFontAllocator)
 {
+}
+
+void SceneGame::OnCreate()
+{
+}
+
+void SceneGame::OnActivate()
+{
+    Scene::OnActivate();
+
     DrawableSys = std::make_unique<DrawableSystem>();
     CollisionTree = std::make_unique<Quadtree>(5, 5, 0, Rectangle{0, 0, 8'192, 8'192}, nullptr);
     ColliderSys = std::make_unique<ColliderSystem>(*CollisionTree);
@@ -23,10 +33,7 @@ SceneGame::SceneGame(ResourceAllocator<TextureResource>& NewTextureAllocator,
     GameMode = std::make_unique<GameModeBase>();
     Objects = std::make_unique<ObjectCollection>(*DrawableSys, *ColliderSys, *GameMode);
     MapParser = std::make_unique<TileMapParser>(TextureAllocator, Context);
-}
 
-void SceneGame::OnCreate()
-{
     // Make SharedContext
     Context.Objects = Objects.get();
     Context.TextureAllocator = &TextureAllocator;
@@ -51,6 +58,11 @@ void SceneGame::OnCreate()
 
     // Start First Wave
     GameMode->Awake();
+}
+
+void SceneGame::OnDestroy()
+{
+    Scene::OnDestroy();
 }
 
 void SceneGame::ProcessInput()

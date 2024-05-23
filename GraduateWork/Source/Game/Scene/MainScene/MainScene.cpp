@@ -25,7 +25,7 @@ MainScene::MainScene(ResourceAllocator<TextureResource>& TextureAllocator,
     }, nullptr);
 }
 
-void MainScene::OnActivate()
+void MainScene::OnCreate()
 {
     MainWidget->Awake();
 }

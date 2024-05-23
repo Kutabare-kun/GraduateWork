@@ -1,11 +1,11 @@
 #pragma once
 #include "../../../../Core/UI/UIBase/UIBase.h"
 
-class MainWidgetScreen
+class PauseWidget
     : public UIBase
 {
 public:
-    MainWidgetScreen(Object* Owner, const Slot& LayoutSlot, UIBase* Parent);
+    PauseWidget(Object* Owner, const Slot& LayoutSlot, UIBase* Parent = nullptr);
 
     void Awake() override;
 };

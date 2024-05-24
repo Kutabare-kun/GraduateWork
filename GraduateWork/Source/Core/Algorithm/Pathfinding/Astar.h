@@ -17,7 +17,7 @@ class Astar : public Singleton<Astar>
 public:
     std::pair<bool, std::vector<std::pair<int, int>>> FindPath(const std::vector<std::vector<bool>>& Grid,
                                                                const std::pair<int, int>& Start,
-                                                               const std::pair<int, int>& End);
+                                                               const std::pair<int, int>& End) const;
 
     Vector2 GridToVec(const std::pair<int, int>& Position, const int CellSize) const;
     std::pair<int, int> VecToGrid(const Vector2& Position, const int CellSize) const;

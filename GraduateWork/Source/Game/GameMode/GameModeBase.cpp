@@ -68,17 +68,20 @@ void GameModeBase::NextWave()
     const auto& CurrentWaveInfo = GameWave[CurrentWave];
     for (unsigned CountSlime = 0; CountSlime < CurrentWaveInfo.Slime.Count; ++CountSlime)
     {
-        ImproveEnemy(Context->Objects->CreateObject<SlimeEnemy>(Context, nullptr, RandomLocation(PlayerPosition)), CurrentWaveInfo.Slime);
+        ImproveEnemy(Context->Objects->CreateObject<SlimeEnemy>(Context, nullptr, RandomLocation(PlayerPosition)),
+                     CurrentWaveInfo.Slime);
     }
 
     for (unsigned CountGoblin = 0; CountGoblin < CurrentWaveInfo.Goblin.Count; ++CountGoblin)
     {
-        ImproveEnemy(Context->Objects->CreateObject<GoblinEnemy>(Context, nullptr, RandomLocation(PlayerPosition)), CurrentWaveInfo.Goblin);
+        ImproveEnemy(Context->Objects->CreateObject<GoblinEnemy>(Context, nullptr, RandomLocation(PlayerPosition)),
+                     CurrentWaveInfo.Goblin);
     }
 
     for (unsigned CountEye = 0; CountEye < CurrentWaveInfo.Eye.Count; ++CountEye)
     {
-        ImproveEnemy(Context->Objects->CreateObject<EyeEnemy>(Context, nullptr, RandomLocation(PlayerPosition)), CurrentWaveInfo.Eye);
+        ImproveEnemy(Context->Objects->CreateObject<EyeEnemy>(Context, nullptr, RandomLocation(PlayerPosition)),
+                     CurrentWaveInfo.Eye);
     }
 
     ++CurrentWave;
@@ -151,12 +154,12 @@ Vector2 GameModeBase::RandomLocation(const Vector2& PlayerPosition) const
     std::uniform_int_distribution<int> LocationOnGrid(0, static_cast<int>(Context->CollisionMap.size()) - 1);
     std::pair<int, int> RandomLocation = std::make_pair(LocationOnGrid(Generator), LocationOnGrid(Generator));
 
-    while (Context->CollisionMap[RandomLocation.first][RandomLocation.second] && RandomLocation != GridPlayerLocation)
+    while (Context->CollisionMap[RandomLocation.second][RandomLocation.first] && RandomLocation != GridPlayerLocation)
     {
         RandomLocation = std::make_pair(LocationOnGrid(Generator), LocationOnGrid(Generator));
     }
 
-    return Astar::GetInstance().GridToVec(RandomLocation, Context->MaxTileSize);
+    return Astar::GetInstance().GridToVec(RandomLocation, Context->MaxTileSize);;
 }
 
 void GameModeBase::ImproveEnemy(std::shared_ptr<Object> Enemy, const EnemyInfo& Info)

@@ -20,7 +20,7 @@ std::pair<int, int> Astar::VecToGrid(const Vector2& Position, const int CellSize
 
 std::pair<bool, std::vector<std::pair<int, int>>> Astar::FindPath(const std::vector<std::vector<bool>>& Grid,
                                                                   const std::pair<int, int>& Start,
-                                                                  const std::pair<int, int>& End)
+                                                                  const std::pair<int, int>& End) const
 {
     const std::pair GridSize = std::make_pair(Grid.size(), Grid[0].size());
     if (!IsValid(Start, GridSize) || !IsValid(End, GridSize))

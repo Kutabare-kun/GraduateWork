@@ -35,20 +35,6 @@ Game::Game()
 void Game::CaptureInput()
 {
     SceneStateMachine::GetInstance().ProcessInput();
-
-    // DEBUG INPUT
-    if (IsKeyPressed(KEY_F1))
-    {
-        SceneStateMachine::GetInstance().SwitchTo(0);
-        SceneStateMachine::GetInstance().Remove(1);
-
-        std::shared_ptr<SceneGame> GameScene = std::make_shared<SceneGame>(TextureAllocator, FontAllocator);
-        unsigned GameSceneID = SceneStateMachine::GetInstance().Add(GameScene);
-
-        std::shared_ptr<Scene> Splash = SceneStateMachine::GetInstance().GetScene(0);
-        std::dynamic_pointer_cast<SceneSplashScreen>(Splash)->SetSwitchToScene(GameSceneID);
-    }
-    // ~DEBUG INPUT
 }
 
 void Game::Update()

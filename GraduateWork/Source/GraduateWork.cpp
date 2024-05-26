@@ -12,6 +12,8 @@ int main(int Argc, char* Argv[])
 
     Game MyGame;
 
+    SetExitKey(KEY_NULL);
+
     while (!WindowShouldClose() && !Game::bIsExitGame)
     {
         MyGame.CaptureInput();

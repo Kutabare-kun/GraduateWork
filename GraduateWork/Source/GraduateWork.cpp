@@ -9,10 +9,9 @@ int main(int Argc, char* Argv[])
     );
 
     SetTargetFPS(3000);
+    SetExitKey(KEY_NULL);
 
     Game MyGame;
-
-    SetExitKey(KEY_NULL);
 
     while (!WindowShouldClose() && !Game::bIsExitGame)
     {
@@ -24,7 +23,7 @@ int main(int Argc, char* Argv[])
         MyGame.UpdateDeltaTime(GetFrameTime());
     }
 
-    CloseWindow();
+    Window::GetInstance().Close();
 
     return 0;
 }

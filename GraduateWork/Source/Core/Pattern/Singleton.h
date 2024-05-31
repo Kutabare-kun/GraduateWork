@@ -7,7 +7,7 @@ struct NonCopyable
     NonCopyable& operator=(const NonCopyable&) = delete;
 };
 
-template<typename Derived>
+template <typename Derived>
 class Singleton : private NonCopyable
 {
 public:
@@ -16,7 +16,7 @@ public:
         static Derived Instance;
         return Instance;
     }
-    
+
 protected:
     Singleton() = default;
 };

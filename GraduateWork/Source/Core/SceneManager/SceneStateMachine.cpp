@@ -57,7 +57,6 @@ void SceneStateMachine::Remove(unsigned Id)
     {
         if (CurrentScene == Iter->second)
         {
-            //CurrentScene->OnDeactivate();
             CurrentScene = nullptr;
         }
 

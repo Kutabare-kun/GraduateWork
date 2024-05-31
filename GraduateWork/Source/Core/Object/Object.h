@@ -17,18 +17,13 @@ class Object
 {
 public:
     template <typename Type, typename... Arguments>
-    std::shared_ptr<Type> AddComponent(Arguments&&... Args) // 1
+    std::shared_ptr<Type> AddComponent(Arguments&&... Args)
     {
-        // This ensures that we only try to add a class the derives 
-        // from Component. This is tested at compile time.
         static_assert(std::is_base_of<ActorComponent, Type>::value, "Type must derive from Component");
-
-        // Check that we don't already have a component of this type.
+        
         if (auto Component = GetComponent<Type>(); Component)
             return Component;
-
-        // The object does not have this component so we create it and 
-        // add it to our list.
+        
         std::shared_ptr<Type> NewComponent = std::make_shared<Type>(std::forward<Arguments>(Args)...);
         Components.push_back(NewComponent);
 
@@ -49,8 +44,7 @@ public:
     std::shared_ptr<Type> GetComponent() const
     {
         static_assert(std::is_base_of<ActorComponent, Type>::value, "Type must derive from Component");
-
-        // Check that we don't already have a component of this type.
+        
         for (auto& ExistingComponent : Components)
         {
             if (auto Element = std::dynamic_pointer_cast<Type>(ExistingComponent); Element)

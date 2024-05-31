@@ -15,8 +15,7 @@ public:
     const std::string& GetTitle() const;
 
     void FlipFullscreen();
-    void FlipBorderless();
-    
+
 private:
     std::string Title;
 };

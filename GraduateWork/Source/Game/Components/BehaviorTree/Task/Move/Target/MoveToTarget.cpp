@@ -3,7 +3,6 @@
 #include <raylib.h>
 #include <raymath.h>
 
-#include "../../../../../../Core/Component/Velocity/VelocityComponent.h"
 #include "../../../../../../Core/Object/Object.h"
 #include "../../../Simple/BehaviorTreeSimple.h"
 

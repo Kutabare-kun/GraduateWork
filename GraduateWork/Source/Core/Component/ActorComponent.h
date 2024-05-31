@@ -14,8 +14,8 @@ public:
 
     virtual void LateUpdate(float DeltaTime);
 
-    virtual Object* GetOwner() const { return Owner; }
-    
+    class Object* GetOwner() const { return Owner; }
+
 private:
     class Object* Owner = nullptr;
 };

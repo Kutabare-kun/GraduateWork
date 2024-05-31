@@ -1,9 +1,7 @@
 #pragma once
 #include "../Core/Allocator/ResourceAllocator.h"
-#include "../Core/Directory/Directory.h"
 #include "../Core/Resource/Font/FontResource.h"
 #include "../Core/Resource/Texture/TextureResource.h"
-#include "../Core/SceneManager/SceneStateMachine.h"
 
 class Game
 {

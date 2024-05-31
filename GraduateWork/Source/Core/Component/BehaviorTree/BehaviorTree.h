@@ -14,7 +14,7 @@ struct Blackboard
 
     virtual ~Blackboard() = default;
 
-    void UpdateDeltaTime(float DeltaTime)
+    void UpdateDeltaTime(float DeltaTime) const
     {
         this->_DeltaTime = DeltaTime;
     }
@@ -24,7 +24,7 @@ struct Blackboard
 
 private:
     Object* Owner;
-    float _DeltaTime = 0.0f;
+    mutable float _DeltaTime = 0.0f;
 };
 
 class BehaviorTree

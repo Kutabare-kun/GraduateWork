@@ -6,7 +6,6 @@
 #include "../../../../../../Core/Object/Object.h"
 #include "../../../Simple/BehaviorTreeSimple.h"
 #include "../../../../../../Core/Component/Transform/TransformComponent.h"
-#include "../../../../../../Core/Component/Velocity/VelocityComponent.h"
 
 MoveToLocation::MoveToLocation(std::shared_ptr<Blackboard> NodeBlackboard)
     : BTNode(NodeBlackboard)

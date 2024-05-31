@@ -1,5 +1,4 @@
 #include "Window.h"
-#include "rlgl.h"
 
 void Window::Init(const Vector2& ScreenSize, const std::string& Title)
 {
@@ -28,10 +27,4 @@ void Window::FlipFullscreen()
 {
     if (!IsWindowFullscreen())
         ToggleFullscreen();
-}
-
-void Window::FlipBorderless()
-{
-    //if ()
-        //SetWindowState(FLAG_WINDOW_DECORATED);
 }
